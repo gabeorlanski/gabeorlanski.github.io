@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<title>Gabe's Work</title>
+<style>
+
+
+    @import url("/style.css");
+
+</style>
+</head>
+
+<body>
+<Header>
+    <div class="column">
+    <div class="navigation">
+      <a class="self" href="/">Work</a>
+      / <a href="/_txtFiles/about">About</a>
+    </div>
+    Gabe's Projects
+    <div class="date">Updated April 2, 2016 11AM</div>
+  </div>
+</Header>
+<div class="column gists">
+    <a class="gist gist--thumbnail" href="/_isolatedcolumns/BarChart.html"
+       style="background-image: url(&quot; /_thumbnails/BasicBarChart.png  &quot;);">
+        <div class="gist-description gist-underline">Isolated Columns Chart</div>
+    </a>
+    <a class="gist gist--thumbnail" href="/_isolatedcolumns/ZoomableCirclePacking.html"
+       style="background-image: url(&quot;   /_thumbnails/BasicZoomableCirclePacking.png&    quot;);">
+        <div class="gist-description gist-underline">Isolated Columns Zoomable Circle Packing</div>
+    </a>
+    <a class="gist gist--thumbnail" href="/_isolatedcolumns/BubbleChart.html"
+       style="background-image: url(&quot;    /_thumbnails/BasicBubbleChart.png   &quot;);">
+        <div class="gist-description gist-underline">Basic Bubble Chart</div>
+    </a>
+    <a class="gist gist--thumbnail" href="/_isolatedcolumns/ZoomableStarburst.html"
+       style="background-image: url(&quot;    /_thumbnails/BasicZoomableStarburst.png     &quot;);">
+        <div class="gist-description gist-underline">Isolated Columns Zoomable Starburst</div>
+    </a>
+    <a class="gist gist--thumbnail" href="/_isolatedcolumns/Icicle.html"
+       style="background-image: url(&quot;   /_thumbnails/BasicIcicle.png   &quot;);">
+        <div class="gist-description gist-underline">Isolated Columns Icicle</div>
+    </a>
+</div>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+    render([{
+        "id": "4062045",
+        "sha": "4176c7d0c0c5ce15630d16072da0af67bb50eb6a",
+        "owner": {"login": "Gabe"},
+        "description": "BasicBarChart"
+    }]);
+    render([{
+        "id": "4062045",
+        "sha": "4176c7d0c0c5ce15630d16072da0af67bb50eb6a",
+        "owner": {"login": "Gabe"},
+        "description": "BasicZoomableStarburst"
+    }]);
+    render([{
+        "id": "4062045",
+        "sha": "4176c7d0c0c5ce15630d16072da0af67bb50eb6a",
+        "owner": {"login": "Gabe"},
+        "description": "BasicBarChart"
+    }]);
+    function render(gists) {
+        if (!gists.length) return;
+
+        gists.forEach(function (d) {
+            d.created_at = parseDate(d.created_at);
+            d.updated_at = parseDate(d.updated_at);
+        });
+
+        var gist = d3.select(".gists").selectAll(".gist")
+                .data(gists, function (d) {
+                    return d.id;
+                })
+                .enter().insert("a", "br")
+                .attr("class", "gist gist--thumbnail")
+                .attr("href", function (d) {
+                    return "/" + d.owner.login + "/" + d.id;
+                })
+                .style("background-image", function (d) {
+                    return "url(/" + d.owner.login + "/raw/" + d.id + (d.sha ? "/" + d.sha : "") + "/thumbnail.png)";
+                });
+
+        gist.append("div")
+                .attr("class", "gist-description gist-underline")
+                .text(function (d) {
+                    return d.description || d.id;
+                });
+
+        gist.append("div")
+                .attr("class", "gist-author")
+                .text(function (d) {
+                    return d.owner.login;
+                });
+    }
+
+</script>
+</body>
+</html>
