@@ -29,7 +29,7 @@ body {
 
 #sequence text, #legend text {
   font-weight: 600;
-  fill: #808080;
+  fill: #000080;
 }
 
 #chart {
