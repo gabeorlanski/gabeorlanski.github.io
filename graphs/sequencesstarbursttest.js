@@ -34,7 +34,7 @@ var colors =
                      "Finance":"#BC8F8F",
                      "Oil Company":"#DB7093",
                      "Mining":"#FF4500",
-                     "Car Producer":"#FDF5E6",
+                     "Car Producer":"#0000A0",
                      "Postal Service":"#7B68EE",
                      "Real Estate":"#BA55D3",
                      "Warehousing and Storage":"#9370DB",
