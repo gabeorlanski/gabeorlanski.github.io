@@ -45,7 +45,7 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-d3.json("columndata_tree.json", function(error, root) {
+d3.json("columnrelationships_data.json", function(error, root) {
   var g = svg.datum(root).selectAll("g")
       .data(partition.nodes)
     .enter().append("g");
