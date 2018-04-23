@@ -13,6 +13,15 @@ header {
   padding: 1.5em 0;
 }
 
+.announce {
+  padding: 20px 0;
+  display: block;
+  color: rgba(0, 0, 0, 0.8) !important;
+  line-height: inherit;
+  background: linear-gradient(to bottom, #ffc, #ffa);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+}
+
 .navigation {
   float: right;
 }
@@ -54,6 +63,7 @@ h1, h2 {
 .gist-readme {
   line-height: 1.5em;
   max-width: 720px;
+  max-height: 1000000vh;
 }
 
 blockquote {
@@ -115,14 +125,15 @@ pre {
   overflow-x: auto;
 }
 
-.html .value,
+.html .string,
 .javascript .string,
 .javascript .regexp {
   color: #756bb1;
 }
 
 .html .tag,
-.css .tag,
+.css .selector-class,
+.css .selector-tag,
 .javascript .keyword {
   color: #3182bd;
 }
@@ -132,12 +143,13 @@ aside,
   color: #636363;
 }
 
-.html .doctype,
+.html .meta,
+.css .number,
 .javascript .number {
   color: #31a354;
 }
 
-.html .attribute,
+.html .attr,
 .css .attribute,
 .javascript .class,
 .javascript .special {
