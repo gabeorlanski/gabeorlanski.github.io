@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    circle {
+        stroke-width: 1.5px;
+    }
+
+    line {
+        stroke: #999;
+    }
+
+    .btn {
+        border: none;
+        background-color: inherit;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    /* On mouse-over */
+    .btn:hover {
+        background: #eee;
+    }
+
+    .success {
+        color: green;
+    }
+
+    .info {
+        color: dodgerblue;
+    }
+
+    .warning {
+        color: orange;
+    }
+
+    .danger {
+        color: red;
+    }
+
+    .default {
+        color: black;
+    }
+</style>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+<div id="option">
+    <input class="btn btn-secondary"
+           name="backButton"
+           type="button"
+           value="Back"
+           onclick="goBack()"/>
+
+    <input class="btn btn-secondary"
+           name="updateButton"
+           type="button"
+           value="Redraw"
+           onclick="updateData()"/>
+</div>
+</body>
+
+<script>
+    var margin = {top: 30, right: 10, bottom: 60, left: 10};
+    var width = 1020- margin.left - margin.right,
+        height = 780- margin.top - margin.bottom,
+        radius = 6;
+
+    var fill = d3.scale.category20();
+    var interactive = false;
+
+    var force = d3.layout.force()
+        .gravity(.05)
+        .charge(-240)
+        .linkDistance(function (d) {
+            return d.value;
+        })
+        .size([width, height]);
+    var MAX_TICKS = 300;
+    var segmentWidth = MAX_TICKS / 100;
+    var svg = d3.select("body").append("svg")
+        .attr("width", width+ margin.left + margin.right)
+        .attr("height", height+ margin.top + margin.bottom)
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    render();
+
+    function updateData() {
+        render();
+    }
+
+    function goBack() {
+        window.history.back()
+    }
+    function render() {
+
+        // d3.select("#modeToggle").on("change", changeMode());
+        d3.selectAll("svg").remove();
+        svg = d3.select("body").append("svg")
+            .attr("width", width+ margin.left + margin.right)
+            .attr("height", height+ margin.top + margin.bottom).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var timeout_amount = 0;
+        if(!interactive){
+            var loading = svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", height / 2)
+                .attr("dy", ".35em")
+                .style("text-anchor", "middle")
+                .text("Simulating. One moment please…");
+            timeout_amount = 10;
+        }
+
+
+        setTimeout(function () {
+            d3.json("force graph/1.json", function (error, graph) {
+
+                    if (error) throw error;
+
+                    // for (var i = 0, n = Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay())); i < n; ++i) {
+                    //   simulation.tick();
+                    // }
+
+                    var link = svg.selectAll("line")
+                        .data(graph.links)
+                        .enter().append("line");
+                function dragstart(d, i) {
+                    force.start() // stops the force auto positioning before you start dragging
+                }
+
+                function dragmove(d, i) {
+                    d.px += d3.event.dx;
+                    d.py += d3.event.dy;
+                    d.x += d3.event.dx;
+                    d.y += d3.event.dy;
+                    tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+                }
+
+                function dragend(d, i) {
+                    d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+                    // tick();
+                    force.stop();
+                }
+                    var node_drag = d3.behavior.drag()
+                    .on("dragstart", dragstart)
+                    .on("drag", dragmove)
+                    .on("dragend", dragend);
+                    var node = svg.selectAll("circle")
+                        .data(graph.nodes)
+                        .enter().append("circle")
+                        .attr("r", radius - .75)
+                        .style("fill", function (d) {
+                            return fill(d.group);
+                        })
+                        .style("stroke", function (d) {
+                            return d3.rgb(fill(d.group)).darker();
+                        })
+                    .call(node_drag);
+
+                    force
+                        .nodes(graph.nodes)
+                        .links(graph.links)
+                        .on("tick", tick)
+                        .start();
+                if(!interactive) {
+                    for (var i = 0, n = MAX_TICKS; i < n; ++i) {
+                        force.tick();
+                        // moveProgressBar(i);
+                        // sleep(100);
+                        // console.log(i);
+                    }
+                    loading.remove();
+                    // progress.remove();
+                    // progress_bg.remove();
+                    force.stop();
+                }
+                function tick() {
+                    node.attr("cx", function (d) {
+                        return d.x = Math.max(radius, Math.min(width - radius, d.x));
+                    })
+                        .attr("cy", function (d) {
+                            return d.y = Math.max(radius, Math.min(height - radius, d.y));
+                        });
+
+                    link.attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                        .attr("y1", function (d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function (d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function (d) {
+                            return d.target.y;
+                        });
+                }
+
+            });
+
+        }, timeout_amount);
+    }
+
+
+
+</script>

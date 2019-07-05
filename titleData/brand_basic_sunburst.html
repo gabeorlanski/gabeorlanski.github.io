@@ -27,8 +27,26 @@
 
     <script src='https://d3js.org/d3.v4.min.js'></script>
 </head>
-<body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script>
+    
+function goBack() {
+  window.history.back()
+}
+</script>
+<body>
+    <div id="option">
+  <input class ="btn btn-secondary"
+            name="backButton" 
+           type="button" 
+           value="Home" 
+           onclick="goBack()" />
+</body>
+<script>
+
+function goBack() {
+  window.history.back()
+}
     const width = window.innerWidth,
         height = window.innerHeight,
         maxRadius = (Math.min(width, height) / 2) - 5;
