@@ -1,51 +1,29 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# Vim
+*~
+*.sw[p_]
 
-# Folder config file
-Desktop.ini
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# Ruby Gem
+*.gem
+.bundle
+Gemfile.lock
+**/vendor/bundle
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# Node.js and NPM
+node_modules
+npm-debug.log*
+package-lock.json
+codekit-config.json
 
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
+# macOS
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-.idea/
-
-images/WebStorm-2021.1.2.exe
+# Jekyll generated files
+.jekyll-cache
+.jekyll-metadata
+.sass-cache
+_asset_bundler_cache
+_site
