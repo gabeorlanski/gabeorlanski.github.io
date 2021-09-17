@@ -1,11 +1,9 @@
 # main links
 main:
-  - title: "Quick-Start Guide"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-  # - title: "About"
-  #   url: https://mmistakes.github.io/minimal-mistakes/about/
-  # - title: "Sample Posts"
-  #   url: /year-archive/
+  - title: "AllenNLP Hydra"
+    url: https://gabeorlanski.github.io/allennlp-hydra/
+  - title: "About"
+    url: https://gabeorlanski.github.io
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"
