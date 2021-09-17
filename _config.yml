@@ -102,17 +102,18 @@ analytics:
 # Site Author
 author:
   name             : "Gabe Orlanski"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Currently a Research Intern at Merlin Labs. I am an MS in Computer Science student at New York University. I graduated from Rensselaer Polytechnic Institute in May 2021 with a BS in Computer Science."
+  avatar           : "/assets/img/my_face.jpeg"
+  bio              : "Research Intern at Merlin Labs."
   location         : "New York, New York"
-  email            :
+  email            : # gabeorlanski@gmail.com
+  linkedin         : "gabriel-orlanski/"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
       # url: "mailto:your.name@email.com"
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "https://gabeorlanski.github.io"
+    - label: "CV"
+      icon: "fas fa-fw fa-user-tie"
+      url: "/assets/pdf/Gabriel_Orlanski_CV.pdf"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       url: "https://twitter.com/GOrlanski"
