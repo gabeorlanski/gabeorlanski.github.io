@@ -1,0 +1,63 @@
+---
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import IconCalendar from "@/assets/icons/IconCalendar.svg";
+import IconGitHub from "@/assets/icons/IconGitHub.svg";
+import IconArxiv from "@/assets/icons/IconArxiv.svg";
+import { SITE } from "@/config";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+export interface Props {
+  class?: string;
+  size?: "sm" | "lg";
+  pubDatetime: string | Date;
+  codeLink: string | undefined;
+  arxivLink: string | undefined;
+  isPaper: boolean;
+  paperType: string | undefined;
+}
+
+const {
+  pubDatetime,
+  codeLink,
+  arxivLink,
+  isPaper,
+  paperType,
+  size = "sm",
+  class: className = "",
+} = Astro.props;
+
+/* ========== Formatted Datetime ========== */
+const datetime = dayjs(pubDatetime).tz(SITE.timezone);
+
+const date = datetime.format("YYYY")
+const time = datetime.format("hh:mm A"); // e.g., '08:30 PM'
+
+const iconClass = ["inline-block size-6 min-w-[1.375rem]", { "scale-90": size === "sm" }];
+---
+
+<div class:list={["flex items-end space-x-2 opacity-80", className]}>
+    <a
+    href={codeLink}
+    class="hover:underline inline-flex items-center"
+    aria-label="View code on GitHub"
+  >
+    <IconGitHub class:list={iconClass} />
+    <span class="sr-only">View code on GitHub</span>
+  </a>
+  <a
+    href={arxivLink}
+    class="text-accent hover:underline inline-flex items-center"
+    aria-label="View paper on arXiv"
+  >
+    <IconArxiv class:list={iconClass} />
+    <span class="sr-only">View paper on arXiv</span>
+  </a>
+  <span aria-hidden="true"> | </span>
+  <time datetime={datetime.toISOString()}>{date}</time>
+  <span aria-hidden="true"> | </span>
+  <span>{paperType}</span>
+</div>
