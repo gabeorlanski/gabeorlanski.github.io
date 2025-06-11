@@ -38,5 +38,5 @@ const headerProps = {
       <Datetime {pubDatetime} {modDatetime} {timezone} />
     )
   }
-  <p>{description}</p>
+  {description && <p>{description}</p>}
 </li>

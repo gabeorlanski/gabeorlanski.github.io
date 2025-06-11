@@ -12,12 +12,36 @@ import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
+import publicationsData from "@/data/publications.json";
+import type { CollectionEntry } from "astro:content";
 
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+
+// Transform publications data to match CollectionEntry structure
+const publications = publicationsData.map((pub) => ({
+  id: pub.id,
+  data: {
+    title: pub.title,
+    description: pub.description,
+    pubDatetime: new Date(pub.pubDatetime),
+    modDatetime: pub.modDatetime ? new Date(pub.modDatetime) : null,
+    timezone: pub.timezone,
+    codeLink: pub.codeLink,
+    arxivLink: pub.arxivLink,
+    isPaper: pub.isPaper,
+    paperType: pub.paperType,
+    author: SITE.author,
+    featured: false,
+    draft: false,
+    tags: ["publications"],
+    hideEditPost: false,
+  },
+  filePath: undefined
+})) as CollectionEntry<"blog">[];
 ---
 
 <Layout>
@@ -63,6 +87,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         )
       }
     </section>
+    
 
     <Hr />
 
@@ -81,8 +106,14 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         </>
       )
     }
-
-    {
+    <Hr />
+    <section id="publications" class="pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">Publications</h2>
+      <ul>
+        {publications.map(pub => <Card variant="h3" {...pub} />)}
+      </ul>
+    </section>
+    <!-- {
       recentPosts.length > 0 && (
         <section id="recent-posts" class="pt-12 pb-6">
           <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
@@ -94,7 +125,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           </ul>
         </section>
       )
-    }
+    } -->
 
     <div class="my-8 text-center">
       <LinkButton href="/posts/">
