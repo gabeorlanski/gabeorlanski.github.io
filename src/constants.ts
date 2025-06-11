@@ -30,7 +30,7 @@ export const SOCIALS = [
   },
   {
     name: "Google Scholar",
-    href: "https://scholar.google.com/citations?user=0000000000000000000000000000000000000000",
+    href: "https://scholar.google.com/citations?user=cy9qrE4AAAAJ&hl=en",
     linkTitle: `View ${SITE.title}'s Google Scholar`,
     icon: IconScholar,
   },

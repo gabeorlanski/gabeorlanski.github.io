@@ -7,9 +7,10 @@
     "modDatetime": "2025-05-22T15:22:00Z",
     "timezone": "America/New_York",
     "codeLink": "https://github.com/google-research/babelcode",
-    "arxivLink": "https://arxiv.org/abs/2302.01973",
+    "arxivLink": "https://proceedings.mlr.press/v202/orlanski23a.html",
     "isPaper": true,
-    "paperType": "ICML 2023"
+    "paperType": "ICML 2023",
+    "authors": ["Gabriel Orlanski", "Kefan Xiao", "Xavier Garcia", "Jeffrey Hui", "Joshua Howland", "Jonathan Malmaud", "Jacob Austin", "Rishah Singh", "Michele Catasta"]
   },
   {
     "id": "stackoverflow-code",
@@ -21,6 +22,7 @@
     "codeLink": "https://github.com/gabeorlanski/stackoverflow-encourages-cheating",
     "arxivLink": "https://aclanthology.org/2021.nlp4prog-1.8/",
     "isPaper": true,
-    "paperType": "NLP4Prog Workshop 2021"
+    "paperType": "NLP4Prog Workshop 2021",
+    "authors": ["Gabriel Orlanski", "Alex Gittens"]
   }
 ] 

@@ -37,6 +37,7 @@ const {
   arxivLink,
   isPaper,
   paperType,
+  authors,
 } = post.data;
 
 const { Content } = await render(post);
@@ -110,6 +111,7 @@ const nextPost =
           {arxivLink}
           {isPaper}
           {paperType}
+          {authors}
           size="lg"
           class="my-2"
         />
