@@ -10,7 +10,7 @@ tags:
   - paper-release
   - technical
 description: "Outcome Reward Models for code verification allow one to trade accuracy for speed in the generate-then-rank paradigm. This can be further improved through a generate-prune-then-rank approach where a weaker verifier prunes solutions prior to ranking, thus saving work on incorrect tokens. We show that this hybrid approach can be 11.65 times faster than running the whole test suite while only being 8.33% less accurate."
-arxivLink: test
+arxivLink: https://arxiv.org/abs/2506.10056
 codeLink: https://github.com/SprocketLab/orm-code-verifier
 paperType: Preprint
 isPaper: true
@@ -113,4 +113,4 @@ Here we plot the distribution of failed candidates based on the ORM's rank witho
 
 ---
 
-_Technical details and experimental results are available in our full paper. Code will be released with publication._
+_Technical details and experimental results are available in our [full paper](https://arxiv.org/abs/2506.10056). Code is released [here](https://github.com/SprocketLab/orm-code-verifier)._
