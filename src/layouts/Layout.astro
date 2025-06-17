@@ -125,18 +125,26 @@ const structuredData = {
         />
       )
     }
-      <script  async src={"https://www.googletagmanager.com/gtag/js?id=G-5H3E57TQSC"}></script>
-      <script type="text/partytown">
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <script
+      async
+      src={"https://www.googletagmanager.com/gtag/js?id=G-5H3E57TQSC"}></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-        gtag('config', "G-5H3E57TQSC");
-      </script>
-    
+      gtag("config", "G-5H3E57TQSC");
+    </script>
+
     <ClientRouter />
 
     <script is:inline src="/toggle-theme.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+    />
   </head>
   <body>
     <slot />

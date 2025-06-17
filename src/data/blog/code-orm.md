@@ -18,6 +18,8 @@ isPaper: true
 
 **TL;DR:** Outcome Reward Models for code verification allow one to trade accuracy for speed in the generate-then-rank paradigm. This tradeoff can be significantly improved through a generate-_prune_\-then-rank approach. A weaker verifier eliminates candidates before ranking with an outcome reward model, thus saving work on incorrect tokens. We show that this hybrid approach can be 11.65 times faster than running the whole test suite while only being 8.33% less accurate.
 
+## Table of contents
+
 ## **The Growing Verification Bottleneck in AI Coding**
 
 AI coding systems have a scaling problem that will get much worse. The standard approach is simple: _generate_ many candidate programs, _rank_ them by running the whole test suite, and pick the one that passes the most tests. This strategy is strong for solving math problems with string equivalence (i.e., [GSM8K](https://huggingface.co/datasets/openai/gsm8k), [MATH](https://huggingface.co/datasets/hendrycks/competition_math)) or generating solutions to [HumanEval](https://arxiv.org/abs/2107.03374), as verification costs are trivial.

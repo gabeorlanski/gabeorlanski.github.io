@@ -7,6 +7,9 @@
   .prose a {
     @apply break-words hover:!text-accent;
   }
+  .prose .katex-display {
+    @apply text-foreground;
+  }
   .prose a:link {
     @apply text-accent;
   }
