@@ -66,10 +66,17 @@ As mentioned, a clear _cost is_ associated with ranking a set of candidates. Mos
 ## Generate-Prune-then-Rank
 
 We propose a hybrid strategy that combines the best of both worlds:  
-**Traditional Pipeline**  
-Generate → Rank with complete tests → Select the best  
-**Our Hybrid Pipeline**  
+**Traditional Pipeline**
+
+```
+Generate → Rank with complete tests → Select the best
+```
+
+**Our Hybrid Pipeline**
+
+```
 Generate → Prune with weak verifier → Rank survivors with ORM → Select best.
+```
 
 This approach leverages a crucial insight: **a program with syntax errors will never pass the full test suite, so why waste compute ranking it?** We can achieve significant speedups by filtering obvious failures with minimal verification before applying expensive ranking.
 
