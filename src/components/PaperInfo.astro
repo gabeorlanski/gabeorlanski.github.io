@@ -35,25 +35,28 @@ const {
 /* ========== Formatted Datetime ========== */
 const datetime = dayjs(pubDatetime).tz(SITE.timezone);
 
-const date = datetime.format("YYYY")
+const date = datetime.format("YYYY");
 const time = datetime.format("hh:mm A"); // e.g., '08:30 PM'
 
-const iconClass = ["inline-block size-6 min-w-[1.375rem]", { "scale-90": size === "sm" }];
+const iconClass = [
+  "inline-block size-6 min-w-[1.375rem]",
+  { "scale-90": size === "sm" },
+];
 
 /* ========== Format Authors with first initial + last names and Orlanski in bold ========== */
 const formatAuthors = (authorList: string[]) => {
   return authorList.map((author, index) => {
     // Extract first initial and last name
-    const nameParts = author.trim().split(' ');
-    const firstName = nameParts[0] || '';
+    const nameParts = author.trim().split(" ");
+    const firstName = nameParts[0] || "";
     const lastName = nameParts[nameParts.length - 1] || author;
     const firstInitial = firstName.charAt(0).toUpperCase();
     const formattedName = `${firstInitial}. ${lastName}`;
-    
+
     const isOrlanski = lastName.toLowerCase() === "orlanski";
     const isLast = index === authorList.length - 1;
     const isSecondToLast = index === authorList.length - 2;
-    
+
     let separator = "";
     if (!isLast) {
       if (authorList.length === 2) {
@@ -67,7 +70,7 @@ const formatAuthors = (authorList: string[]) => {
         separator = ", ";
       }
     }
-    
+
     return { formattedName, isOrlanski, separator };
   });
 };
@@ -76,29 +79,36 @@ const formattedAuthors = authors ? formatAuthors(authors) : null;
 ---
 
 <div class:list={["flex flex-col gap-1 opacity-80", className]}>
-  {formattedAuthors && (
-    <div class="text-sm">
-      {formattedAuthors.map(({ formattedName, isOrlanski, separator }) => (
-        <span>{isOrlanski ? (<strong>{formattedName}</strong>) : (formattedName)}{separator}</span>
-      ))}
-    </div>
-  )}
-  
+  {
+    formattedAuthors && (
+      <div class="text-sm">
+        {formattedAuthors.map(({ formattedName, isOrlanski, separator }) => (
+          <span>
+            {isOrlanski ? <strong>{formattedName}</strong> : formattedName}
+            {separator}
+          </span>
+        ))}
+      </div>
+    )
+  }
+
   <div class="flex items-end space-x-2">
     <a
       href={codeLink}
-      class="hover:underline inline-flex items-center"
+      class="inline-flex items-center hover:underline"
       aria-label="View code on GitHub"
     >
       <IconGitHub class:list={iconClass} />
+      Code
       <span class="sr-only">View code on GitHub</span>
     </a>
     <a
       href={arxivLink}
-      class="text-accent hover:underline inline-flex items-center"
+      class="inline-flex items-center text-accent hover:underline"
       aria-label="View paper on arXiv"
     >
       <IconArxiv class:list={iconClass} />
+      Paper
       <span class="sr-only">View paper on arXiv</span>
     </a>
     <span aria-hidden="true"> | </span>
