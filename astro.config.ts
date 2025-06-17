@@ -2,7 +2,8 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import remarkToc from "remark-toc";
-
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import partytown from '@astrojs/partytown'
 import remarkCollapse from "remark-collapse";
 import { SITE } from "./src/config";
