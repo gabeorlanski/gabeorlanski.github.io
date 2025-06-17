@@ -3,9 +3,9 @@ author: Gabe Orlanski
 pubDatetime: 2025-06-17T15:22:00Z
 modDatetime: 2025-06-17T06:25:46.734Z
 title: Reward Models Enable Scalable Code Verification by Trading Accuracy for Throughput
-slug: reward-models-enable-scalable-code-verification-by-trading-accuracy-for-throughput
+slug: corm-project
 featured: true
-draft: true
+draft: false
 tags:
   - paper-release
   - technical
