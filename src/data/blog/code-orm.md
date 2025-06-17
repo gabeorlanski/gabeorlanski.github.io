@@ -63,7 +63,7 @@ We measure the accuracy of ranking methods using the best Best-of-k estimator pr
 
 As mentioned, a clear _cost is_ associated with ranking a set of candidates. Most related works examine this cost through the real dollar cost of using an API or the flops required to rank a solution. Yet, this does not reflect the actual _latency_ of these systems. And as mentioned above, that is an apparent bottleneck for the coming code ranking systems. Therefore, we measure the speed of ranking systems with programs per second (PPS). This allows us to incorporate the parallelization benefits while measuring the time for each program.
 
-## Generate-Prune-then-Rank
+## **Generate-Prune-then-Rank**
 
 We propose a hybrid strategy that combines the best of both worlds:  
 **Traditional Pipeline**
