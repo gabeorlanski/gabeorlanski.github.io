@@ -80,7 +80,7 @@ Generate → Prune with weak verifier → Rank survivors with ORM → Select bes
 
 This approach leverages a crucial insight: **a program with syntax errors will never pass the full test suite, so why waste compute ranking it?** We can achieve significant speedups by filtering obvious failures with minimal verification before applying expensive ranking.
 
-Overall results for the different pruning methods with a weak verifier and ranking methods. If “Filter” is “---”' that means no pruning is done. Green backgrounds are higher performance while Red backgrounds is lower performance concerning the entire column. “All Tests” is the case where _all_ test cases are run. “Syntax” and “Lint” remove programs with the respective errors. “N Test” prunes out programs that do not pass the first $N$ test cases. The evaluation dataset is generated with Qwen 2.5 Coder 7B Instruct using $T=1.0$, $n=128$, $top_p=0.95$, and 1024 tokens.
+Overall results for the different pruning methods with a weak verifier and ranking methods. If "Filter" is "---"' that means no pruning is done. <span style="background-color:rgb(143, 173, 143);; padding:1px 5px;font-weight:bold">Green backgrounds</span> are higher performance while <span style="background-color:rgb(238, 135, 135); padding:1px 5px;font-weight:bold">Red backgrounds</span> is lower performance concerning the entire column. "All Tests" is the case where _all_ test cases are run. "Syntax" and "Lint" remove programs with the respective errors. "N Test" prunes out programs that do not pass the first $N$ test cases. The evaluation dataset is generated with Qwen 2.5 Coder 7B Instruct using $T=1.0$, $n=128$, $top_p=0.95$, and 1024 tokens.
 
 ![](../../assets/figs/corm/results.svg)
 
