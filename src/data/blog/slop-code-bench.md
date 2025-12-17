@@ -15,7 +15,7 @@ codeLink: https://github.com/SprocketLab/orm-code-verifier
 paperType: Blog
 isPaper: false
 ---
-![](../../assets/figs/scbench/image.png)
+![](../../assets/figs/scbench/overview.png)
 When building real software, it is impossible to know the whole problem space or specification up front. Requirements evolve as the problem is better understood, and code must be updated repeatedly to reflect those changes. Early design decisions often determine the difficulty of these updates.
 
 Despite this, most agentic software engineering benchmarks evaluate models as if specifications were a perfect oracle: a single, fixed problem that can be solved in one pass, after which no further changes are required. This framing misses the fundamental iterative nature of software development.
