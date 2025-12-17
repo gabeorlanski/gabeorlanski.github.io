@@ -9,9 +9,8 @@ draft: false
 tags:
   - benchmark
   - technical
-description: "SlopCodeBench: Measuring Code Erosion Under Iterative Specification Refinement"
-arxivLink: https://arxiv.org/abs/2506.10056
-codeLink: https://github.com/SprocketLab/orm-code-verifier
+description: "New benchmark for agentic coding focusing on iterative evolutions of specifications. Focuses on how the quality of the code changes over iterations"
+codeLink: https://github.com/SprocketLab/slop-code-bench
 paperType: Blog
 isPaper: false
 ---

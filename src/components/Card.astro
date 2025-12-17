@@ -4,6 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPath } from "@/utils/getPath";
 import Datetime from "./Datetime.astro";
 import PaperInfo from "./PaperInfo.astro";
+import IconGitHub from "@/assets/icons/IconGitHub.svg";
 export interface Props extends CollectionEntry<"blog"> {
   variant?: "h2" | "h3";
 }
@@ -38,7 +39,21 @@ const linkHref = !filePath && arxivLink ? arxivLink : getPath(id, filePath);
     isPaper ? (
       <PaperInfo {pubDatetime} {codeLink} {arxivLink} {isPaper} {paperType} {authors}/>
     ) : (
-      <Datetime {pubDatetime} {modDatetime} {timezone} />
+      <div class="flex items-center gap-2">
+        <Datetime {pubDatetime} {modDatetime} {timezone} />
+        {codeLink && (
+          <a
+            href={codeLink}
+            class="inline-flex items-center gap-1 opacity-80 hover:opacity-100"
+            aria-label="View code on GitHub"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconGitHub class="size-5" />
+            <span>[code]</span>
+          </a>
+        )}
+      </div>
     )
   }
   {description && <p>{description}</p>}

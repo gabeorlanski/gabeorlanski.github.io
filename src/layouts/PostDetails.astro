@@ -13,6 +13,7 @@ import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
+import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import { SITE } from "@/config";
 
 export interface Props {
@@ -116,7 +117,21 @@ const nextPost =
           class="my-2"
         />
       ) : (
-        <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" class="my-2" />
+        <div class="flex items-center gap-3 my-2">
+          <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+          {codeLink && (
+            <a
+              href={codeLink}
+              class="inline-flex items-center gap-1 opacity-80 hover:opacity-100"
+              aria-label="View code on GitHub"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconGitHub class="size-6" />
+              <span>[code]</span>
+            </a>
+          )}
+        </div>
       )}
       <EditPost class="max-sm:hidden" {hideEditPost} {post} />
     </div>
