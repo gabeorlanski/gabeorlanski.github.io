@@ -21,9 +21,62 @@
   .prose h2#table-of-contents {
     @apply mb-2;
   }
+  /* ===== Expandable Admonitions ===== */
   .prose details {
-    @apply inline-block cursor-pointer text-foreground select-none;
+    @apply block cursor-pointer text-foreground select-none my-4 rounded-lg border border-border bg-muted/30 overflow-hidden;
   }
+  .prose details summary {
+    @apply px-4 py-3 font-medium bg-muted/50 hover:bg-muted/70 transition-colors list-none;
+  }
+  .prose details summary::-webkit-details-marker {
+    display: none;
+  }
+  .prose details summary::before {
+    content: "▶";
+    @apply inline-block mr-2 text-xs transition-transform;
+  }
+  .prose details[open] summary::before {
+    transform: rotate(90deg);
+  }
+  .prose details > *:not(summary) {
+    @apply px-4 pb-4;
+  }
+  .prose details.callout-info {
+    @apply border-l-4 border-l-blue-500;
+  }
+  .prose details.callout-warning {
+    @apply border-l-4 border-l-yellow-500;
+  }
+  .prose details.callout-tip {
+    @apply border-l-4 border-l-green-500;
+  }
+
+  /* ===== Link Buttons ===== */
+  .prose .btn-group {
+    @apply flex flex-wrap gap-3 my-6;
+  }
+  .prose .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all no-underline;
+  }
+  .prose .btn-primary {
+    @apply bg-accent text-background hover:opacity-90;
+  }
+  .prose .btn-secondary {
+    @apply bg-muted text-foreground hover:bg-muted/80 border border-border;
+  }
+  .prose .btn-github {
+    @apply bg-[#f0f0f0] text-[#24292e] hover:bg-[#e0e0e0] border border-[#d0d0d0];
+  }
+  html[data-theme="dark"] .prose .btn-github {
+    @apply bg-[#24292e] text-white hover:bg-[#3a3f44] border-[#3a3f44];
+  }
+  .prose .btn-discord {
+    @apply bg-[#5865F2] text-white hover:bg-[#4752c4];
+  }
+  .prose .btn-twitter {
+    @apply bg-[#1DA1F2] text-white hover:bg-[#1a8cd8];
+  }
+
   .prose summary {
     @apply focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent focus-visible:outline-dashed;
   }

@@ -32,21 +32,63 @@ const {
 
 const socialImageURL = new URL(ogImage, Astro.url);
 
-const structuredData = {
+// Person schema for knowledge graph
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE.website}/#person`,
+  name: SITE.author,
+  url: SITE.website,
+  sameAs: [
+    "https://github.com/gabeorlanski",
+    "https://twitter.com/GabeOrlworking",
+    "https://www.linkedin.com/in/gabriel-orlanski",
+    "https://scholar.google.com/citations?user=cy9qrE4AAAAJ"
+  ],
+  jobTitle: "ML Researcher",
+  knowsAbout: ["Machine Learning", "Reward Models", "Code Verification", "LLM Evaluation", "AI Agents"]
+};
+
+// WebSite schema for sitelinks search box
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE.website}/#website`,
+  name: SITE.title,
+  url: SITE.website,
+  description: SITE.desc,
+  publisher: { "@id": `${SITE.website}/#person` },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE.website}/search?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// BlogPosting schema for individual posts
+const blogPostingSchema = pubDatetime ? {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: `${title}`,
-  image: `${socialImageURL}`,
-  datePublished: `${pubDatetime?.toISOString()}`,
+  "@id": canonicalURL.toString(),
+  headline: title,
+  image: socialImageURL.toString(),
+  datePublished: pubDatetime.toISOString(),
   ...(modDatetime && { dateModified: modDatetime.toISOString() }),
-  author: [
-    {
-      "@type": "Person",
-      name: `${author}`,
-      ...(profile && { url: profile }),
-    },
-  ],
-};
+  author: { "@id": `${SITE.website}/#person` },
+  publisher: { "@id": `${SITE.website}/#person` },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalURL.toString()
+  }
+} : null;
+
+// Combine all schemas
+const structuredData = pubDatetime
+  ? [personSchema, websiteSchema, blogPostingSchema]
+  : [personSchema, websiteSchema];
 ---
 
 <!doctype html>

@@ -18,8 +18,6 @@ isPaper: true
 
 **TL;DR:** Outcome Reward Models for code verification allow one to trade accuracy for speed in the generate-then-rank paradigm. This tradeoff can be significantly improved through a generate-_prune_\-then-rank approach. A weaker verifier eliminates candidates before ranking with an outcome reward model, thus saving work on incorrect tokens. We show that this hybrid approach can be 11.65 times faster than running the whole test suite while only being 8.33% less accurate.
 
-## Table of contents
-
 ## **The Growing Verification Bottleneck in AI Coding**
 
 AI coding systems have a scaling problem that will get much worse. The standard approach is simple: _generate_ many candidate programs, _rank_ them by running the whole test suite, and pick the one that passes the most tests. This strategy is strong for solving math problems with string equivalence (i.e., [GSM8K](https://huggingface.co/datasets/openai/gsm8k), [MATH](https://huggingface.co/datasets/hendrycks/competition_math)) or generating solutions to [HumanEval](https://arxiv.org/abs/2107.03374), as verification costs are trivial.
@@ -30,7 +28,7 @@ This verification bottleneck slows down inference and cripples training speed, s
 
 ## **The Verification Trade-off**
 
-![](../../assets/figs/corm/corm_overview.svg)
+![Diagram showing the verification trade-off spectrum from fast but inaccurate (compilation check) to slow but perfect (full test suite), with Outcome Reward Models positioned as a middle ground](../../assets/figs/corm/corm_overview.svg)
 
 The solution is recognizing that verification exists on a spectrum, not as a binary choice. Consider these verification methods ordered by speed and accuracy:
 
@@ -82,11 +80,11 @@ This approach leverages a crucial insight: **a program with syntax errors will n
 
 Overall results for the different pruning methods with a weak verifier and ranking methods. If "Filter" is "---"' that means no pruning is done. <span style="background-color:rgb(143, 173, 143);; padding:1px 5px;font-weight:bold">Green backgrounds</span> are higher performance while <span style="background-color:rgb(238, 135, 135); padding:1px 5px;font-weight:bold">Red backgrounds</span> is lower performance concerning the entire column. "All Tests" is the case where _all_ test cases are run. "Syntax" and "Lint" remove programs with the respective errors. "N Test" prunes out programs that do not pass the first $N$ test cases. The evaluation dataset is generated with Qwen 2.5 Coder 7B Instruct using $T=1.0$, $n=128$, $top_p=0.95$, and 1024 tokens.
 
-![](../../assets/figs/corm/results.svg)
+![Results table comparing different pruning and ranking methods showing Best-of-k accuracy and programs per second throughput across MBPP, HumanEval, and LiveCodeBench](../../assets/figs/corm/results.svg)
 
 Here, we display the trade-off curves from our experiments using generator models of different sizes. Each row represents a different generator model. The colors represent different ranking strategies, while the markers represent different pruning methods. “Majority Voting” is the verifier-only setup where we use majority voting to select the best candidate after pruning with the weak verifier.
 
-![](../../assets/figs/corm/all_curves.svg)
+![Trade-off curves showing accuracy vs throughput for different ranking strategies and pruning methods across Qwen 2.5 Coder models of varying sizes](../../assets/figs/corm/all_curves.svg)
 
 ## **Why This Works**
 
@@ -109,7 +107,7 @@ Pruned candidates.
 The pruning removes two highly ranked but incorrect solutions, improving overall accuracy by correcting ORM errors. These two solutions represent the ORM's frequent mistakes, and thus, the pruning with weak verifiers could be seen as “mitigating” an ORM's shortcomings.
 
 Here we plot the distribution of failed candidates based on the ORM's rank without prior filtering. A rank of 1 means the candidate was the top-ranked, while 128 means it was the lowest-ranked. The rows are the individual verifiers, while the columns are the datasets.  
-![](../../assets/figs/corm/1.5B_filtered_dist.svg)
+![Distribution of failed candidates by ORM rank showing how weak verifiers filter out both high-ranked and low-ranked incorrect solutions](../../assets/figs/corm/1.5B_filtered_dist.svg)
 
 ---
 

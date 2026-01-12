@@ -2,7 +2,7 @@ export const SITE = {
   website: "https://gabeorlanski.github.io", // replace this with your deployed domain
   author: "Gabriel Orlanski",
   profile: "https://gabeorlanski.github.io",
-  desc: "My Personal Website",
+  desc: "Gabriel Orlanski - ML researcher exploring reward models, code verification, and AI agents. Technical blog on machine learning research, LLM evaluation, and software engineering.",
   title: "Gabriel Orlanski",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,

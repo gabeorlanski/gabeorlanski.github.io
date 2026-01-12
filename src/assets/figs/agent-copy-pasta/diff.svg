@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 465" width="900" height="465">
+  <!-- Background -->
+  <rect width="900" height="465" rx="6" fill="#0d1117"/>
+  
+  <style>
+    .code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; white-space: pre; fill: #e6edf3; }
+    .removed-bg { fill: rgba(248, 81, 73, 0.15); }
+    .added-bg { fill: rgba(63, 185, 80, 0.15); }
+    .sign { font-weight: bold; opacity: 0.5; }
+    .k { fill: #ff7b72; } /* Keyword */
+    .f { fill: #d2a8ff; } /* Function */
+    .s { fill: #a5d6ff; } /* String */
+    .c { fill: #8b949e; font-style: italic; }
+  </style>
+
+  <g transform="translate(0, 20)">
+    <rect x="0" y="0" width="900" height="22" class="removed-bg"/>
+    <text x="15" y="15" class="code sign">-</text>
+    <text x="35" y="15" class="code" xml:space="preserve"><tspan class="k">for</tspan> match <tspan class="k">in</tspan> <tspan class="f">scan_file</tspan>(content, applicable_rules, language):</text>
+
+    <rect x="0" y="22" width="900" height="22" class="added-bg"/>
+    <text x="15" y="37" class="code sign">+</text>
+    <text x="35" y="37" class="code" xml:space="preserve"><tspan class="k">for</tspan> match <tspan class="k">in</tspan> <tspan class="f">scan_text_rules</tspan>(content, applicable_text_rules <tspan class="k">or</tspan> [], language):</text>
+
+    <text x="35" y="59" class="code" xml:space="preserve">    matches.<tspan class="f">append</tspan>({</text>
+    <text x="35" y="81" class="code" xml:space="preserve">        <tspan class="s">"rule_id"</tspan>: match[<tspan class="s">"rule_id"</tspan>],</text>
+    <text x="35" y="103" class="code" xml:space="preserve">        <tspan class="s">"file"</tspan>: file_rel,</text>
+    <text x="35" y="125" class="code" xml:space="preserve">        <tspan class="s">"language"</tspan>: match[<tspan class="s">"language"</tspan>],</text>
+    <text x="35" y="147" class="code" xml:space="preserve">        <tspan class="s">"start"</tspan>: match[<tspan class="s">"start"</tspan>],</text>
+    <text x="35" y="169" class="code" xml:space="preserve">        <tspan class="s">"end"</tspan>: match[<tspan class="s">"end"</tspan>],</text>
+    <text x="35" y="191" class="code" xml:space="preserve">        <tspan class="s">"match"</tspan>: content[match[<tspan class="s">"slice"</tspan>][<tspan class="k">0</tspan>] : match[<tspan class="s">"slice"</tspan>][<tspan class="k">1</tspan>]],</text>
+    <text x="35" y="213" class="code" xml:space="preserve">    })</text>
+
+    <rect x="0" y="224" width="900" height="176" class="added-bg"/>
+    <g transform="translate(0, 239)">
+      <text x="15" y="0" class="code sign">+</text>
+      <text x="35" y="0" class="code" xml:space="preserve"><tspan class="k">if</tspan> applicable_pattern_rules:</text>
+      <text x="15" y="22" class="code sign">+</text>
+      <text x="35" y="22" class="code" xml:space="preserve">    content_bytes = content.<tspan class="f">encode</tspan>(<tspan class="s">"utf-8"</tspan>)</text>
+      <text x="15" y="44" class="code sign">+</text>
+      <text x="35" y="44" class="code" xml:space="preserve">    line_start_bytes = <tspan class="f">build_line_start_bytes</tspan>(content_bytes)</text>
+      <text x="15" y="66" class="code sign">+</text>
+      <text x="35" y="66" class="code" xml:space="preserve">    tree = PARSERS[language].<tspan class="f">parse</tspan>(content_bytes)</text>
+      <text x="15" y="88" class="code sign">+</text>
+      <text x="35" y="88" class="code" xml:space="preserve">    <tspan class="k">for</tspan> rule <tspan class="k">in</tspan> applicable_pattern_rules:</text>
+      <text x="15" y="110" class="code sign">+</text>
+      <text x="35" y="110" class="code" xml:space="preserve">        <tspan class="k">for</tspan> match <tspan class="k">in</tspan> <tspan class="f">collect_pattern_matches</tspan>(tree, content_bytes, rule, language, line_start_bytes):</text>
+      <text x="15" y="132" class="code sign">+</text>
+      <text x="35" y="132" class="code" xml:space="preserve">            match[<tspan class="s">"file"</tspan>] = file_rel</text>
+      <text x="15" y="154" class="code sign">+</text>
+      <text x="35" y="154" class="code" xml:space="preserve">            matches.<tspan class="f">append</tspan>(match)</text>
+    </g>
+  </g>
+</svg>

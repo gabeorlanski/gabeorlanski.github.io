@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="900" height="480">
+  <!-- Background -->
+  <rect width="900" height="480" rx="6" fill="#0d1117"/>
+  
+  <style>
+    .code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; white-space: pre; fill: #e6edf3; }
+    .removed-bg { fill: rgba(248, 81, 73, 0.15); }
+    .added-bg { fill: rgba(63, 185, 80, 0.15); }
+    .sign { font-weight: bold; opacity: 0.5; }
+    .k { fill: #ff7b72; } /* Keyword */
+    .f { fill: #d2a8ff; } /* Function */
+    .s { fill: #a5d6ff; } /* String */
+    .c { fill: #8b949e; font-style: italic; }
+  </style>
+
+  <g transform="translate(0, 20)">
+    <rect x="0" y="0" width="900" height="22" class="removed-bg"/>
+    <text x="15" y="15" class="code sign">-</text>
+    <text x="35" y="15" class="code" xml:space="preserve"><tspan class="k">def</tspan> <tspan class="f">scan_file</tspan>(content: <tspan class="p">str</tspan>, rules: Sequence[Rule], language: <tspan class="p">str</tspan>):</text>
+    
+    <rect x="0" y="22" width="900" height="22" class="added-bg"/>
+    <text x="15" y="37" class="code sign">+</text>
+    <text x="35" y="37" class="code" xml:space="preserve"><tspan class="k">def</tspan> <tspan class="f">scan_text_rules</tspan>(content: <tspan class="p">str</tspan>, rules: Sequence[Rule], language: <tspan class="p">str</tspan>):</text>
+
+    <text x="35" y="59" class="code" xml:space="preserve">    <tspan class="c"># ... initialization ...</tspan></text>
+    <text x="35" y="81" class="code" xml:space="preserve">    <tspan class="k">for</tspan> rule <tspan class="k">in</tspan> rules:</text>
+    <text x="35" y="103" class="code" xml:space="preserve">        <tspan class="k">if</tspan> language <tspan class="k">not in</tspan> rule.languages:</text>
+    <text x="35" y="125" class="code" xml:space="preserve">            <tspan class="k">continue</tspan></text>
+
+    <rect x="0" y="136" width="900" height="44" class="added-bg"/>
+    <g transform="translate(0, 151)">
+      <text x="15" y="0" class="code sign">+</text>
+      <text x="35" y="0" class="code" xml:space="preserve">        <tspan class="k">if</tspan> rule.kind == <tspan class="s">"pattern"</tspan>:</text>
+      <text x="15" y="22" class="code sign">+</text>
+      <text x="35" y="22" class="code" xml:space="preserve">            <tspan class="k">continue</tspan></text>
+    </g>
+
+    <text x="35" y="197" class="code" xml:space="preserve">        <tspan class="c"># ... matching logic ...</tspan></text>
+    <text x="35" y="219" class="code" xml:space="preserve">        <tspan class="k">for</tspan> start, end <tspan class="k">in</tspan> spans:</text>
+    <text x="35" y="241" class="code" xml:space="preserve">            <tspan class="k">yield</tspan> {</text>
+    <text x="35" y="263" class="code" xml:space="preserve">                <tspan class="s">"rule_id"</tspan>: rule.rule_id,</text>
+    <text x="35" y="285" class="code" xml:space="preserve">                <tspan class="s">"language"</tspan>: language,</text>
+    <text x="35" y="307" class="code" xml:space="preserve">                <tspan class="s">"start"</tspan>: {<tspan class="s">"line"</tspan>: start_line, <tspan class="s">"col"</tspan>: start_col},</text>
+    <text x="35" y="329" class="code" xml:space="preserve">                <tspan class="s">"end"</tspan>: {<tspan class="s">"line"</tspan>: end_line, <tspan class="s">"col"</tspan>: end_col},</text>
+    <text x="35" y="351" class="code" xml:space="preserve">                <tspan class="s">"slice"</tspan>: (start, end),</text>
+    <text x="35" y="373" class="code" xml:space="preserve">            }</text>
+  </g>
+</svg>

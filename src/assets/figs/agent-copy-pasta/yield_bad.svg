@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 238" width="900" height="238">
+  <!-- Background -->
+  <rect width="900" height="238" rx="6" fill="#0d1117"/>
+  
+  <style>
+    .code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; white-space: pre; fill: #e6edf3; }
+    .k { fill: #ff7b72; } /* Keyword */
+    .f { fill: #d2a8ff; } /* Function */
+    .s { fill: #a5d6ff; } /* String */
+    .c { fill: #8b949e; font-style: italic; } /* Comment */
+  </style>
+
+  <g transform="translate(0, 20)">
+    <text x="35" y="15" class="code" xml:space="preserve"><tspan class="k">yield</tspan> {</text>
+    <text x="35" y="37" class="code" xml:space="preserve">    <tspan class="s">"rule_id"</tspan>: rule.rule_id,</text>
+    <text x="35" y="59" class="code" xml:space="preserve">    <tspan class="s">"file"</tspan>: <tspan class="s">""</tspan>,  <tspan class="c"># filled by caller</tspan></text>
+    <text x="35" y="81" class="code" xml:space="preserve">    <tspan class="s">"language"</tspan>: language,</text>
+    <text x="35" y="103" class="code" xml:space="preserve">    <tspan class="s">"start"</tspan>: {<tspan class="s">"line"</tspan>: start_line, <tspan class="s">"col"</tspan>: start_col},</text>
+    <text x="35" y="125" class="code" xml:space="preserve">    <tspan class="s">"end"</tspan>: {<tspan class="s">"line"</tspan>: end_line, <tspan class="s">"col"</tspan>: end_col},</text>
+    <text x="35" y="147" class="code" xml:space="preserve">    <tspan class="s">"match"</tspan>: content_bytes[start_byte:end_byte].<tspan class="f">decode</tspan>(<tspan class="s">"utf-8"</tspan>, errors=<tspan class="s">"replace"</tspan>),</text>
+    <text x="35" y="169" class="code" xml:space="preserve">    <tspan class="s">"captures"</tspan>: captures_out,</text>
+    <text x="35" y="191" class="code" xml:space="preserve">}</text>
+  </g>
+</svg>

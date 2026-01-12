@@ -9,12 +9,12 @@ draft: false
 tags:
   - benchmark
   - technical
-description: "New benchmark for agentic coding focusing on iterative evolutions of specifications. Focuses on how the quality of the code changes over iterations"
+description: "SlopCodeBench evaluates AI coding agents under iterative specification updates. Unlike single-shot benchmarks, SCBench reveals verbosity and structural erosion that make agent-written code unmaintainable over time."
 codeLink: https://github.com/SprocketLab/slop-code-bench
 paperType: Blog
 isPaper: false
 ---
-![](../../assets/figs/scbench/overview.png)
+![SlopCodeBench overview showing iterative checkpoint evaluation where agents extend their own solutions through sequential specification updates](../../assets/figs/scbench/overview.png)
 When building real software, it is impossible to know the whole problem space or specification up front. Requirements evolve as the problem is better understood, and code must be updated repeatedly to reflect those changes. Early design decisions often determine the difficulty of these updates.
 
 Despite this, most agentic software engineering benchmarks evaluate models as if specifications were a perfect oracle: a single, fixed problem that can be solved in one pass, after which no further changes are required. This framing misses the fundamental iterative nature of software development.
@@ -132,22 +132,22 @@ For all setups, we use a simple prompt that only tells the agent to “Implement
 
 # Initial Results
 
-![](../../assets/figs/scbench/quality_erosion_scatter.svg)  
+![Scatter plot showing relationship between code verbosity and structural erosion across GPT and Opus models on SlopCodeBench](../../assets/figs/scbench/quality_erosion_scatter.svg)  
 
 **Takeaway:** Our initial results indicate a stronger relationship between code verbosity and agent performance. Given that more verbose code could be easier for the model to understand in subsequent checkpoints.  
 
 
-![](../../assets/figs/scbench/performance_overview.svg)
+![Performance overview comparing checkpoint pass rates across GPT 5.1 Codex Max, GPT 5.2, and Opus 4.5 on SlopCodeBench](../../assets/figs/scbench/performance_overview.svg)
 
 
-![](../../assets/figs/scbench/resource_usage.svg)
+![Resource usage comparison showing token consumption and API costs across thinking vs non-thinking model configurations](../../assets/figs/scbench/resource_usage.svg)
 
 **Takeaway:** Clearly, Opus 4.5 is the highest performer in this setting, yet it is interesting to note that for both the Codex Max and Opus, the usage of the non-thinking setting is well above the low-thinking setup. This implies that the non-thinking models take a more brute-force approach at each checkpoint than is required as the process progresses.
 
 ## Deltas Between Checkpoints
 We define **delta** as the percentage change from checkpoint N to N+1. We plot them here for LOC and High Complexity symbols:
 
-**![](../../assets/figs/scbench/churn_stats.svg)**
+![Delta metrics showing LOC and high complexity symbol growth between checkpoints across first, middle, and final iterations](../../assets/figs/scbench/churn_stats.svg)
   
 **Takeaway:** There is significant growth, checkpoint over checkpoint, in symbols with high complexity (Cyclomatic complexity > 10), indicating a weak overall structure. For *newly* flagged spans, during LLM evaluation as a judge, we observe a significant increase relative to the prior checkpoint. 
 
