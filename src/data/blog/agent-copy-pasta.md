@@ -61,10 +61,10 @@ Across all setups, a clear pattern emerges: **agents make large patches in a sel
 
 | Model | STMT Gini (Start → Final) | LOC Gini (Start → Final) |
 | :---- | :---- | :---- |
-| Opus 4.5 | 0.513 → 0.585 | 0.532 → 0.602 |
 | GLM 4.7 | 0.531 → 0.584 | 0.518 → 0.594 |
 | GPT 5.2 Codex | 0.524 → 0.572 | 0.537 → 0.602 |
 | GPT 5.1 Codex Max | 0.525 → 0.559 | 0.494 → 0.567 |
+| Opus 4.5 | 0.513 → 0.585 | 0.532 → 0.602 |
 
 <details>
 <summary>Table legend</summary>
