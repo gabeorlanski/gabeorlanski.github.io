@@ -33,7 +33,31 @@ This is the first part in our series discussing these results and how we overhau
 ## Edits Concentrate into Hotspots
 ![Line chart showing Gini coefficient growth across checkpoints for Opus 4.5, GLM 4.7, GPT 5.2 and GPT 5.1 demonstrating increasing code concentration in fewer functions](../../assets/figs/agent-copy-pasta/concentration_growth_trajectories.svg)
 
-Across all setups, a clear pattern emerges: **agents make large patches in a select few functions.** The Gini coefficient—0 means code is evenly spread, 1.0 means one function holds everything—climbs steadily as agents progress through checkpoints, highlighting the emergence of god functions that become near impossible to debug and maintain. These monstrosities also impose a significant cognitive load when reviewing the code. This would not be bad if these solutions were split into cohesive modules, but they are not. Each setup uses a single file spanning more than 2,000 lines across all problems.
+
+<details>
+<summary>Function Gini, Branches, and Complexity</summary>
+
+**Function Gini coefficient:**  
+Measures how unevenly code is distributed among functions.  
+- **0:** Code is spread out evenly across all functions.
+- **1:** All code resides in a single function.
+High values mean most code lives in a few “god” functions, making the codebase harder to maintain.
+
+**Branch count:**  
+The total number of decision points (e.g., `if`, `elif`, `else`, `case` statements) present in the code. More branches can indicate tangled logic or a lack of proper abstraction.
+
+**Cyclomatic complexity:**  
+A metric representing the number of independent paths through the code. Higher values suggest more complicated, harder-to-test functions and a greater potential for bugs or maintenance headaches.
+
+**Comparisons:**  
+Counts of explicit conditional checks (e.g., `==`, `!=`, `<`, `>`, in `if`/`while`/`for` conditions), which can reflect how tightly logic is entwined. More comparisons often mean increased complexity and a higher risk of logic errors.
+
+Together, these metrics illustrate how code structure degrades: functions swell, branching logic proliferates, complexity rises, and maintainability plummets as agents focus only on passing the next test.
+
+</details>
+
+Across all setups, a clear pattern emerges: **agents make large patches in a select few functions.** The Gini coefficient climbs steadily as agents progress through checkpoints, highlighting the emergence of god functions that become near impossible to debug and maintain. These monstrosities also impose a significant cognitive load when reviewing. This would not be bad if these solutions were split into cohesive modules, but they are not. Each setup uses a single file spanning more than 2,000 lines across all problems.
+
 
 | Model | STMT Gini (Start → Final) | LOC Gini (Start → Final) |
 | :---- | :---- | :---- |
