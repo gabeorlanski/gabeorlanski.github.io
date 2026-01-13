@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 880" width="950" height="880">
+  <rect width="950" height="880" rx="8" fill="#0d1117"/>
+
+  <style>
+    .code { font-family: 'SF Mono', 'Fira Code', Consolas, monospace; font-size: 14px; fill: #e6edf3; white-space: pre; }
+    .removed-bg { fill: rgba(248, 81, 73, 0.2); }
+    .added-bg { fill: rgba(63, 185, 80, 0.2); }
+    .line-num { fill: #6e7681; font-family: 'SF Mono', monospace; font-size: 13px; }
+    .k { fill: #ff7b72; }
+    .f { fill: #d2a8ff; }
+    .s { fill: #a5d6ff; }
+    .highlight { fill: #ffd700; font-weight: bold; }
+  </style>
+
+  <g transform="translate(15, 25)">
+    <!-- Line 1: deleted signature -->
+    <rect x="0" y="0" width="920" height="22" class="removed-bg"/>
+    <text x="5" y="16" class="line-num">-</text>
+    <text x="25" y="16" class="code" xml:space="preserve"><tspan class="k">def</tspan> <tspan class="f">find_matches</tspan>(text, rules, language):</text>
+
+    <!-- Line 2: added signature -->
+    <rect x="0" y="22" width="920" height="22" class="added-bg"/>
+    <text x="5" y="38" class="line-num">+</text>
+    <text x="25" y="38" class="code" xml:space="preserve"><tspan class="k">def</tspan> <tspan class="f">find_matches</tspan>(text, rules, language, encoding):</text>
+
+    <!-- existing code -->
+    <text x="25" y="60" class="code" xml:space="preserve">    <tspan class="k">for</tspan> rule <tspan class="k">in</tspan> rules:</text>
+    <text x="25" y="80" class="code" xml:space="preserve">        <tspan class="k">if</tspan> rule[<tspan class="s">"kind"</tspan>] == <tspan class="s">"exact"</tspan>:</text>
+    <text x="25" y="100" class="code" xml:space="preserve">            <tspan class="k">while</tspan> <tspan class="k">True</tspan>:</text>
+    <text x="25" y="120" class="code" xml:space="preserve">                ...</text>
+
+    <!-- Match dict 1 -->
+    <text x="25" y="140" class="code" xml:space="preserve">                matches.<tspan class="f">append</tspan>({</text>
+    <text x="25" y="160" class="code" xml:space="preserve">                    <tspan class="s">"rule_id"</tspan>: rule_id,</text>
+    <text x="25" y="180" class="code" xml:space="preserve">                    <tspan class="s">"start"</tspan>: {<tspan class="s">"line"</tspan>: start_line, <tspan class="s">"col"</tspan>: start_col}, <tspan class="highlight"># [1]</tspan></text>
+    <text x="25" y="200" class="code" xml:space="preserve">                    <tspan class="s">"end"</tspan>: {<tspan class="s">"line"</tspan>: end_line, <tspan class="s">"col"</tspan>: end_col},</text>
+    <text x="25" y="220" class="code" xml:space="preserve">                })</text>
+
+    <!-- elif regex -->
+    <text x="25" y="245" class="code" xml:space="preserve">        <tspan class="k">elif</tspan> rule[<tspan class="s">"kind"</tspan>] == <tspan class="s">"regex"</tspan>:</text>
+    <text x="25" y="265" class="code" xml:space="preserve">            <tspan class="k">for</tspan> match <tspan class="k">in</tspan> regex.<tspan class="f">finditer</tspan>(text):</text>
+    <text x="25" y="285" class="code" xml:space="preserve">                ...</text>
+
+    <!-- Match dict 2 -->
+    <text x="25" y="305" class="code" xml:space="preserve">                matches.<tspan class="f">append</tspan>({</text>
+    <text x="25" y="325" class="code" xml:space="preserve">                    <tspan class="s">"rule_id"</tspan>: rule_id,</text>
+    <text x="25" y="345" class="code" xml:space="preserve">                    <tspan class="s">"start"</tspan>: {<tspan class="s">"line"</tspan>: start_line, <tspan class="s">"col"</tspan>: start_col}, <tspan class="highlight"># [2]</tspan></text>
+    <text x="25" y="365" class="code" xml:space="preserve">                    <tspan class="s">"end"</tspan>: {<tspan class="s">"line"</tspan>: end_line, <tspan class="s">"col"</tspan>: end_col},</text>
+    <text x="25" y="385" class="code" xml:space="preserve">                })</text>
+
+    <!-- NEW: pattern_rules block -->
+    <rect x="0" y="405" width="920" height="390" class="added-bg"/>
+    <text x="5" y="425" class="line-num">+</text>
+    <text x="25" y="425" class="code" xml:space="preserve">    pattern_rules = [r <tspan class="k">for</tspan> r <tspan class="k">in</tspan> rules <tspan class="k">if</tspan> r[<tspan class="s">"kind"</tspan>] == <tspan class="s">"pattern"</tspan>]</text>
+    <text x="5" y="445" class="line-num">+</text>
+    <text x="25" y="445" class="code" xml:space="preserve">    <tspan class="k">if</tspan> pattern_rules:</text>
+    <text x="5" y="465" class="line-num">+</text>
+    <text x="25" y="465" class="code" xml:space="preserve">        ...</text>
+    <text x="5" y="485" class="line-num">+</text>
+    <text x="25" y="485" class="code" xml:space="preserve">        <tspan class="k">for</tspan> rule <tspan class="k">in</tspan> pattern_rules:</text>
+    <text x="5" y="505" class="line-num">+</text>
+    <text x="25" y="505" class="code" xml:space="preserve">            ...</text>
+    <text x="5" y="525" class="line-num">+</text>
+    <text x="25" y="525" class="code" xml:space="preserve">            <tspan class="k">if</tspan> root_info[<tspan class="s">"is_sequence"</tspan>]:</text>
+    <text x="5" y="545" class="line-num">+</text>
+    <text x="25" y="545" class="code" xml:space="preserve">                <tspan class="k">for</tspan> node <tspan class="k">in</tspan> nodes:</text>
+    <text x="5" y="565" class="line-num">+</text>
+    <text x="25" y="565" class="code" xml:space="preserve">                    ...</text>
+
+    <!-- Match dict 3 -->
+    <text x="5" y="585" class="line-num">+</text>
+    <text x="25" y="585" class="code" xml:space="preserve">                    matches.<tspan class="f">append</tspan>({</text>
+    <text x="5" y="605" class="line-num">+</text>
+    <text x="25" y="605" class="code" xml:space="preserve">                        <tspan class="s">"rule_id"</tspan>: rule_id,</text>
+    <text x="5" y="625" class="line-num">+</text>
+    <text x="25" y="625" class="code" xml:space="preserve">                        <tspan class="s">"start"</tspan>: {<tspan class="s">"line"</tspan>: start_line, <tspan class="s">"col"</tspan>: start_col}, <tspan class="highlight"># [3]</tspan></text>
+    <text x="5" y="645" class="line-num">+</text>
+    <text x="25" y="645" class="code" xml:space="preserve">                        <tspan class="s">"end"</tspan>: {<tspan class="s">"line"</tspan>: end_line, <tspan class="s">"col"</tspan>: end_col}, ...})</text>
+
+    <text x="5" y="670" class="line-num">+</text>
+    <text x="25" y="670" class="code" xml:space="preserve">            <tspan class="k">else</tspan>:</text>
+    <text x="5" y="690" class="line-num">+</text>
+    <text x="25" y="690" class="code" xml:space="preserve">                <tspan class="k">for</tspan> node <tspan class="k">in</tspan> nodes:</text>
+    <text x="5" y="710" class="line-num">+</text>
+    <text x="25" y="710" class="code" xml:space="preserve">                    ...</text>
+
+    <!-- Match dict 4 -->
+    <text x="5" y="730" class="line-num">+</text>
+    <text x="25" y="730" class="code" xml:space="preserve">                    matches.<tspan class="f">append</tspan>({</text>
+    <text x="5" y="750" class="line-num">+</text>
+    <text x="25" y="750" class="code" xml:space="preserve">                        <tspan class="s">"rule_id"</tspan>: rule_id,</text>
+    <text x="5" y="770" class="line-num">+</text>
+    <text x="25" y="770" class="code" xml:space="preserve">                        <tspan class="s">"start"</tspan>: {<tspan class="s">"line"</tspan>: start_line, <tspan class="s">"col"</tspan>: start_col}, <tspan class="highlight"># [4]</tspan></text>
+    <text x="5" y="790" class="line-num">+</text>
+    <text x="25" y="790" class="code" xml:space="preserve">                        <tspan class="s">"end"</tspan>: {<tspan class="s">"line"</tspan>: end_line, <tspan class="s">"col"</tspan>: end_col}, ...})</text>
+
+    <text x="25" y="820" class="code" xml:space="preserve">    ...</text>
+    <text x="25" y="840" class="code" xml:space="preserve">    <tspan class="k">return</tspan> matches</text>
+  </g>
+</svg>

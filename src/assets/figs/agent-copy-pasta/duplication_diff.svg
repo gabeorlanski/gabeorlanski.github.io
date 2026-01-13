@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 950" width="900" height="950">
+  <!-- Background -->
+  <rect width="900" height="950" rx="6" fill="#0d1117"/>
+  
+  <style>
+    .code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; white-space: pre; fill: #e6edf3; }
+    .removed-bg { fill: rgba(248, 81, 73, 0.15); }
+    .added-bg { fill: rgba(63, 185, 80, 0.15); }
+    .sign { font-weight: bold; opacity: 0.5; }
+    .k { fill: #ff7b72; } /* Keyword */
+    .f { fill: #d2a8ff; } /* Function */
+    .s { fill: #a5d6ff; } /* String */
+    .c { fill: #8b949e; font-style: italic; }
+  </style>
+
+  <g transform="translate(0, 20)">
+    <!-- Header Change -->
+    <rect x="0" y="0" width="900" height="22" class="removed-bg"/>
+    <text x="15" y="15" class="code sign">-</text>
+    <text x="35" y="15" class="code" xml:space="preserve"><tspan class="k">def</tspan> <tspan class="f">find_matches</tspan>(text, rules, language):</text>
+
+    <rect x="0" y="22" width="900" height="22" class="added-bg"/>
+    <text x="15" y="37" class="code sign">+</text>
+    <text x="35" y="37" class="code" xml:space="preserve"><tspan class="k">def</tspan> <tspan class="f">find_matches</tspan>(text, rules, language, encoding):</text>
+
+    <!-- Initial Loop -->
+    <text x="35" y="59" class="code" xml:space="preserve">    <tspan class="c"># ... ~4 lines omitted ...</tspan></text>
+    <text x="35" y="81" class="code" xml:space="preserve">    <tspan class="k">for</tspan> rule <tspan class="k">in</tspan> rules:</text>
+    <text x="35" y="103" class="code" xml:space="preserve">        <tspan class="k">if</tspan> language <tspan class="k">not in</tspan> rule[<tspan class="s">"languages"</tspan>]:</text>
+    <text x="35" y="125" class="code" xml:space="preserve">            <tspan class="k">continue</tspan></text>
+
+    <!-- Exact Match -->
+    <text x="35" y="147" class="code" xml:space="preserve">        <tspan class="k">if</tspan> rule[<tspan class="s">"kind"</tspan>] == <tspan class="s">"exact"</tspan>:</text>
+    <text x="35" y="169" class="code" xml:space="preserve">            <tspan class="c"># ... ~11 lines omitted ...</tspan></text>
+    <text x="35" y="191" class="code" xml:space="preserve">                matches.<tspan class="f">append</tspan>({</text>
+    <text x="35" y="213" class="code" xml:space="preserve">                    <tspan class="s">"rule_id"</tspan>: rule_id, <tspan class="s">"match"</tspan>: pattern,</text>
+    <text x="35" y="235" class="code" xml:space="preserve">                    <tspan class="s">"start"</tspan>: ..., <tspan class="s">"end"</tspan>: ...</text>
+    <text x="35" y="257" class="code" xml:space="preserve">                })</text>
+
+    <!-- Regex Match -->
+    <text x="35" y="279" class="code" xml:space="preserve">        <tspan class="k">else</tspan>:</text>
+    <text x="35" y="301" class="code" xml:space="preserve">            <tspan class="c"># ... ~6 lines omitted ...</tspan></text>
+    <text x="35" y="323" class="code" xml:space="preserve">                matches.<tspan class="f">append</tspan>({</text>
+    <text x="35" y="345" class="code" xml:space="preserve">                    <tspan class="s">"rule_id"</tspan>: rule_id, <tspan class="s">"match"</tspan>: match.group(<tspan class="k">0</tspan>),</text>
+    <text x="35" y="367" class="code" xml:space="preserve">                    <tspan class="s">"start"</tspan>: ..., <tspan class="s">"end"</tspan>: ...</text>
+    <text x="35" y="389" class="code" xml:space="preserve">                })</text>
+
+    <!-- The Added Block (The Hack) -->
+    <rect x="0" y="400" width="900" height="460" class="added-bg"/>
+    <g transform="translate(0, 415)">
+        <text x="15" y="0" class="code sign">+</text>
+        <text x="35" y="0" class="code" xml:space="preserve">    <tspan class="k">if</tspan> pattern_rules:</text>
+        <text x="15" y="22" class="code sign">+</text>
+        <text x="35" y="22" class="code" xml:space="preserve">        <tspan class="c"># ... ~4 lines omitted (parser setup) ...</tspan></text>
+        <text x="15" y="44" class="code sign">+</text>
+        <text x="35" y="44" class="code" xml:space="preserve">        <tspan class="k">for</tspan> rule <tspan class="k">in</tspan> pattern_rules:</text>
+        <text x="15" y="66" class="code sign">+</text>
+        <text x="35" y="66" class="code" xml:space="preserve">            <tspan class="c"># ... ~5 lines omitted ...</tspan></text>
+        
+        <!-- Sequence Match -->
+        <text x="15" y="88" class="code sign">+</text>
+        <text x="35" y="88" class="code" xml:space="preserve">            <tspan class="k">if</tspan> root_info[<tspan class="s">"is_sequence"</tspan>]:</text>
+        <text x="15" y="110" class="code sign">+</text>
+        <text x="35" y="110" class="code" xml:space="preserve">                <tspan class="c"># ... ~26 lines omitted ...</tspan></text>
+        <text x="15" y="132" class="code sign">+</text>
+        <text x="35" y="132" class="code" xml:space="preserve">                        matches.<tspan class="f">append</tspan>({</text>
+        <text x="15" y="154" class="code sign">+</text>
+        <text x="35" y="154" class="code" xml:space="preserve">                            <tspan class="s">"rule_id"</tspan>: rule_id, <tspan class="s">"match"</tspan>: match_text,</text>
+        <text x="15" y="176" class="code sign">+</text>
+        <text x="35" y="176" class="code" xml:space="preserve">                            <tspan class="s">"start"</tspan>: ..., <tspan class="s">"end"</tspan>: ...,</text>
+        <text x="15" y="198" class="code sign">+</text>
+        <text x="35" y="198" class="code" xml:space="preserve">                            <tspan class="s">"captures"</tspan>: build_captures_output(...),</text>
+        <text x="15" y="220" class="code sign">+</text>
+        <text x="35" y="220" class="code" xml:space="preserve">                        })</text>
+        
+        <!-- Node Match -->
+        <text x="15" y="242" class="code sign">+</text>
+        <text x="35" y="242" class="code" xml:space="preserve">            <tspan class="k">else</tspan>:</text>
+        <text x="15" y="264" class="code sign">+</text>
+        <text x="35" y="264" class="code" xml:space="preserve">                <tspan class="c"># ... ~18 lines omitted ...</tspan></text>
+        <text x="15" y="286" class="code sign">+</text>
+        <text x="35" y="286" class="code" xml:space="preserve">                    matches.<tspan class="f">append</tspan>({</text>
+        <text x="15" y="308" class="code sign">+</text>
+        <text x="35" y="308" class="code" xml:space="preserve">                        <tspan class="s">"rule_id"</tspan>: rule_id, <tspan class="s">"match"</tspan>: match_text,</text>
+        <text x="15" y="330" class="code sign">+</text>
+        <text x="35" y="330" class="code" xml:space="preserve">                        <tspan class="s">"start"</tspan>: ..., <tspan class="s">"end"</tspan>: ...,</text>
+        <text x="15" y="352" class="code sign">+</text>
+        <text x="35" y="352" class="code" xml:space="preserve">                        <tspan class="s">"captures"</tspan>: build_captures_output(...),</text>
+        <text x="15" y="374" class="code sign">+</text>
+        <text x="35" y="374" class="code" xml:space="preserve">                    })</text>
+        <text x="15" y="396" class="code sign">+</text>
+        <text x="35" y="396" class="code" xml:space="preserve"> </text>
+    </g>
+
+    <!-- Return statement -->
+    <text x="35" y="870" class="code" xml:space="preserve">    <tspan class="c"># ... ~9 lines omitted ...</tspan></text>
+    <text x="35" y="892" class="code" xml:space="preserve">    <tspan class="k">return</tspan> matches</text>
+  </g>
+</svg>
