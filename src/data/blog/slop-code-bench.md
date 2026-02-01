@@ -1,5 +1,15 @@
 ---
 author: Gabe Orlanski
+authors:
+  - Gabriel Orlanski
+  - Devjeet Roy
+  - Alexander Yun
+  - Changho Shin
+  - Alex Gu
+  - Albert Ge
+  - Dyah Adila
+  - Aws Albarghouthi
+  - Fredric Sala
 pubDatetime: 2025-12-17T15:22:00Z
 modDatetime: 2025-12-17T06:25:46.734Z
 title: "SlopCodeBench: Measuring Code Erosion Under Iterative Specification Refinement"
@@ -11,8 +21,9 @@ tags:
   - technical
 description: "SlopCodeBench evaluates AI coding agents under iterative specification updates. Unlike single-shot benchmarks, SCBench reveals verbosity and structural erosion that make agent-written code unmaintainable over time."
 codeLink: https://github.com/SprocketLab/slop-code-bench
-paperType: Blog
-isPaper: false
+pdfLink: /papers/slopcodebench.pdf
+paperType: Technical Report
+isPaper: true
 ---
 ![SlopCodeBench overview showing iterative checkpoint evaluation where agents extend their own solutions through sequential specification updates](../../assets/figs/scbench/overview.png)
 When building real software, it is impossible to know the whole problem space or specification up front. Requirements evolve as the problem is better understood, and code must be updated repeatedly to reflect those changes. Early design decisions often determine the difficulty of these updates.

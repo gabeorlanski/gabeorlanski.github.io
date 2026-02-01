@@ -25,6 +25,7 @@ const blog = defineCollection({
       timezone: z.string().optional(),
       codeLink: z.string().optional(),
       arxivLink: z.string().optional(),
+      pdfLink: z.string().optional(),
       paperType: z.string().optional(),
     }),
 });

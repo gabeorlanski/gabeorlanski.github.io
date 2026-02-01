@@ -37,6 +37,7 @@ const {
   hideEditPost,
   codeLink,
   arxivLink,
+  pdfLink,
   isPaper,
   paperType,
   authors,
@@ -73,6 +74,9 @@ const layoutProps = {
   canonicalURL,
   ogImage,
   scrollSmooth: true,
+  isPaper,
+  authors,
+  pdfLink,
 };
 
 /* ========== Prev/Next Posts ========== */
@@ -112,6 +116,7 @@ const nextPost =
           {pubDatetime}
           {codeLink}
           {arxivLink}
+          {pdfLink}
           {isPaper}
           {paperType}
           {authors}

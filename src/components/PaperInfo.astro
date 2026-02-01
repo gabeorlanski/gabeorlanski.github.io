@@ -16,6 +16,7 @@ export interface Props {
   pubDatetime: string | Date;
   codeLink: string | undefined;
   arxivLink: string | undefined;
+  pdfLink?: string | undefined;
   isPaper: boolean;
   paperType: string | undefined;
   authors?: string[] | undefined;
@@ -25,6 +26,7 @@ const {
   pubDatetime,
   codeLink,
   arxivLink,
+  pdfLink,
   isPaper,
   paperType,
   authors,
@@ -110,6 +112,20 @@ const formattedAuthors = authors ? formatAuthors(authors) : null;
       Paper
       <span class="sr-only">View paper on arXiv</span>
     </a>
+    {pdfLink && (
+      <>
+        <span aria-hidden="true"> | </span>
+        <a
+          href={pdfLink}
+          class="inline-flex items-center text-accent hover:underline"
+          aria-label="Download PDF"
+        >
+          <IconArxiv class:list={iconClass} />
+          PDF
+          <span class="sr-only">Download PDF</span>
+        </a>
+      </>
+    )}
     <span aria-hidden="true"> | </span>
     <time datetime={datetime.toISOString()}>{date}</time>
     <span aria-hidden="true"> | </span>
