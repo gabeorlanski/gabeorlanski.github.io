@@ -43,44 +43,72 @@ export function remarkTocCustom() {
           type: "list",
           ordered: false,
           spread: false,
-          children: headings.map((h) => {
-            const listItem: ListItem = {
-              type: "listItem",
-              spread: false,
-              children: [
-                {
-                  type: "paragraph",
-                  children: [
-                    {
-                      type: "link",
-                      url: `#${h.slug}`,
-                      children: [{ type: "text", value: h.text }],
-                    } as Link,
-                  ],
-                },
-              ],
-            };
-            // Indent h3s by wrapping in nested list
-            if (h.depth === 3) {
-              return {
-                type: "listItem",
-                spread: false,
+          data: { hProperties: { className: ["toc-inline"] } },
+          children: (() => {
+            const items: ListItem[] = [];
+            for (const h of headings) {
+              const linkParagraph: Paragraph = {
+                type: "paragraph",
                 children: [
                   {
-                    type: "list",
-                    ordered: false,
-                    spread: false,
-                    children: [listItem],
-                  } as List,
+                    type: "link",
+                    url: `#${h.slug}`,
+                    children: [{ type: "text", value: h.text }],
+                  } as Link,
                 ],
-              } as ListItem;
+              };
+
+              if (h.depth === 2) {
+                items.push({
+                  type: "listItem",
+                  spread: false,
+                  children: [linkParagraph],
+                });
+              } else {
+                // H3: nest under the preceding H2's listItem
+                const parent = items[items.length - 1];
+                if (parent) {
+                  const lastChild = parent.children[parent.children.length - 1];
+                  if (lastChild?.type === "list") {
+                    // Append to existing nested list
+                    (lastChild as List).children.push({
+                      type: "listItem",
+                      spread: false,
+                      children: [linkParagraph],
+                    });
+                  } else {
+                    // Create nested list under the H2
+                    parent.children.push({
+                      type: "list",
+                      ordered: false,
+                      spread: false,
+                      children: [
+                        {
+                          type: "listItem",
+                          spread: false,
+                          children: [linkParagraph],
+                        },
+                      ],
+                    } as List);
+                  }
+                } else {
+                  // H3 before any H2: treat as top-level item
+                  items.push({
+                    type: "listItem",
+                    spread: false,
+                    children: [linkParagraph],
+                  });
+                }
+              }
             }
-            return listItem;
-          }),
+            return items;
+          })(),
         };
 
-        // Replace [TOC] with the list
-        parent.children.splice(index, 1, tocList);
+        // Wrap in a collapsible <details> element
+        const detailsOpen = { type: "html", value: '<details class="toc-details"><summary>Table of Contents</summary>' } as const;
+        const detailsClose = { type: "html", value: '</details>' } as const;
+        parent.children.splice(index, 1, detailsOpen as any, tocList, detailsClose as any);
       }
     });
   };

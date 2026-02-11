@@ -14,7 +14,7 @@ pubDatetime: 2025-12-17T15:22:00Z
 modDatetime: 2025-12-17T06:25:46.734Z
 title: "SlopCodeBench: Measuring Code Erosion Under Iterative Specification Refinement"
 slug: slop-code-bench
-featured: true
+featured: false
 draft: false
 tags:
   - benchmark
