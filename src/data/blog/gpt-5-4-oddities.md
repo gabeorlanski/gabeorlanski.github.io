@@ -24,6 +24,7 @@ isPaper: false
 ![All GPT models performance comparison](../../assets/figs/gpt54/model_comparison.svg)
 
 > **TL;DR:** GPT 5.4 is a marked improvement over 5.2 but should not be your daily driver over Codex 5.3 or Opus 4.6. Yet, there are signs of clear qualitative improvements as bloat, erosion, and duplication are down. But GPT 5.4 has traded this cleaner code for worse performance at a higher cost.
+
 [TOC]
 
 In our [last post](/posts/opus-4-6-gpt-5-3-scbench/), Opus 4.6 and GPT-5.3 Codex were better than their predecessors but still produced god functions, duplication, and structural rot. OpenAI just shipped GPT-5.4. Every quality metric improves. It also fails more tests.
