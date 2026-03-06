@@ -27,7 +27,7 @@ isPaper: false
 
 [TOC]
 
-In our [last post](/posts/opus-4-6-gpt-5-3-scbench/), Opus 4.6 and GPT-5.3 Codex were better than their predecessors but still produced god functions, duplication, and structural rot. OpenAI just shipped GPT-5.4. Every quality metric improves. It also fails more tests.
+We [previously discussed](/posts/opus-4-6-gpt-5-3-scbench/) how Opus 4.6 and GPT-5.3 Codex were better than their predecessors but still produced god functions, duplication, and structural rot. OpenAI just shipped GPT-5.4. Every quality metric improves. It also fails more tests.
 
 | Model | Pass % | Core % | LOC | +/- Lines | CC Mean | Erosion | High-CC % | Clones/1K |
 |-------|--------|--------|-----|-----------|---------|---------|-----------|-----------|
@@ -46,13 +46,16 @@ In our [last post](/posts/opus-4-6-gpt-5-3-scbench/), Opus 4.6 and GPT-5.3 Codex
 
 </details>
 
-5.4 is a clear upgrade to 5.2 but still lags behind both Opus 4.6 and 5.3 Codex on correctness. It wins every quality column — CC mean drops 34%, erosion drops, Clones/1K drops 26% — but pass rate drops 3 points and core drops 5.
+5.4 is a clear upgrade to 5.2 but still lags behind both Opus 4.6 and 5.3 Codex on correctness. It wins every quality column -- CC mean drops 34%, erosion drops, Clones/1K drops 26% -- but pass rate drops 3 points and core drops 5.
 
 The question is whether that tradeoff is a training artifact or something fundamental.
 
 ## Signs of Improvement
 
 ![Overall performance comparison showing cost, time, net lines, and complexity mass per checkpoint](../../assets/figs/gpt54/overall_performance.svg)
+
+
+5.4 takes less time per checkpoint than GPT 5.2 while writing more lines of code. 27% fewer input tokens. 30% faster. Cost is flat -- more expensive per token, but uses fewer of them. It has a clearer plan and executes it in fewer iterations, but when the plan gets a boundary wrong, everything downstream inherits the mistake.
 
 | Per Checkpoint | GPT-5.3 | GPT-5.4 | Delta |
 |----------------|---------|---------|-------|
@@ -62,11 +65,14 @@ The question is whether that tradeoff is a training artifact or something fundam
 | Input tokens | 1.46M | 1.07M | -27% |
 | Output tokens | 25.3K | 23.5K | -7% |
 
-5.4 takes less time per checkpoint than GPT-5.2 while writing more lines of code. It reads 27% fewer input tokens and finishes 30% faster. The cost is essentially flat because the model is more expensive per token, but it uses fewer of them. This is consistent with the structural story — it has a clearer plan and executes it in fewer iterations.
+First-checkpoint performance is within 1pp of 5.3 Codex (78.5% vs 79.7% pass, 82.5% vs 84.6% core). But early decisions compound -- errors in the first checkpoint cascade through later ones. The lag behind 5.3 Codex is almost certainly training regimes. When OpenAI releases Codex 5.4, it should eclipse its predecessors.
 
-On the first checkpoint, performance is within 1pp of 5.3 Codex (78.5% vs 79.7% pass, 82.5% vs 84.6% core). But its early decisions compound — errors in the first checkpoint cascade through later ones. Hence the regression in multi-checkpoint evolution. The lag behind 5.3 Codex is almost certainly due to training regimes. When OpenAI releases Codex 5.4, it should eclipse its predecessors.
+But the improvements aren't just efficiency. Quality has improved greatly too:
 
-The improvements are not just in efficiency. The quality signals point to real gains. We return to our favorite example problem, `code_search`. There is now tangible progress in code organization.
+![Quality metrics comparison showing where GPT-5.4 shines on mass and clone metrics](../../assets/figs/gpt54/quality_improvements.svg)
+
+
+We return to my favorite example problem, `code_search`. There's now tangible progress in better code organization.
 
 Take the humble rule loading function. Codex 5.3 packs 108 lines into a single `load_rules()`:
 
@@ -91,7 +97,7 @@ def load_rules(rules_path: Path) -> List[Dict[str, object]]:
     return validated_rules
 ```
 
-Antiquated type annotations. Four levels of nesting. Dict construction repeated everywhere. GPT-5.4 decomposes it:
+That makes me recoil. Antiquated type annotations. Four levels of nesting. Dict construction repeated everywhere. GPT-5.4 decomposes it:
 
 ```python
 def load_rules(rules_path: Path) -> list[Rule]:
@@ -112,15 +118,15 @@ def validate_fix(value: object, prefix: str) -> FixSpec | None:
     # ... 10 lines of fix-specific validation ...
 ```
 
-It is certainly more maintainable and 100% cleaner to read. The decomposition also enabled a new check — 5.4 validates fix template placeholders against the rule's metavariables. Neither 5.2 nor 5.3 does this.
+Maybe the naming could be better. But it's more maintainable and much cleaner to read. The decomposition also enabled a new check -- 5.4 validates fix template placeholders against the rule's metavariables. Neither 5.2 nor 5.3 does this.
 
-The same pattern shows up on `execution_server`. GPT-5.3's `_handle_execute` is 164 lines — validation, caching, execution, stats, response building, all inline with raw globals and manual locks. GPT-5.4 compresses the same behavior into 49 lines with named helpers (`ExecutionCache`, `EnvironmentExecution`, `STATS`, `validate_execute_request`). This is what erosion dropping from 0.70 to 0.51 looks like on a single problem.
+Same pattern on `execution_server`. GPT-5.3's `_handle_execute` is 164 lines with validation, caching, execution, stats, response building, all inline with raw globals and manual locks. GPT-5.4 compresses the same behavior into 49 lines with named helpers (`ExecutionCache`, `EnvironmentExecution`, `STATS`, `validate_execute_request`). That's what erosion dropping from 0.70 to 0.51 looks like on a single problem.
 
 ## GPT-5.4's Odd Behaviors
 
-![Quality metrics comparison showing where GPT-5.4 shines on mass and clone metrics](../../assets/figs/gpt54/quality_improvements.svg)
+![Heatmap showing GPT models vs GPT-5.4 on mass and delta-mass metrics](../../assets/figs/gpt54/oddities_heatmap.svg)
 
-GPT-5.4 likes to write more code, but it does not fall into the god function trap of other models. The reduction in clone lines is really quite impactful. But there is a weirdness to how it spreads out its code.
+5.4 writes more code, but it doesn't fall into the god function trap. And the reduction in clone lines is really quite impactful. But there's a weirdness to how it spreads out its code. Classes are up 53%, symbols up 29%.
 
 | Metric | GPT-5.3 | GPT-5.4 | Delta |
 |--------|---------|---------|-------|
@@ -133,13 +139,14 @@ GPT-5.4 likes to write more code, but it does not fall into the god function tra
 | Methods | 34.5 | 55.9 | +62% |
 | Trivial wrappers | 3.0 | 7.0 | +133% |
 
-Top half: genuinely better. Smaller functions, shallower nesting, half the try/except scaffolding. Bottom half: the cost. 29% more symbols in *less* code, classes up 53%, trivial wrappers more than double. The pattern is consistent with explicit training against slop — 5.4 learned "small functions good" and over-applied it, producing wrappers that just call another function and classes where a module-level function would do.
+Top half: real improvements with Smaller functions, shallower nesting, half the try/except scaffolding. 
+
+Bottom half: higher costs, 29% more symbols in *less* code, classes up 53%, trivial wrappers more than double. Try-except mass down 46%, max depth down 11%. **OpenAI has clearly reacted to public slop complaints by training against it.** 5.4 learned "small functions good" and over-applied it -- wrappers that just call another function, classes where a module-level function would do.
 
 ### Type Annotation Inconsistency
 
-![Heatmap showing GPT models vs GPT-5.4 on mass and delta-mass metrics](../../assets/figs/gpt54/oddities_heatmap.svg)
 
-Unfortunately, the base model comes through, and there is a terrible inconsistency with type annotations. We checked every final snapshot across all 20 problems:
+The base model comes through, and there's a terrible inconsistency with type annotations. The worst part: there is NO consistency. We checked every final snapshot across all 20 problems:
 
 | Model | Pure Modern | Pure Legacy | Mixed | No Types |
 |-------|------------|-------------|-------|----------|
@@ -148,33 +155,18 @@ Unfortunately, the base model comes through, and there is a terrible inconsisten
 | GPT-5.3 Codex | 3 | **14** | 2 | 1 |
 | GPT-5.4 | **11** | 2 | **7** | 0 |
 
-GPT-5.2 was the most confused — 10/20 problems mix `List[str]` and `list[str]` in the same file. GPT-5.3 "fixed" this by going almost entirely legacy: 14/20 pure `typing.List`/`Dict`/`Optional`. Consistent, just consistently old.
+5.2 was the most confused -- 10/20 problems mix `List[str]` and `list[str]` in the same file. 5.3 "fixed" this by going almost entirely legacy: 14/20 pure `typing.List`/`Dict`/`Optional`. Consistent, just consistently old.
 
-GPT-5.4 swings the other way — 11/20 pure modern (`list[str]`, `| None`). Clear preference for the right style. But 7 problems still mix both in the same file. `dynamic_config_service_api` has 417 legacy annotations and 6 modern ones. `database_migration` is 21% modern — it shifted mid-stream but never went back. Once 5.4 picks a style for checkpoint 1, the legacy annotations persist through all later checkpoints even as new code uses modern syntax. It will never attempt to update old legacy annotations.
-
-5.3 is more consistent simply because it consistently picks the wrong style. 5.4 picked up the right habit but applies it inconsistently.
+5.4 swings the other way -- 11/20 pure modern (`list[str]`, `| None`). Clear preference for the right style. But 7 problems still mix both in the same file. `dynamic_config_service_api` has 417 legacy annotations and 6 modern ones. `database_migration` is 21% modern -- it shifted mid-stream but never went back. Once 5.4 picks a style for checkpoint 1, the legacy annotations persist through all later checkpoints even as new code uses modern syntax. It will never attempt to update old legacy annotations. **Compared to 5.2, this is an improvement. But the inconsistency is still maddening. 5.3 is more consistent simply because it consistently picks the wrong style.** So...an improvement?
 
 ### Capabilities Dropped Across Generations
 
-Returning to `code_search`, we see the downside to OpenAI's iterations. 5.2 had multi-pattern support (sliding-window matching for patterns that parse to multiple AST nodes) and separator-skipping for optional metavars. 5.4 replaced inline wrapping logic with a clean `PATTERN_PARSE_STRATEGIES` dispatch table — but dropped both features. They happen to be untested, so pass rates are identical. The code is less capable.
+Returning to `code_search`, we see the downside to OpenAI's iterations. 5.2 had multi-pattern support (sliding-window matching for patterns that parse to multiple AST nodes) and separator-skipping for optional metavars. 5.4 replaced inline wrapping logic with a clean `PATTERN_PARSE_STRATEGIES` dispatch table -- but dropped both features. **Each generation cleans up the *structure* while quietly dropping *capabilities*.**
 
-Each generation cleans up the *structure* while quietly dropping *capabilities* that happened to be untested.
-
-## The GPT Model Arc
-
-**5.1** — scrappiest. Shortest solutions, lowest scores.
-
-**5.2** — most defensive. Try/except everywhere, highest erosion (0.76). Over-engineered but thorough. Most confused on type style (10/20 mixed).
-
-**5.3** — stripped everything down. Dicts instead of dataclasses. Best scores (66% pass, 69% core). Most fragile. Consistently legacy types (14/20).
-
-**5.4** — cleanest architecture. But lost edge cases. Passes fewer tests. Best type defaults (11/20 modern) but doesn't self-correct.
-
-**5.3's messy code solves more problems than 5.4's clean code.** Structure isn't the bottleneck. Boundary inference is.
 
 ## Conclusion
 
-5.4 writes code you'd want to maintain, but you also need to be more vigilant in checking for incorrect code. SlopCodeBench demonstrates that code correctness and quality are not on the same axis. The models are getting better at writing code that looks right. They're not getting better at making code that is right.
+5.4 writes code you'd want to maintain, but you need to be more vigilant checking for incorrect code. SlopCodeBench shows that code correctness and quality are not on the same axis. The models are getting better at writing code that looks right. They're not getting better at making code that is right.
 
 We want to keep pushing these models and investigating what the future of code agents will be. The [GitHub repo](https://github.com/SprocketLab/slop-code-bench) is open. Join us on [Discord](https://discord.gg/BrC4BA9sVj).
 
