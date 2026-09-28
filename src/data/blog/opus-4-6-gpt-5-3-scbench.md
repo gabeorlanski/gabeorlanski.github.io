@@ -22,36 +22,34 @@ isPaper: false
 </div>
 
 ![All models performance comparison showing isolation solve rate, core solve rate, cost, and time per checkpoint](../../assets/figs/opus-4-6-gpt-5-3-scbench/scoreboard.svg)
+
 > **TL;DR:** Opus 4.6 hits 53.8% core on SCBench but only 21.5% in isolation. GPT-5.3 Codex shows the same pattern at 51.6% core, 23.7% iso. Most 'passing' solutions are coupled to prior checkpoint state. They fail in opposite directions. Opus copy-pastes and sprawls. Codex over-abstracts and deepens. Both still produce god functions and structural rot. Two case studies ([`circuit_eval`](https://www.scbench.ai/problems/circuit_eval) and [`execution_server`](https://www.scbench.ai/problems/execution_server)) show where it goes wrong, plus a guide for when to trust, when to intervene, and when to restart.
 
 [TOC]
 
-
-
 In our [last post](/posts/agent-copy-pasta/), we showed that coding agents are lazy patchers -- copy-paste duplication, god functions, missed abstractions. Because both Anthropic and OpenAI dropped new models last week, we now have results for Opus 4.6 and GPT-5.3 Codex for [SlopCodeBench](https://www.scbench.ai).
 
-| Model | Core % | Iso % | Cost/CKPT | Verbosity | Erosion |
-|-------|--------|-------|---------|-----------|---------|
-| Sonnet 4.5 | 35.5% | 12.9% | $1.54 | 0.909 | 0.485 |
-| Opus 4.5 | 44.6% | 17.4% | $2.64 | 0.932 | 0.490 |
-| **Opus 4.6** | **53.8%** | **21.5%** | $3.47 | 0.965 | **0.442** |
-| GPT-5.2 | 43.0% | 19.4% | $4.55 | 0.765 | 0.462 |
-| GPT-5.2 Codex | 36.6% | 14.0% | $3.21 | 0.723 | 0.398 |
-| **GPT-5.3 Codex** | **51.6%** | **23.7%** | $3.14 | 0.844 | **0.432** |
+| Model             | Core %    | Iso %     | Cost/CKPT | Verbosity | Erosion   |
+| ----------------- | --------- | --------- | --------- | --------- | --------- |
+| Sonnet 4.5        | 35.5%     | 12.9%     | $1.54     | 0.909     | 0.485     |
+| Opus 4.5          | 44.6%     | 17.4%     | $2.64     | 0.932     | 0.490     |
+| **Opus 4.6**      | **53.8%** | **21.5%** | $3.47     | 0.965     | **0.442** |
+| GPT-5.2           | 43.0%     | 19.4%     | $4.55     | 0.765     | 0.462     |
+| GPT-5.2 Codex     | 36.6%     | 14.0%     | $3.21     | 0.723     | 0.398     |
+| **GPT-5.3 Codex** | **51.6%** | **23.7%** | $3.14     | 0.844     | **0.432** |
 
 <details>
 <summary>Column definitions</summary>
 
-* **Core %** -- percentage of checkpoints where just the _core_ tests pass against the agent's cumulative solution.
-* **Iso %** -- percentage where the solution passes all _checkpoint_ tests independently, regardless of whether it failed the prior checkpoints.
-* **Cost/CKPT** -- average USD cost per checkpoint.
-* **Verbosity** -- Ratio of AST-Grep-flagged spans plus rubric flags to logical lines of code.
-* **Erosion** -- Percentage of functions with >10 Cyclomatic Complexity + lint errors per line of code. Functions with CC>30 counted twice.
+- **Core %** -- percentage of checkpoints where just the _core_ tests pass against the agent's cumulative solution.
+- **Iso %** -- percentage where the solution passes all _checkpoint_ tests independently, regardless of whether it failed the prior checkpoints.
+- **Cost/CKPT** -- average USD cost per checkpoint.
+- **Verbosity** -- Ratio of AST-Grep-flagged spans plus rubric flags to logical lines of code.
+- **Erosion** -- Percentage of functions with >10 Cyclomatic Complexity + lint errors per line of code. Functions with CC>30 counted twice.
 
 </details>
 
-
-Higher scores, yes, but most checkpoints still fail when run in isolation. The misses are boundary inference, not algorithms, and *when* they happen matters more than how many.
+Higher scores, yes, but most checkpoints still fail when run in isolation. The misses are boundary inference, not algorithms, and _when_ they happen matters more than how many.
 
 ## The new models Head to Head
 
@@ -61,9 +59,7 @@ GPT-5.3 Codex is 54% faster per checkpoint than GPT-5.2 Codex (16.2 → 7.5 min 
 
 ![Head-to-head code quality: concentration and duplication metrics for Opus 4.5/4.6 and GPT-5.2/5.3 Codex](../../assets/figs/opus-4-6-gpt-5-3-scbench/h2h_quality.svg)
 
-
 Complexity concentration differs by 0.013 at the final checkpoints. But for copy-paste hackiness, Opus 4.6 is much worse: 174 clone lines per 1K versus 116 for GPT-5.3 Codex.
-
 
 ### The Differences Emerge At the Boundaries
 
@@ -78,16 +74,16 @@ Our first study is on our longest problem, [circuit_eval](https://www.scbench.ai
 <details>
 <summary>Checkpoint progression</summary>
 
-| CKPT | Adds (high level) |
-|---:|---|
-| 1 | CLI + `check` for scalar `.circ` parsing/validation |
-| 2 | Scalar 2-valued `eval` |
-| 3 | Vectors, slicing/concat, richer literals, and `--radix` |
-| 4 | `--mode 3val` evaluation (X in runtime inputs; binary-only radix) |
-| 5 | `--format`: add `.json` and `.bench` inputs |
-| 6 | Analysis tools: `stats`, `lint`, and `dot` |
-| 7 | `cone`, `truth-table`, and `equiv` (plus `--seed`) |
-| 8 | Optimizer `opt` (passes, determinism, `--verify`, `--fanin-limit`) |
+| CKPT | Adds (high level)                                                  |
+| ---: | ------------------------------------------------------------------ |
+|    1 | CLI + `check` for scalar `.circ` parsing/validation                |
+|    2 | Scalar 2-valued `eval`                                             |
+|    3 | Vectors, slicing/concat, richer literals, and `--radix`            |
+|    4 | `--mode 3val` evaluation (X in runtime inputs; binary-only radix)  |
+|    5 | `--format`: add `.json` and `.bench` inputs                        |
+|    6 | Analysis tools: `stats`, `lint`, and `dot`                         |
+|    7 | `cone`, `truth-table`, and `equiv` (plus `--seed`)                 |
+|    8 | Optimizer `opt` (passes, determinism, `--verify`, `--fanin-limit`) |
 
 </details>
 
@@ -96,6 +92,7 @@ Progression: both models are perfect through CKPT3 (203/203). The first split is
 The split starts at CKPT4 (3val mode). The first failure itself is small (an input-parsing edge case), but the more revealing artifact is how both implementations grow across checkpoints. Each new part adds a subcommand or a handful of flags, and both agents respond by attaching another branch to their CLI dispatcher.
 
 Opus 4.6 (checkpoint 8): `opt` flag parsing lives inside `main()` and mixes parsing, defaults, and JSON error routing in one block.
+
 ```python
 elif command == 'opt':
     filepath = args[1]
@@ -120,6 +117,7 @@ elif command == 'opt':
 ```
 
 GPT-5.3 Codex (checkpoint 8): parsing is centralized in `parse_action()`, which returns a structured Action that `main()` then executes.
+
 ```python
 if command == "opt":
     out_path: Optional[str] = None
@@ -146,14 +144,14 @@ We now examine [execution_server](https://www.scbench.ai/problems/execution_serv
 <details>
 <summary>Checkpoint progression</summary>
 
-| CKPT | Adds (high level) |
-|---:|---|
-| 1 | `POST /v1/execute` + `GET /v1/stats/execution` (timeouts, stdin, env, file overlay) |
-| 2 | `track`: glob output files and return contents |
-| 3 | Structured `files` values + serialize by extension (json/yaml/csv/jsonl + compression) |
-| 4 | Command chains + `continue_on_error` + per-command stats |
-| 5 | In-memory cache (`force` bypass) + cache stats |
-| 6 | Persistent environments: `POST /v1/environment`, concurrency modes, required `environment` in execute |
+| CKPT | Adds (high level)                                                                                     |
+| ---: | ----------------------------------------------------------------------------------------------------- |
+|    1 | `POST /v1/execute` + `GET /v1/stats/execution` (timeouts, stdin, env, file overlay)                   |
+|    2 | `track`: glob output files and return contents                                                        |
+|    3 | Structured `files` values + serialize by extension (json/yaml/csv/jsonl + compression)                |
+|    4 | Command chains + `continue_on_error` + per-command stats                                              |
+|    5 | In-memory cache (`force` bypass) + cache stats                                                        |
+|    6 | Persistent environments: `POST /v1/environment`, concurrency modes, required `environment` in execute |
 
 </details>
 
@@ -162,6 +160,7 @@ Progression: CKPT1-2 are tied (43/45, then 56/58 for both). CKPT3 is where the g
 This problem is almost entirely request/response normalization. Each checkpoint adds more shape to the request (`track`, structured `files`, command chains, caching, environments), so the question is where to put the normalization layer. In this head-to-head, the CKPT3 gap is one strict-type gate in that layer (`files` scalars): Codex serializes them for `.json` paths, while Opus rejects them.
 
 Opus 4.6 (checkpoint 6): validation and normalization happens inline in `handle_execute()`, branching early on "single command vs chain".
+
 ```python
 command = body.get("command")
 if command is None:
@@ -184,6 +183,7 @@ if is_chain:
 ```
 
 GPT-5.3 Codex (checkpoint 6): `_validate_execute_payload()` normalizes inputs into one internal shape (`commands` list + defaults), so later checkpoints can mostly "append one more field".
+
 ```python
 command_input = payload["command"]
 command_mode = "single"
@@ -210,8 +210,7 @@ else:
 
 Once you pick one of these shapes at CKPT3-4, later parts (cache, environments, concurrency modes) are mostly additive. But **one wrong type gate early on** (like what counts as a valid `files` payload) is enough to open a gap that never closes.
 
-
-## How does this compare to their predecessors? 
+## How does this compare to their predecessors?
 
 Both are better than their predecessors:
 
@@ -227,7 +226,7 @@ SCBench shows why these models feel "off" despite the higher scores.
 
 Opus 4.6 is incrementally better: 3 fewer clone lines per 1K LOC at the final checkpoint (174 vs 177). CC concentration is essentially flat (0.554 → 0.553), and both remain miles ahead of Sonnet 4.5.
 
-God functions still grow unbounded. Opus 4.6's `main()` is 1,122 lines at checkpoint 8 (lines 3923-5044). The `opt` subcommand parser alone is 302 lines of hand-rolled argument parsing *inside main()*. A lookup table would eliminate hundreds of lines. Horizontal sprawl continues with copy-paste duplication, larger files, and shallower call trees. Opus 4.6 writes four copies of Kahn's topo sort on `circuit_eval`: two in the evaluators (`eval_circuit` and `eval_circuit_3val`, differing by one line), one in `compute_depth`, and one in a generic `_topo_sort_assignments` helper. The helper is the right abstraction (it gets called 9 times in the optimizer passes) but **the agent never went back to wire it into the three earlier copies**. Each new feature wires into the monolith instead of factoring through shared code.
+God functions still grow unbounded. Opus 4.6's `main()` is 1,122 lines at checkpoint 8 (lines 3923-5044). The `opt` subcommand parser alone is 302 lines of hand-rolled argument parsing _inside main()_. A lookup table would eliminate hundreds of lines. Horizontal sprawl continues with copy-paste duplication, larger files, and shallower call trees. Opus 4.6 writes four copies of Kahn's topo sort on `circuit_eval`: two in the evaluators (`eval_circuit` and `eval_circuit_3val`, differing by one line), one in `compute_depth`, and one in a generic `_topo_sort_assignments` helper. The helper is the right abstraction (it gets called 9 times in the optimizer passes) but **the agent never went back to wire it into the three earlier copies**. Each new feature wires into the monolith instead of factoring through shared code.
 
 ### Codex
 
@@ -235,8 +234,7 @@ God functions still grow unbounded. Opus 4.6's `main()` is 1,122 lines at checkp
 
 Unlike Anthropic's offerings, GPT models have made gains in CC concentration, with a raw decrease of 0.018 at the final checkpoint from GPT-5.2 Codex to 5.3 Codex (0.557 → 0.540). This pattern repeats across the other metrics we track. OpenAI is doing something right here.
 
-
-GPT models build vertically with deeper functions and more abstraction layers, but those abstractions don't hold up. GPT-5.3 writes six near-identical validation functions (`parse_cone_out_format_value`, `parse_truth_table_out_format_value`, ...) where one function with two parameters would do. Its `pass_constfold` and `pass_algebra` are identical 244-line optimization passes differing in a single boolean. `parse_action` is 954 lines. It doesn't copy code *between* functions as much as Claude does, but it packs everything *into* fewer, deeper functions.
+GPT models build vertically with deeper functions and more abstraction layers, but those abstractions don't hold up. GPT-5.3 writes six near-identical validation functions (`parse_cone_out_format_value`, `parse_truth_table_out_format_value`, ...) where one function with two parameters would do. Its `pass_constfold` and `pass_algebra` are identical 244-line optimization passes differing in a single boolean. `parse_action` is 954 lines. It doesn't copy code _between_ functions as much as Claude does, but it packs everything _into_ fewer, deeper functions.
 
 GPT-5.3 sometimes builds the right abstraction and then breaks it. At [`code_search`](https://www.scbench.ai/problems/code_search) checkpoint 1, it creates a unified `Iterable` interface for both exact and regex matchers through `Iterable[Tuple[int, int, str]]`. This means that the match dict is only constructed once. But then at checkpoint 3, instead of extending the interface for pattern matching, it sets `iterable = None` and builds a completely separate code path. The abstraction was correct _and_ existed, but **the agent broke it anyway because extending an interface is harder than duplicating the consumer**.
 
@@ -253,14 +251,14 @@ But they coexist with a 954-line god function, clone ratios climbing checkpoint-
 
 Without active supervision, these agents compound mistakes quickly enough that you can end up better off rebuilding from scratch. But the failure modes are predictable, and the data points to a practical framework for when to trust and when to intervene.
 
-| Task Type | Trust Level | Stronger Model | What to Review |
-|-----------|------------|----------------|----------------|
-| Boundary logic (parsing, validation, error codes) | Medium | GPT-5.3 Codex | Type gates, status codes, edge-case assumptions |
-| Scheduling / temporal | Low | Opus 4.6 | Multi-trigger semantics, timestamp precision, window boundaries |
-| Pattern matching / search | Medium | Opus 4.6 | Coordinate systems (inclusive vs exclusive), AST vs text matching |
-| Optimization / transforms | Medium | Tied | Alias resolution, pass ordering, postcondition enforcement |
-| Dependency management | Low-Medium | GPT-5.3 Codex | Version pinning, API compatibility across versions |
-| Structural refactoring | Low | Neither | Abstraction breakage, sentinel introduction, lost invariants |
+| Task Type                                         | Trust Level | Stronger Model | What to Review                                                    |
+| ------------------------------------------------- | ----------- | -------------- | ----------------------------------------------------------------- |
+| Boundary logic (parsing, validation, error codes) | Medium      | GPT-5.3 Codex  | Type gates, status codes, edge-case assumptions                   |
+| Scheduling / temporal                             | Low         | Opus 4.6       | Multi-trigger semantics, timestamp precision, window boundaries   |
+| Pattern matching / search                         | Medium      | Opus 4.6       | Coordinate systems (inclusive vs exclusive), AST vs text matching |
+| Optimization / transforms                         | Medium      | Tied           | Alias resolution, pass ordering, postcondition enforcement        |
+| Dependency management                             | Low-Medium  | GPT-5.3 Codex  | Version pinning, API compatibility across versions                |
+| Structural refactoring                            | Low         | Neither        | Abstraction breakage, sentinel introduction, lost invariants      |
 
 <details>
 <summary>Evidence per row</summary>
@@ -290,7 +288,7 @@ These are observable in code review and git diffs. You don't need a benchmark to
 - **God function emergence (>200 lines).** Both models exceeded 900 lines by `circuit_eval` CKPT8. Detect with your linter's `max-function-length` rule, or count lines between `def` boundaries. If a single function is growing with every iteration, the agent has stopped decomposing.
 - **Copy-paste duplication (same block in 3+ places).** Opus 4.6 writes four copies of Kahn's topo sort on `circuit_eval` — two in the evaluators (differing by one `eval_expr` call), one in `compute_depth`, and one in a generic `_topo_sort_assignments` helper that gets called 9 times elsewhere but never wired back into the first three. Detect with `jscpd --min-lines 10 .`, or search for distinctive repeated lines: `rg -c 'while queue:' *.py`. If the same 15-line block appears three times, the agent is copying rather than abstracting.
 - **Sentinel values bypassing an interface.** GPT-5.3 sets `iterable = None` in `code_search` to skip its own unified iterable interface. In review, look for `Optional` additions or `is None` checks that didn't exist in the prior diff. They often signal a dead abstraction the agent is working around rather than extending.
-- **Churn without progress.** Compare `git diff --stat` between iterations. High add *and* remove counts with no new passing tests means the agent is rewriting rather than extending.
+- **Churn without progress.** Compare `git diff --stat` between iterations. High add _and_ remove counts with no new passing tests means the agent is rewriting rather than extending.
 
 ### When to Restart vs Repair
 

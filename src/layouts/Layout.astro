@@ -4,12 +4,10 @@ import { SITE } from "@/config";
 import "@/styles/global.css";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
-const googleSiteTagID = import.meta.env.PUBLIC_GOOGLE_TAG;
 
 export interface Props {
   title?: string;
   author?: string;
-  profile?: string;
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
@@ -24,7 +22,6 @@ export interface Props {
 const {
   title = SITE.title,
   author = SITE.author,
-  profile = SITE.profile,
   description = SITE.desc,
   ogImage = SITE.ogImage ? `/${SITE.ogImage}` : "/og.png",
   canonicalURL = new URL(Astro.url.pathname, Astro.url),
@@ -49,10 +46,16 @@ const personSchema = {
     "https://github.com/gabeorlanski",
     "https://twitter.com/GabeOrlworking",
     "https://www.linkedin.com/in/gabriel-orlanski",
-    "https://scholar.google.com/citations?user=cy9qrE4AAAAJ"
+    "https://scholar.google.com/citations?user=cy9qrE4AAAAJ",
   ],
   jobTitle: "ML Researcher",
-  knowsAbout: ["Machine Learning", "Reward Models", "Code Verification", "LLM Evaluation", "AI Agents"]
+  knowsAbout: [
+    "Machine Learning",
+    "Reward Models",
+    "Code Verification",
+    "LLM Evaluation",
+    "AI Agents",
+  ],
 };
 
 // WebSite schema for sitelinks search box
@@ -68,28 +71,30 @@ const websiteSchema = {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${SITE.website}/search?q={search_term_string}`
+      urlTemplate: `${SITE.website}/search?q={search_term_string}`,
     },
-    "query-input": "required name=search_term_string"
-  }
+    "query-input": "required name=search_term_string",
+  },
 };
 
 // BlogPosting schema for individual posts
-const blogPostingSchema = pubDatetime ? {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "@id": canonicalURL.toString(),
-  headline: title,
-  image: socialImageURL.toString(),
-  datePublished: pubDatetime.toISOString(),
-  ...(modDatetime && { dateModified: modDatetime.toISOString() }),
-  author: { "@id": `${SITE.website}/#person` },
-  publisher: { "@id": `${SITE.website}/#person` },
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": canonicalURL.toString()
-  }
-} : null;
+const blogPostingSchema = pubDatetime
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": canonicalURL.toString(),
+      headline: title,
+      image: socialImageURL.toString(),
+      datePublished: pubDatetime.toISOString(),
+      ...(modDatetime && { dateModified: modDatetime.toISOString() }),
+      author: { "@id": `${SITE.website}/#person` },
+      publisher: { "@id": `${SITE.website}/#person` },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalURL.toString(),
+      },
+    }
+  : null;
 
 // Combine all schemas
 const structuredData = pubDatetime
@@ -145,17 +150,34 @@ const structuredData = pubDatetime
     <meta property="twitter:image" content={socialImageURL} />
 
     <!-- Google Scholar Citation Meta Tags -->
-    {isPaper && authors && pdfLink && (
-      <>
-        <meta name="citation_title" content={title} />
-        {authors.map((author) => (
-          <meta name="citation_author" content={author} />
-        ))}
-        <meta name="citation_publication_date" content={pubDatetime ? new Date(pubDatetime).getFullYear().toString() : new Date().getFullYear().toString()} />
-        <meta name="citation_pdf_url" content={new URL(pdfLink, Astro.url).toString()} />
-        {description && <meta name="citation_abstract_html_url" content={canonicalURL.toString()} />}
-      </>
-    )}
+    {
+      isPaper && authors && pdfLink && (
+        <>
+          <meta name="citation_title" content={title} />
+          {authors.map(author => (
+            <meta name="citation_author" content={author} />
+          ))}
+          <meta
+            name="citation_publication_date"
+            content={
+              pubDatetime
+                ? new Date(pubDatetime).getFullYear().toString()
+                : new Date().getFullYear().toString()
+            }
+          />
+          <meta
+            name="citation_pdf_url"
+            content={new URL(pdfLink, Astro.url).toString()}
+          />
+          {description && (
+            <meta
+              name="citation_abstract_html_url"
+              content={canonicalURL.toString()}
+            />
+          )}
+        </>
+      )
+    }
 
     <!-- Google JSON-LD Structured data -->
     <script
@@ -193,6 +215,8 @@ const structuredData = pubDatetime
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
+        // gtag requires the Arguments object itself, not a rest array
+        // eslint-disable-next-line prefer-rest-params
         dataLayer.push(arguments);
       }
       gtag("js", new Date());

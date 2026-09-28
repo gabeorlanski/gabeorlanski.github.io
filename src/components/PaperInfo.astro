@@ -2,7 +2,6 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import IconCalendar from "@/assets/icons/IconCalendar.svg";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import IconArxiv from "@/assets/icons/IconArxiv.svg";
 import { SITE } from "@/config";
@@ -17,7 +16,6 @@ export interface Props {
   codeLink: string | undefined;
   arxivLink: string | undefined;
   pdfLink?: string | undefined;
-  isPaper: boolean;
   paperType: string | undefined;
   authors?: string[] | undefined;
 }
@@ -27,7 +25,6 @@ const {
   codeLink,
   arxivLink,
   pdfLink,
-  isPaper,
   paperType,
   authors,
   size = "sm",
@@ -38,12 +35,8 @@ const {
 const datetime = dayjs(pubDatetime).tz(SITE.timezone);
 
 const date = datetime.format("YYYY");
-const time = datetime.format("hh:mm A"); // e.g., '08:30 PM'
 
-const iconClass = [
-  "inline-block size-4",
-  { "scale-90": size === "sm" },
-];
+const iconClass = ["inline-block size-4", { "scale-90": size === "sm" }];
 
 const showYear = !paperType?.includes(date);
 
@@ -112,26 +105,30 @@ const formattedAuthors = authors ? formatAuthors(authors) : null;
       Paper
       <span class="sr-only">View paper on arXiv</span>
     </a>
-    {pdfLink && (
-      <>
-        <span aria-hidden="true">|</span>
-        <a
-          href={pdfLink}
-          class="inline-flex items-center gap-1 text-accent hover:underline"
-          aria-label="Download PDF"
-        >
-          <IconArxiv class:list={iconClass} />
-          PDF
-          <span class="sr-only">Download PDF</span>
-        </a>
-      </>
-    )}
-    {showYear && (
-      <>
-        <span aria-hidden="true">|</span>
-        <time datetime={datetime.toISOString()}>{date}</time>
-      </>
-    )}
+    {
+      pdfLink && (
+        <>
+          <span aria-hidden="true">|</span>
+          <a
+            href={pdfLink}
+            class="inline-flex items-center gap-1 text-accent hover:underline"
+            aria-label="Download PDF"
+          >
+            <IconArxiv class:list={iconClass} />
+            PDF
+            <span class="sr-only">Download PDF</span>
+          </a>
+        </>
+      )
+    }
+    {
+      showYear && (
+        <>
+          <span aria-hidden="true">|</span>
+          <time datetime={datetime.toISOString()}>{date}</time>
+        </>
+      )
+    }
     <span aria-hidden="true">|</span>
     <span>{paperType}</span>
   </div>

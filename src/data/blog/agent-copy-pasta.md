@@ -21,7 +21,7 @@ isPaper: false
   <a href="https://x.com/Gorlanski" class="btn btn-twitter">@Gorlanski</a>
 </div>
 
-> **TL;DR:** Leading coding agents become lazy patchers when faced with iterative changes. They fall into copy-paste habits instead of refactoring, leading to massive god functions that become unmaintainable. This is why they *feel* worse than their scores on leading benchmarks and why we need realistic benchmarks like [SlopCodeBench](https://www.scbench.ai).
+> **TL;DR:** Leading coding agents become lazy patchers when faced with iterative changes. They fall into copy-paste habits instead of refactoring, leading to massive god functions that become unmaintainable. This is why they _feel_ worse than their scores on leading benchmarks and why we need realistic benchmarks like [SlopCodeBench](https://www.scbench.ai).
 
 **Contents**
 
@@ -33,19 +33,19 @@ We use a very similar setup to our [announcement blog post](/posts/slop-code-ben
 
 This is the first part of our series discussing these results and the benchmark harness overhaul. We find that agents are exceptionally lazy in how they handle problem extensions. Rather than refactoring when appropriate, they fall into the common trap of copying and pasting code snippets. Thus, we are left with massive and unmaintainable "god" methods.
 
-
 ## Edits Concentrate into Hotspots
-![Line chart showing Gini coefficient growth across checkpoints for Opus 4.5, GLM-4.7, GPT-5.2-Codex, and GPT-5.1-Codex-Max demonstrating increasing code concentration in fewer functions](../../assets/figs/agent-copy-pasta/concentration_growth_trajectories.svg)
 
+![Line chart showing Gini coefficient growth across checkpoints for Opus 4.5, GLM-4.7, GPT-5.2-Codex, and GPT-5.1-Codex-Max demonstrating increasing code concentration in fewer functions](../../assets/figs/agent-copy-pasta/concentration_growth_trajectories.svg)
 
 <details>
 <summary>Function Gini, Branches, and Complexity</summary>
 
 **Function Gini coefficient:**  
-Measures how unevenly code is distributed among functions.  
+Measures how unevenly code is distributed among functions.
+
 - **0:** Code is spread out evenly across all functions.
 - **1:** All code resides in a single function.
-High values mean most code lives in a few "god" functions, making the codebase harder to maintain.
+  High values mean most code lives in a few "god" functions, making the codebase harder to maintain.
 
 **Branch count:**  
 The total number of decision points (e.g., `if`, `elif`, `else`, `case` statements) present in the code. More branches can indicate tangled logic or a lack of proper abstraction.
@@ -62,27 +62,26 @@ Together, these metrics illustrate how code structure degrades: functions swell,
 
 Across all setups, a clear pattern emerges: **agents make large patches in a select few functions.** The Gini coefficient climbs steadily as agents progress through checkpoints, highlighting the emergence of god functions that become nearly impossible to debug and maintain. These monstrosities also impose a significant cognitive burden during review. This would not be bad if these solutions were split into cohesive modules, but they are not. Each setup uses a single file spanning more than 2,000 lines across all problems.
 
-
-| Model | STMT Gini (Start → Final) | LOC Gini (Start → Final) |
-| :---- | :---- | :---- |
-| GLM-4.7 | 0.531 → 0.584 | 0.518 → 0.594 |
-| GPT-5.2-Codex | 0.524 → 0.572 | 0.537 → 0.602 |
-| GPT-5.1-Codex-Max | 0.525 → 0.559 | 0.494 → 0.567 |
-| Opus 4.5 | 0.513 → 0.585 | 0.532 → 0.602 |
+| Model             | STMT Gini (Start → Final) | LOC Gini (Start → Final) |
+| :---------------- | :------------------------ | :----------------------- |
+| GLM-4.7           | 0.531 → 0.584             | 0.518 → 0.594            |
+| GPT-5.2-Codex     | 0.524 → 0.572             | 0.537 → 0.602            |
+| GPT-5.1-Codex-Max | 0.525 → 0.559             | 0.494 → 0.567            |
+| Opus 4.5          | 0.513 → 0.585             | 0.532 → 0.602            |
 
 <details>
 <summary>Table legend</summary>
 
-* **STMT** = statements per function; 
-* **LOC** = lines of code per function. 
-* Higher Gini = more concentration in fewer functions.
+- **STMT** = statements per function;
+- **LOC** = lines of code per function.
+- Higher Gini = more concentration in fewer functions.
 </details>
 
-Both statements (number of top-level expressions as counted by tree-sitter) and LOC further support this finding. 
+Both statements (number of top-level expressions as counted by tree-sitter) and LOC further support this finding.
 
 ## Obvious Abstractions Turn Into Quick Hacks
 
-The *worst* offender is [code search](https://www.scbench.ai/problems/code_search). At checkpoint 3, the agent must add tree-sitter pattern matching to an existing rule dispatcher. Across all agents, the LOC concentration *increases 16%* despite the clear motivation to refactor. Here is how I would have written the dispatcher:
+The _worst_ offender is [code search](https://www.scbench.ai/problems/code_search). At checkpoint 3, the agent must add tree-sitter pattern matching to an existing rule dispatcher. Across all agents, the LOC concentration _increases 16%_ despite the clear motivation to refactor. Here is how I would have written the dispatcher:
 
 ```py
 def find_matches(text, rules, language):
@@ -156,8 +155,7 @@ def find_matches(text: str, rules: List[Dict], language: str, encoding: str) -> 
     return matches
 ```
 
-There are so many baffling decisions here. Why filter the rules list *after* iterating over it, only to iterate again? Why copy the match construction *twice more* when the structure already exists? It _reeks_ of hacky coding. Worst of all, this function comes out to over 140 lines. 
-
+There are so many baffling decisions here. Why filter the rules list _after_ iterating over it, only to iterate again? Why copy the match construction _twice more_ when the structure already exists? It _reeks_ of hacky coding. Worst of all, this function comes out to over 140 lines.
 
 ### GPT-5.1-Codex-Max Shows Some Progress
 
@@ -264,21 +262,22 @@ Why not pass `rule_id` to the class? A 300-line class with a single public metho
 The structure is correct. The integration was not thought through.
 
 ## Duplication Rises with Progress
+
 ![Chart showing code duplication ratio and churn rate across checkpoints for all tested AI coding agents](../../assets/figs/agent-copy-pasta/duplication.svg)
 
 <details>
 <summary>Figure metrics</summary>
 
-* **Clone ratio** = percentage of duplicated code blocks in the solution. 
-* **Churn** = percentage of lines changed between checkpoints relative to total codebase size.
+- **Clone ratio** = percentage of duplicated code blocks in the solution.
+- **Churn** = percentage of lines changed between checkpoints relative to total codebase size.
 
 </details>
 
-They *all* exhibit copy-pasting behavior *while* making significant changes to the codebase. GLM-4.7 is the worst offender—nearly 25% of its output is duplicated code, and it peaks at over 110% churn. GPT-5.1-Codex-Max is the best, with a ~9% clone ratio, but it still peaks at 80% churn. **As agents progress through problems, their sole goal is to pass the next test, with no concern for downstream maintainability.**
+They _all_ exhibit copy-pasting behavior _while_ making significant changes to the codebase. GLM-4.7 is the worst offender—nearly 25% of its output is duplicated code, and it peaks at over 110% churn. GPT-5.1-Codex-Max is the best, with a ~9% clone ratio, but it still peaks at 80% churn. **As agents progress through problems, their sole goal is to pass the next test, with no concern for downstream maintainability.**
 
 One of our newest problems, [`circuit_eval`](https://www.scbench.ai/problems/circuit_eval), spans 8 checkpoints. For Opus 4.5, this meant an 8x increase in lines of code for its single file, going from 627 to 5,204. Despite the churn, there are clear signs of hacky copy-pasting.
 
-The *entire* literal parsing function is duplicated. Same regex, same validation, same errors—one just allows `X` in binary. First, `parse_literal` (65 lines):
+The _entire_ literal parsing function is duplicated. Same regex, same validation, same errors—one just allows `X` in binary. First, `parse_literal` (65 lines):
 
 ```python
 def parse_literal(text: str, for_input: bool = False) -> tuple[int, int]:
@@ -370,7 +369,7 @@ Same structure. Same regex. Same error messages. One function with `allow_x=True
 
 Tracing through the checkpoints reveals exactly when this happened. **Checkpoint 3** introduced `parse_literal`. Then **Checkpoint 4** needed 3-valued logic support. So the machine spirit copy-pasted the entire function to `parse_3val_literal` with a minor tweak to allow `X`. From **checkpoints 4 through 8**, neither function changed. The agent added 4,500+ lines of new code across those checkpoints without these functions ever being consolidated.
 
-The agent also duplicated the *entire evaluator class*. `Evaluator` (150 lines) and `ThreeValuedEvaluator` (193 lines):
+The agent also duplicated the _entire evaluator class_. `Evaluator` (150 lines) and `ThreeValuedEvaluator` (193 lines):
 
 ```python
 class Evaluator:
@@ -410,15 +409,15 @@ class ThreeValuedEvaluator:  # 150 lines later...
         return outputs
 ```
 
-The `__init__` and `evaluate` methods are *verbatim* copies. The only difference is `int` vs `tuple[int, int]`. A generic `Evaluator[T]` or even just passing a value-wrapper would unify 300+ lines into one class.
+The `__init__` and `evaluate` methods are _verbatim_ copies. The only difference is `int` vs `tuple[int, int]`. A generic `Evaluator[T]` or even just passing a value-wrapper would unify 300+ lines into one class.
 
 This is the lazy patcher pattern in action: **solve the immediate problem, move on, never look back.**
 
 ## Conclusion
-One may be tempted to ask, *Why does it matter if the code is correct?* The SOTA checkpoint pass rate on SCBench is only 10.8%, so maybe these agents just aren't good enough yet. But that misses the larger point: we *should* expect them to do better. It is precisely from this expectation that the gap between benchmark scores and real-world use emerges. [As Dax from OpenCode put it](https://x.com/thdxr/status/2009382864446435353), solutions from LLMs are always the 2nd or 3rd best way of doing something.
 
-This *can only* be evaluated through an iterative specification benchmark like SlopCodeBench. That is exactly why we created it. If you care about the real quality of coding agents, join the [Discord](https://discord.gg/BrC4BA9sVj) or [look at our repo](https://github.com/SprocketLab/slop-code-bench)! We are always looking for new contributors.
+One may be tempted to ask, _Why does it matter if the code is correct?_ The SOTA checkpoint pass rate on SCBench is only 10.8%, so maybe these agents just aren't good enough yet. But that misses the larger point: we _should_ expect them to do better. It is precisely from this expectation that the gap between benchmark scores and real-world use emerges. [As Dax from OpenCode put it](https://x.com/thdxr/status/2009382864446435353), solutions from LLMs are always the 2nd or 3rd best way of doing something.
 
+This _can only_ be evaluated through an iterative specification benchmark like SlopCodeBench. That is exactly why we created it. If you care about the real quality of coding agents, join the [Discord](https://discord.gg/BrC4BA9sVj) or [look at our repo](https://github.com/SprocketLab/slop-code-bench)! We are always looking for new contributors.
 
 ## Methodology
 

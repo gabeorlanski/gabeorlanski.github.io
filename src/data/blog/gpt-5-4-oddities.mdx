@@ -19,6 +19,7 @@ isPaper: false
 import ModelComparison from "@/components/figs/ModelComparison.tsx";
 import OverallPerformance from "@/components/figs/OverallPerformance.tsx";
 
+{/* prettier-ignore */}
 <div class="btn-group">
   <a href="https://www.scbench.ai" class="btn btn-primary">SCBench</a>
   <a href="https://x.com/Gorlanski" class="btn btn-twitter">@Gorlanski</a>
@@ -32,20 +33,20 @@ import OverallPerformance from "@/components/figs/OverallPerformance.tsx";
 
 We [previously discussed](/posts/opus-4-6-gpt-5-3-scbench/) how Opus 4.6 and GPT-5.3 Codex were better than their predecessors but still produced god functions, duplication, and structural rot. OpenAI just shipped GPT-5.4. Every quality metric improves. It also fails more tests.
 
-| Model | Pass % | Core % | LOC | +/- Lines | CC Mean | Erosion | High-CC % | Clones/1K |
-|-------|--------|--------|-----|-----------|---------|---------|-----------|-----------|
-| GPT-5.1 Codex | 59% | 45% | 1645 | +2311 / -338 | 7.1 | 0.69 | 73.7% | 90 |
-| GPT-5.2 | 63% | 51% | 3208 | +4318 / -171 | 8.1 | 0.72 | 82.8% | 143 |
-| GPT-5.2 Codex | 64% | 58% | 2314 | +2808 / -198 | 8.2 | 0.76 | 83.1% | 133 |
-| GPT-5.3 Codex | 66% | 69% | 3257 | +4040 / -253 | 7.8 | 0.72 | 76.3% | 116 |
-| **GPT-5.4** | **63%** | **64%** | 3110 | **+4103 / -454** | **5.1** | **0.68** | **63.1%** | **86** |
+| Model         | Pass %  | Core %  | LOC  | +/- Lines        | CC Mean | Erosion  | High-CC % | Clones/1K |
+| ------------- | ------- | ------- | ---- | ---------------- | ------- | -------- | --------- | --------- |
+| GPT-5.1 Codex | 59%     | 45%     | 1645 | +2311 / -338     | 7.1     | 0.69     | 73.7%     | 90        |
+| GPT-5.2       | 63%     | 51%     | 3208 | +4318 / -171     | 8.1     | 0.72     | 82.8%     | 143       |
+| GPT-5.2 Codex | 64%     | 58%     | 2314 | +2808 / -198     | 8.2     | 0.76     | 83.1%     | 133       |
+| GPT-5.3 Codex | 66%     | 69%     | 3257 | +4040 / -253     | 7.8     | 0.72     | 76.3%     | 116       |
+| **GPT-5.4**   | **63%** | **64%** | 3110 | **+4103 / -454** | **5.1** | **0.68** | **63.1%** | **86**    |
 
 <details>
 <summary>Column definitions</summary>
 
-* **Erosion** -- complexity mass concentration (0-1). Replaces the composite erosion metric from our [previous post](/posts/opus-4-6-gpt-5-3-scbench/). Higher means more god functions.
-* **High-CC %** -- percentage of total complexity mass in functions with CC > 10.
-* **Clones/1K** -- duplicate lines per 1,000 LOC.
+- **Erosion** -- complexity mass concentration (0-1). Replaces the composite erosion metric from our [previous post](/posts/opus-4-6-gpt-5-3-scbench/). Higher means more god functions.
+- **High-CC %** -- percentage of total complexity mass in functions with CC > 10.
+- **Clones/1K** -- duplicate lines per 1,000 LOC.
 
 </details>
 
@@ -57,23 +58,21 @@ The question is whether that tradeoff is a training artifact or something fundam
 
 <OverallPerformance client:visible />
 
-
 5.4 takes less time per checkpoint than GPT 5.2 while writing more lines of code. 27% fewer input tokens. 30% faster. Cost is flat -- more expensive per token, but uses fewer of them. It has a clearer plan and executes it in fewer iterations, but when the plan gets a boundary wrong, everything downstream inherits the mistake.
 
 | Per Checkpoint | GPT-5.3 | GPT-5.4 | Delta |
-|----------------|---------|---------|-------|
-| Steps | 81 | 45 | -44% |
-| Duration (min) | 46 | 32 | -30% |
-| Cost ($) | $3.14 | $3.27 | +4% |
-| Input tokens | 1.46M | 1.07M | -27% |
-| Output tokens | 25.3K | 23.5K | -7% |
+| -------------- | ------- | ------- | ----- |
+| Steps          | 81      | 45      | -44%  |
+| Duration (min) | 46      | 32      | -30%  |
+| Cost ($)       | $3.14   | $3.27   | +4%   |
+| Input tokens   | 1.46M   | 1.07M   | -27%  |
+| Output tokens  | 25.3K   | 23.5K   | -7%   |
 
 First-checkpoint performance is within 1pp of 5.3 Codex (78.5% vs 79.7% pass, 82.5% vs 84.6% core). But early decisions compound -- errors in the first checkpoint cascade through later ones. The lag behind 5.3 Codex is almost certainly training regimes. When OpenAI releases Codex 5.4, it should eclipse its predecessors.
 
 But the improvements aren't just efficiency. Quality has improved greatly too:
 
 ![Quality metrics comparison showing where GPT-5.4 shines on mass and clone metrics](../../assets/figs/gpt54/quality_improvements.svg)
-
 
 We return to my favorite example problem, `code_search`. There's now tangible progress in better code organization.
 
@@ -131,32 +130,31 @@ Same pattern on `execution_server`. GPT-5.3's `_handle_execute` is 164 lines wit
 
 5.4 writes more code, but it doesn't fall into the god function trap. And the reduction in clone lines is really quite impactful. But there's a weirdness to how it spreads out its code. Classes are up 53%, symbols up 29%.
 
-| Metric | GPT-5.3 | GPT-5.4 | Delta |
-|--------|---------|---------|-------|
-| Statements per function | 9.5 | 5.7 | -40% |
-| Lines per symbol | 27.4 | 19.7 | -28% |
-| Try-scaffold mass | 302 | 163 | -46% |
-| Max nesting depth | 5.5 | 4.9 | -11% |
-| Symbols total | 172 | 221 | +29% |
-| Classes | 15.8 | 24.1 | +53% |
-| Methods | 34.5 | 55.9 | +62% |
-| Trivial wrappers | 3.0 | 7.0 | +133% |
+| Metric                  | GPT-5.3 | GPT-5.4 | Delta |
+| ----------------------- | ------- | ------- | ----- |
+| Statements per function | 9.5     | 5.7     | -40%  |
+| Lines per symbol        | 27.4    | 19.7    | -28%  |
+| Try-scaffold mass       | 302     | 163     | -46%  |
+| Max nesting depth       | 5.5     | 4.9     | -11%  |
+| Symbols total           | 172     | 221     | +29%  |
+| Classes                 | 15.8    | 24.1    | +53%  |
+| Methods                 | 34.5    | 55.9    | +62%  |
+| Trivial wrappers        | 3.0     | 7.0     | +133% |
 
-Top half: real improvements with Smaller functions, shallower nesting, half the try/except scaffolding. 
+Top half: real improvements with Smaller functions, shallower nesting, half the try/except scaffolding.
 
-Bottom half: higher costs, 29% more symbols in *less* code, classes up 53%, trivial wrappers more than double. Try-except mass down 46%, max depth down 11%. **OpenAI has clearly reacted to public slop complaints by training against it.** 5.4 learned "small functions good" and over-applied it -- wrappers that just call another function, classes where a module-level function would do.
+Bottom half: higher costs, 29% more symbols in _less_ code, classes up 53%, trivial wrappers more than double. Try-except mass down 46%, max depth down 11%. **OpenAI has clearly reacted to public slop complaints by training against it.** 5.4 learned "small functions good" and over-applied it -- wrappers that just call another function, classes where a module-level function would do.
 
 ### Type Annotation Inconsistency
 
-
 The base model comes through, and there's a terrible inconsistency with type annotations. The worst part: there is NO consistency. We checked every final snapshot across all 20 problems:
 
-| Model | Pure Modern | Pure Legacy | Mixed | No Types |
-|-------|------------|-------------|-------|----------|
-| GPT-5.2 | 5 | 5 | **10** | 0 |
-| GPT-5.2 Codex | 3 | 8 | 4 | 5 |
-| GPT-5.3 Codex | 3 | **14** | 2 | 1 |
-| GPT-5.4 | **11** | 2 | **7** | 0 |
+| Model         | Pure Modern | Pure Legacy | Mixed  | No Types |
+| ------------- | ----------- | ----------- | ------ | -------- |
+| GPT-5.2       | 5           | 5           | **10** | 0        |
+| GPT-5.2 Codex | 3           | 8           | 4      | 5        |
+| GPT-5.3 Codex | 3           | **14**      | 2      | 1        |
+| GPT-5.4       | **11**      | 2           | **7**  | 0        |
 
 5.2 was the most confused -- 10/20 problems mix `List[str]` and `list[str]` in the same file. 5.3 "fixed" this by going almost entirely legacy: 14/20 pure `typing.List`/`Dict`/`Optional`. Consistent, just consistently old.
 
@@ -164,8 +162,7 @@ The base model comes through, and there's a terrible inconsistency with type ann
 
 ### Capabilities Dropped Across Generations
 
-Returning to `code_search`, we see the downside to OpenAI's iterations. 5.2 had multi-pattern support (sliding-window matching for patterns that parse to multiple AST nodes) and separator-skipping for optional metavars. 5.4 replaced inline wrapping logic with a clean `PATTERN_PARSE_STRATEGIES` dispatch table -- but dropped both features. **Each generation cleans up the *structure* while quietly dropping *capabilities*.**
-
+Returning to `code_search`, we see the downside to OpenAI's iterations. 5.2 had multi-pattern support (sliding-window matching for patterns that parse to multiple AST nodes) and separator-skipping for optional metavars. 5.4 replaced inline wrapping logic with a clean `PATTERN_PARSE_STRATEGIES` dispatch table -- but dropped both features. **Each generation cleans up the _structure_ while quietly dropping _capabilities_.**
 
 ## Conclusion
 

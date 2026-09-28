@@ -11,7 +11,18 @@ export interface Props extends CollectionEntry<"blog"> {
 
 const { variant = "h2", data, id, filePath } = Astro.props;
 
-const { title, description, pubDatetime, modDatetime, timezone, codeLink, arxivLink, isPaper, paperType, authors } = data;
+const {
+  title,
+  description,
+  pubDatetime,
+  modDatetime,
+  timezone,
+  codeLink,
+  arxivLink,
+  isPaper,
+  paperType,
+  authors,
+} = data;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
@@ -40,7 +51,7 @@ const linkHref = !filePath && arxivLink ? arxivLink : getPath(id, filePath);
   </a>
   {
     isPaper ? (
-      <PaperInfo {pubDatetime} {codeLink} {arxivLink} {isPaper} {paperType} {authors}/>
+      <PaperInfo {pubDatetime} {codeLink} {arxivLink} {paperType} {authors} />
     ) : (
       <div class="flex items-center gap-2">
         <Datetime {pubDatetime} {modDatetime} {timezone} />

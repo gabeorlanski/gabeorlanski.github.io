@@ -1,5 +1,14 @@
 import { visit } from "unist-util-visit";
-import type { Root, Paragraph, Text, Heading, List, ListItem, Link } from "mdast";
+import type {
+  Root,
+  Paragraph,
+  Text,
+  Heading,
+  List,
+  ListItem,
+  Link,
+  Html,
+} from "mdast";
 import GithubSlugger from "github-slugger";
 
 // Finds [TOC] in your markdown and replaces it with a TOC of all h2/h3 headings
@@ -13,7 +22,7 @@ export function remarkTocCustom() {
       if (node.depth >= 2 && node.depth <= 3) {
         const text = node.children
           .filter((child): child is Text => child.type === "text")
-          .map((child) => child.value)
+          .map(child => child.value)
           .join("");
         headings.push({
           depth: node.depth,
@@ -28,10 +37,7 @@ export function remarkTocCustom() {
       if (!parent || index === undefined) return;
 
       const firstChild = node.children[0];
-      if (
-        firstChild?.type === "text" &&
-        firstChild.value.trim() === "[TOC]"
-      ) {
+      if (firstChild?.type === "text" && firstChild.value.trim() === "[TOC]") {
         if (headings.length === 0) {
           // No headings, just remove the marker
           parent.children.splice(index, 1);
@@ -106,9 +112,13 @@ export function remarkTocCustom() {
         };
 
         // Wrap in a collapsible <details> element
-        const detailsOpen = { type: "html", value: '<details class="toc-details"><summary>Table of Contents</summary>' } as const;
-        const detailsClose = { type: "html", value: '</details>' } as const;
-        parent.children.splice(index, 1, detailsOpen as any, tocList, detailsClose as any);
+        const detailsOpen: Html = {
+          type: "html",
+          value:
+            '<details class="toc-details"><summary>Table of Contents</summary>',
+        };
+        const detailsClose: Html = { type: "html", value: "</details>" };
+        parent.children.splice(index, 1, detailsOpen, tocList, detailsClose);
       }
     });
   };

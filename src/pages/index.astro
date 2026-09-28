@@ -8,7 +8,6 @@ import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
 import Hr from "@/components/Hr.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
@@ -22,7 +21,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
 // Transform publications data to match CollectionEntry structure
-const publications = publicationsData.map((pub) => ({
+const publications = publicationsData.map(pub => ({
   id: pub.id,
   data: {
     title: pub.title,
@@ -41,47 +40,69 @@ const publications = publicationsData.map((pub) => ({
     tags: ["publications"],
     hideEditPost: false,
   },
-  filePath: undefined
+  filePath: undefined,
 })) as CollectionEntry<"blog">[];
 ---
 
 <Layout>
   <Header />
   <main id="main-content" data-layout="index">
-    <section id="hero" class="tracking-wider pt-8 pb-6 max-w-4xl mx-auto">
-     
-
+    <section id="hero" class="mx-auto max-w-4xl pt-8 pb-6 tracking-wider">
       <div class="prose max-w-4xl">
         <p>
-          I currently am a Fourth Year Ph.D. Student and <a href="https://ls.wisc.edu/current-students/graduate-students/cgrs"> CGRS Fellow</a> at the University of Wisconsin-Madison. I am advised by <a href="https://pages.cs.wisc.edu/~aws/"  > Aws Albarghouthi</a> and <a href="https://pages.cs.wisc.edu/~fredsala/"> Fred Sala</a>.
+          I currently am a Fourth Year Ph.D. Student and <a
+            href="https://ls.wisc.edu/current-students/graduate-students/cgrs"
+          >
+            CGRS Fellow</a
+          > at the University of Wisconsin-Madison. I am advised by <a
+            href="https://pages.cs.wisc.edu/~aws/"
+          >
+            Aws Albarghouthi</a
+          > and <a href="https://pages.cs.wisc.edu/~fredsala/"> Fred Sala</a>.
         </p>
         <p>
-          <strong>I am currently looking for full-time industry research positions starting Spring 2027. If you think I'd be a good fit, please reach out!</strong>
+          <strong
+            >I am currently looking for full-time industry research positions
+            starting Spring 2027. If you think I'd be a good fit, please reach
+            out!</strong
+          >
         </p>
       </div>
-      <br>
-      <h2  class="text-2xl font-semibold tracking-wide">
-        News
-      </h2>
-      <div class="prose tracking-wider w-full max-w-6xl">
-      <ul class="list-disc">
-        <li> <a href="https://www.scbench.ai">SlopCodeBench</a> was accepted to NeurIPS 2026! </li>
-        <li> Co-Organized the third <a href="https://dl4c.github.io/">Deep Learning for Code Workshop</a> at ICLR 2025. </li>
-        <li>
-            I will be working on agents in summer 2024 at <a href="https://replit.com/">Replit</a>.
-        </li>
-        <li>
-            I will be interning at <a href="https://magic.dev/">Magic AI</a> from May to August 2023. 
-        </li>
-        <li>
-            I will be interning at <a href="https://x.company/">X, The Moonshot Company</a> from May to December 2022. 
-        </li>
-        <li>
-            Co-Organizing the <a href="https://dl4c.github.io/">Deep Learning For Code Workshop</a> at ICLR 2022. 
-        </li>
-    </ul>
-  </div>
-      
+      <br />
+      <h2 class="text-2xl font-semibold tracking-wide">News</h2>
+      <div class="prose w-full max-w-6xl tracking-wider">
+        <ul class="list-disc">
+          <li>
+            <a href="https://www.scbench.ai">SlopCodeBench</a> was accepted to NeurIPS
+            2026!
+          </li>
+          <li>
+            Co-Organized the third <a href="https://dl4c.github.io/"
+              >Deep Learning for Code Workshop</a
+            > at ICLR 2025.
+          </li>
+          <li>
+            I will be working on agents in summer 2024 at <a
+              href="https://replit.com/">Replit</a
+            >.
+          </li>
+          <li>
+            I will be interning at <a href="https://magic.dev/">Magic AI</a> from
+            May to August 2023.
+          </li>
+          <li>
+            I will be interning at <a href="https://x.company/"
+              >X, The Moonshot Company</a
+            > from May to December 2022.
+          </li>
+          <li>
+            Co-Organizing the <a href="https://dl4c.github.io/"
+              >Deep Learning For Code Workshop</a
+            > at ICLR 2022.
+          </li>
+        </ul>
+      </div>
+
       {
         // only display if at least one social link is enabled
         SOCIALS.length > 0 && (
@@ -92,7 +113,6 @@ const publications = publicationsData.map((pub) => ({
         )
       }
     </section>
-    
 
     <Hr />
 

@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import partytown from '@astrojs/partytown';
+import partytown from "@astrojs/partytown";
 import { remarkTocCustom } from "./src/plugins/remarkTocCustom";
 import remarkGithubAlerts from "remark-github-blockquote-alert";
 import expressiveCode from "astro-expressive-code";
@@ -51,5 +51,5 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
-  }
+  },
 });

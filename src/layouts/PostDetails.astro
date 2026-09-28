@@ -111,35 +111,36 @@ const nextPost =
       {title}
     </h1>
     <div class="flex items-center gap-4">
-      {isPaper ? (
-        <PaperInfo
-          {pubDatetime}
-          {codeLink}
-          {arxivLink}
-          {pdfLink}
-          {isPaper}
-          {paperType}
-          {authors}
-          size="lg"
-          class="my-2"
-        />
-      ) : (
-        <div class="flex items-center gap-3 my-2">
-          <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-          {codeLink && (
-            <a
-              href={codeLink}
-              class="inline-flex items-center gap-1 opacity-80 hover:opacity-100"
-              aria-label="View code on GitHub"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <IconGitHub class="size-6" />
-              <span>[code]</span>
-            </a>
-          )}
-        </div>
-      )}
+      {
+        isPaper ? (
+          <PaperInfo
+            {pubDatetime}
+            {codeLink}
+            {arxivLink}
+            {pdfLink}
+            {paperType}
+            {authors}
+            size="lg"
+            class="my-2"
+          />
+        ) : (
+          <div class="my-2 flex items-center gap-3">
+            <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+            {codeLink && (
+              <a
+                href={codeLink}
+                class="inline-flex items-center gap-1 opacity-80 hover:opacity-100"
+                aria-label="View code on GitHub"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconGitHub class="size-6" />
+                <span>[code]</span>
+              </a>
+            )}
+          </div>
+        )
+      }
       <EditPost class="max-sm:hidden" {hideEditPost} {post} />
     </div>
     {showToc && <TableOfContents headings={headings} />}
@@ -270,7 +271,6 @@ const nextPost =
   }
   addHeadingLinks();
 
-  
   /** Scrolls the document to the top when
    * the "Back to Top" button is clicked. */
   function backToTop() {
