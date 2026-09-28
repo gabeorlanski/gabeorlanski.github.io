@@ -41,9 +41,11 @@ const date = datetime.format("YYYY");
 const time = datetime.format("hh:mm A"); // e.g., '08:30 PM'
 
 const iconClass = [
-  "inline-block size-6 min-w-[1.375rem]",
+  "inline-block size-4",
   { "scale-90": size === "sm" },
 ];
+
+const showYear = !paperType?.includes(date);
 
 /* ========== Format Authors with first initial + last names and Orlanski in bold ========== */
 const formatAuthors = (authorList: string[]) => {
@@ -80,21 +82,19 @@ const formatAuthors = (authorList: string[]) => {
 const formattedAuthors = authors ? formatAuthors(authors) : null;
 ---
 
-<div class:list={["flex flex-col gap-1 opacity-80", className]}>
+<div class:list={["mt-1 flex flex-col gap-1 text-xs opacity-80", className]}>
   {
     formattedAuthors && (
-      <div class="text-sm">
-        {formattedAuthors.map(({ formattedName, isOrlanski, separator }) => (
-          <span>
-            {isOrlanski ? <strong>{formattedName}</strong> : formattedName}
-            {separator}
-          </span>
-        ))}
+      <div class="leading-relaxed">
+        {formattedAuthors.map(({ formattedName, isOrlanski, separator }) => [
+          isOrlanski ? <strong>{formattedName}</strong> : formattedName,
+          separator,
+        ])}
       </div>
     )
   }
 
-  <div class="flex items-end space-x-2">
+  <div class="flex items-center gap-2">
     <a
       href={codeLink}
       class="inline-flex items-center hover:underline"
@@ -105,7 +105,7 @@ const formattedAuthors = authors ? formatAuthors(authors) : null;
     </a>
     <a
       href={arxivLink}
-      class="inline-flex items-center text-accent hover:underline"
+      class="inline-flex items-center gap-1 text-accent hover:underline"
       aria-label="View paper on arXiv"
     >
       <IconArxiv class:list={iconClass} />
@@ -114,10 +114,10 @@ const formattedAuthors = authors ? formatAuthors(authors) : null;
     </a>
     {pdfLink && (
       <>
-        <span aria-hidden="true"> | </span>
+        <span aria-hidden="true">|</span>
         <a
           href={pdfLink}
-          class="inline-flex items-center text-accent hover:underline"
+          class="inline-flex items-center gap-1 text-accent hover:underline"
           aria-label="Download PDF"
         >
           <IconArxiv class:list={iconClass} />
@@ -126,9 +126,13 @@ const formattedAuthors = authors ? formatAuthors(authors) : null;
         </a>
       </>
     )}
-    <span aria-hidden="true"> | </span>
-    <time datetime={datetime.toISOString()}>{date}</time>
-    <span aria-hidden="true"> | </span>
+    {showYear && (
+      <>
+        <span aria-hidden="true">|</span>
+        <time datetime={datetime.toISOString()}>{date}</time>
+      </>
+    )}
+    <span aria-hidden="true">|</span>
     <span>{paperType}</span>
   </div>
 </div>

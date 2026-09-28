@@ -1,5 +1,53 @@
 [
   {
+    "id": "slop-code-bench",
+    "title": "SlopCodeBench: Benchmarking How Coding Agents Degrade Over Long-Horizon Iterative Tasks",
+    "description": "",
+    "pubDatetime": "2026-03-25T15:22:00Z",
+    "modDatetime": "2026-05-07T15:22:00Z",
+    "timezone": "America/New_York",
+    "codeLink": "https://github.com/SprocketLab/slop-code-bench",
+    "arxivLink": "https://arxiv.org/abs/2603.24755",
+    "isPaper": true,
+    "paperType": "NeurIPS 2026",
+    "authors": [
+      "Gabriel Orlanski",
+      "Devjeet Roy",
+      "Alexander Yun",
+      "Changho Shin",
+      "Alex Gu",
+      "Albert Ge",
+      "Dyah Adila",
+      "Nicholas Roberts",
+      "Frederic Sala",
+      "Aws Albarghouthi"
+    ]
+  },
+  {
+    "id": "continual-learning-bench",
+    "title": "Continual Learning Bench: Evaluating Frontier AI Systems in Real-World Stateful Environments",
+    "description": "",
+    "pubDatetime": "2026-06-04T03:43:00Z",
+    "modDatetime": "2026-06-04T03:43:00Z",
+    "timezone": "America/New_York",
+    "codeLink": "https://github.com/pgasawa/continual-learning-bench",
+    "arxivLink": "https://arxiv.org/abs/2606.05661",
+    "isPaper": true,
+    "paperType": "NeurIPS 2026",
+    "authors": [
+      "Parth Asawa",
+      "Christopher M. Glaze",
+      "Gabriel Orlanski",
+      "Ramya Ramakrishnan",
+      "Benji Xu",
+      "Asim Biswal",
+      "Vincent Sunn Chen",
+      "Frederic Sala",
+      "Matei Zaharia",
+      "Joseph E. Gonzalez"
+    ]
+  },
+  {
     "id": "corm-project",
     "title": "Reward Models Enable Scalable Code Verification by Trading Accuracy for Throughput",
     "description": "",
@@ -42,7 +90,7 @@
   },
   {
     "id": "stackoverflow-code",
-    "title": "Reading StackOverflow Encourages Cheating: Adding Question TextImproves Extractive Code Generation.",
+    "title": "Reading StackOverflow Encourages Cheating: Adding Question Text Improves Extractive Code Generation.",
     "description": "",
     "pubDatetime": "2021-08-01T15:22:00Z",
     "modDatetime": "2025-05-22T15:22:00Z",
@@ -51,9 +99,6 @@
     "arxivLink": "https://aclanthology.org/2021.nlp4prog-1.8/",
     "isPaper": true,
     "paperType": "NLP4Prog Workshop 2021",
-    "authors": [
-      "Gabriel Orlanski",
-      "Alex Gittens"
-    ]
+    "authors": ["Gabriel Orlanski", "Alex Gittens"]
   }
 ]

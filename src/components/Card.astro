@@ -15,17 +15,20 @@ const { title, description, pubDatetime, modDatetime, timezone, codeLink, arxivL
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
-  class: "text-lg font-medium decoration-dashed hover:underline",
+  class: `${isPaper ? "text-base" : "text-lg"} font-medium decoration-dashed hover:underline`,
 };
 
 // Use arxivLink if no blog file exists (filePath is undefined) and arxivLink is present
 const linkHref = !filePath && arxivLink ? arxivLink : getPath(id, filePath);
 ---
 
-<li class="my-6">
+<li class:list={[isPaper ? "my-5" : "my-6"]}>
   <a
     href={linkHref}
-    class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+    class:list={[
+      "inline-block font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0",
+      isPaper ? "text-base" : "text-lg",
+    ]}
   >
     {
       variant === "h2" ? (
