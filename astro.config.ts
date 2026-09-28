@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import react from "@astrojs/react";
+import mdx from "@astrojs/mdx";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import partytown from '@astrojs/partytown';
@@ -30,6 +31,7 @@ export default defineConfig({
         codeFontFamily: "inherit",
       },
     }),
+    mdx(),
     react(),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),

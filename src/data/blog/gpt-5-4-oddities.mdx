@@ -16,12 +16,15 @@ paperType: Blog
 isPaper: false
 ---
 
+import ModelComparison from "@/components/figs/ModelComparison.tsx";
+import OverallPerformance from "@/components/figs/OverallPerformance.tsx";
+
 <div class="btn-group">
   <a href="https://www.scbench.ai" class="btn btn-primary">SCBench</a>
   <a href="https://x.com/Gorlanski" class="btn btn-twitter">@Gorlanski</a>
 </div>
 
-![All GPT models performance comparison](../../assets/figs/gpt54/model_comparison.svg)
+<ModelComparison client:visible />
 
 > **TL;DR:** GPT 5.4 is a marked improvement over 5.2 but should not be your daily driver over Codex 5.3 or Opus 4.6. Yet, there are signs of clear qualitative improvements as bloat, erosion, and duplication are down. But GPT 5.4 has traded this cleaner code for worse performance at a higher cost.
 
@@ -52,7 +55,7 @@ The question is whether that tradeoff is a training artifact or something fundam
 
 ## Signs of Improvement
 
-![Overall performance comparison showing cost, time, net lines, and complexity mass per checkpoint](../../assets/figs/gpt54/overall_performance.svg)
+<OverallPerformance client:visible />
 
 
 5.4 takes less time per checkpoint than GPT 5.2 while writing more lines of code. 27% fewer input tokens. 30% faster. Cost is flat -- more expensive per token, but uses fewer of them. It has a clearer plan and executes it in fewer iterations, but when the plan gets a boundary wrong, everything downstream inherits the mistake.
