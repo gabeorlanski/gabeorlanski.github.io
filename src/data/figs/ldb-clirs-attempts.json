@@ -1,0 +1,25 @@
+{
+  "note": "README quick-starts from six clirs libraries (paper Fig. 3A); unrelated arguments omitted. Spans: shared = in all six, astra / fable = that designer only.",
+  "designers": [
+    {
+      "model": "GPT-6 Astra",
+      "org": "openai",
+      "key": "astra",
+      "runs": [
+        "<span class=\"hl shared\">Command::new(</span><span class=\"hl astra\">\"inspect\")</span>\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl astra\">new</span><span class=\"hl shared\">(\"verbose\")</span>\n    <span class=\"hl shared\">.short('v')</span>\n    <span class=\"hl astra\">.action(ArgAction::</span><span class=\"hl shared\">Count</span><span class=\"hl astra\">))</span>\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl astra\">new</span>(\"pids\")\n    .value_name(\"PID\")\n    .num_args(1..)\n    <span class=\"hl astra\">.value_parser(</span>\n      <span class=\"hl astra\">ValueParser::</span>u64()));",
+        "<span class=\"hl shared\">Command::new(</span><span class=\"hl astra\">\"inspect\")</span>\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl astra\">new</span><span class=\"hl shared\">(\"verbose\")</span>\n    <span class=\"hl shared\">.short('v')</span>\n    <span class=\"hl astra\">.action(ArgAction::</span><span class=\"hl shared\">Count</span><span class=\"hl astra\">))</span>\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl astra\">new</span>(\"pid\")\n    .short('p').long(\"pid\")\n    <span class=\"hl astra\">.value_parser(</span>\n      <span class=\"hl astra\">ValueParser::</span>from_str::&lt;u32&gt;())\n    .required(true));",
+        "<span class=\"hl shared\">Command::new(</span><span class=\"hl astra\">\"inspect\")</span>\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl astra\">new</span><span class=\"hl shared\">(\"verbose\")</span>\n    <span class=\"hl shared\">.short('v')</span>\n    <span class=\"hl astra\">.action(ArgAction::</span><span class=\"hl shared\">Count</span><span class=\"hl astra\">))</span>\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl astra\">new</span>(\"pid\")\n    .long(\"pid\")\n    <span class=\"hl astra\">.action(ArgAction::</span>Append)\n    <span class=\"hl astra\">.value_parser(</span>\n      <span class=\"hl astra\">ValueParser::</span>u64()));"
+      ]
+    },
+    {
+      "model": "Fable 5.1",
+      "org": "anthropic",
+      "key": "fable",
+      "runs": [
+        "<span class=\"hl shared\">Command::new(</span>\"procs\")\n  <span class=\"hl shared\">.arg(Arg::count(\"verbose\")</span>\n    <span class=\"hl shared\">.short('v')</span>)\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl fable\">option(\"pid\")</span>\n    .short('p')\n    .uint()\n    .multiple());",
+        "<span class=\"hl shared\">Command::new(</span>\"proc\")\n  <span class=\"hl shared\">.arg(Arg::count(\"verbose\")</span>\n    <span class=\"hl shared\">.short('v')</span>.global(true))\n  .subcommand(<span class=\"hl shared\">Command::new(</span>\n      \"inspect\")\n    <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl fable\">positional(\"pid\")</span>\n      .int().required(true));",
+        "<span class=\"hl shared\">Command::new(</span>\"procinfo\")\n  <span class=\"hl shared\">.arg(Arg::</span><span class=\"hl fable\">positional(\"pid\")</span>\n    .int()\n    .required(true))\n  <span class=\"hl shared\">.arg(Arg::count(\"verbose\")</span>\n    <span class=\"hl shared\">.short('v')</span>);"
+      ]
+    }
+  ]
+}

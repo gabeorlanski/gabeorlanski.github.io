@@ -16,6 +16,7 @@ import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import { SITE } from "@/config";
+import postFilter from "@/utils/postFilter";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -77,6 +78,7 @@ const layoutProps = {
   isPaper,
   authors,
   pdfLink,
+  noindex: post.data.unlisted,
 };
 
 /* ========== Prev/Next Posts ========== */
@@ -88,9 +90,14 @@ const allPosts = posts.map(({ data: { title }, id }) => ({
 
 const currentPostIndex = allPosts.findIndex(a => a.slug === post.id);
 
-const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
+// Unlisted posts are not in `posts`, so they get no prev/next links.
+const listed = currentPostIndex !== -1;
+const prevPost =
+  listed && currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 const nextPost =
-  currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+  listed && currentPostIndex !== allPosts.length
+    ? allPosts[currentPostIndex + 1]
+    : null;
 ---
 
 <Layout {...layoutProps}>
@@ -102,7 +109,7 @@ const nextPost =
       "mx-auto w-full max-w-4xl px-4 pb-12",
       { "mt-8": !SITE.showBackButton },
     ]}
-    data-pagefind-body
+    data-pagefind-body={postFilter(post) || undefined}
   >
     <h1
       transition:name={slugifyStr(title)}

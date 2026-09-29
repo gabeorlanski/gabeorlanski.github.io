@@ -1,0 +1,231 @@
+---
+// Paper Fig. 3A: the six clirs README quick-starts, with shared and
+// designer-only API highlighted. Hovering a legend entry spotlights it (CSS only).
+import data from "@/data/figs/ldb-clirs-attempts.json";
+import anthropic from "@/assets/logos/anthropic.svg?raw";
+import openai from "@/assets/logos/openai.svg?raw";
+
+const LOGOS: Record<string, string> = { anthropic, openai };
+const LEGEND = [
+  { key: "shared", label: "In all six libraries" },
+  { key: "astra", label: "Astra only" },
+  { key: "fable", label: "Fable only" },
+];
+---
+
+<figure class="ldb-converge not-prose">
+  <div class="cv-legend" aria-label="Highlight key">
+    {
+      LEGEND.map(({ key, label }) => (
+        <span class={`cv-chip ${key}`} tabindex="0">
+          <span class={`hl ${key}`}>abc</span>
+          {label}
+        </span>
+      ))
+    }
+  </div>
+
+  {
+    data.designers.map(designer => (
+      <section class="cv-row">
+        <h3 class="cv-who">
+          <span
+            class={`cv-badge ${designer.org}`}
+            set:html={LOGOS[designer.org]}
+          />
+          {designer.model}
+        </h3>
+        <div class="cv-grid">
+          {designer.runs.map((code, i) => (
+            <div class="cv-panel">
+              <span class="cv-run">Library {i + 1}</span>
+              <pre set:html={`<code>${code}</code>`} />
+            </div>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+
+  <figcaption>
+    <b>Agents converge on the same designs.</b> README quick-starts from three
+    <code>clirs</code> libraries each by GPT-6 Astra and Fable 5.1, with unrelated
+    arguments omitted. Both copy <code>clap</code>'s builder API rather than its
+    shorter derive macro. Hover a key entry to spotlight it.
+  </figcaption>
+</figure>
+
+<style is:global>
+  .ldb-converge {
+    --cv-shared: #05706b;
+    --cv-shared-bg: #c9ece8;
+    --cv-astra: #1d5fae;
+    --cv-astra-bg: #dbe8f8;
+    --cv-fable: #b1471a;
+    --cv-fable-bg: #fadecf;
+    --cv-openai: #2a78d6;
+    --cv-anthropic: #eb6834;
+    --cv-ink-soft: color-mix(in srgb, var(--foreground) 62%, transparent);
+    --cv-line: color-mix(in srgb, var(--foreground) 12%, transparent);
+    --cv-panel: color-mix(in srgb, var(--foreground) 3%, var(--background));
+
+    margin: 2rem 0;
+    color: var(--foreground);
+    font-size: 14px;
+  }
+  html[data-theme="dark"] .ldb-converge {
+    --cv-shared: #7fd9cf;
+    --cv-shared-bg: rgb(27 175 160 / 0.2);
+    --cv-astra: #a3c8f5;
+    --cv-astra-bg: rgb(57 135 229 / 0.24);
+    --cv-fable: #f5a47e;
+    --cv-fable-bg: rgb(217 89 38 / 0.24);
+    --cv-openai: #3987e5;
+    --cv-anthropic: #d95926;
+  }
+
+  .cv-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 20px;
+    margin-bottom: 16px;
+  }
+  .cv-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+    outline: none;
+  }
+  .cv-chip > .hl {
+    padding: 0 4px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  .cv-row + .cv-row {
+    margin-top: 18px;
+  }
+  .cv-who {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .cv-badge {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 2px solid var(--cv-org);
+    background: var(--background);
+  }
+  .cv-badge.openai {
+    --cv-org: var(--cv-openai);
+  }
+  .cv-badge.anthropic {
+    --cv-org: var(--cv-anthropic);
+  }
+  .cv-badge svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .cv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+  }
+  .cv-panel {
+    position: relative;
+    min-width: 0;
+    border: 1px solid var(--cv-line);
+    border-radius: 8px;
+    background: var(--cv-panel);
+  }
+  .cv-run {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 11px;
+    color: var(--cv-ink-soft);
+  }
+  /* The panel is the frame; drop the site's code-block border. */
+  .ldb-converge .cv-panel pre {
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font:
+      12px/1.55 ui-monospace,
+      "SFMono-Regular",
+      Menlo,
+      Consolas,
+      monospace;
+    white-space: pre;
+    background: none;
+    color: inherit;
+  }
+
+  .ldb-converge .hl {
+    font-weight: 700;
+    border-radius: 2px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      opacity 0.15s;
+  }
+  .ldb-converge .hl.shared {
+    color: var(--cv-shared);
+    background: var(--cv-shared-bg);
+  }
+  .ldb-converge .hl.astra {
+    color: var(--cv-astra);
+    background: var(--cv-astra-bg);
+  }
+  .ldb-converge .hl.fable {
+    color: var(--cv-fable);
+    background: var(--cv-fable-bg);
+  }
+
+  /* Spotlight: hovering or focusing a key entry fades everything else in the code. */
+  .ldb-converge .cv-panel code {
+    transition: color 0.15s;
+  }
+  .ldb-converge:has(.cv-chip:hover, .cv-chip:focus-visible) .cv-panel code {
+    color: color-mix(in srgb, var(--foreground) 35%, transparent);
+  }
+  .ldb-converge:has(.cv-chip.shared:hover, .cv-chip.shared:focus-visible)
+    .cv-panel
+    code
+    .hl:not(.shared),
+  .ldb-converge:has(.cv-chip.astra:hover, .cv-chip.astra:focus-visible)
+    .cv-panel
+    code
+    .hl:not(.astra),
+  .ldb-converge:has(.cv-chip.fable:hover, .cv-chip.fable:focus-visible)
+    .cv-panel
+    code
+    .hl:not(.fable) {
+    color: inherit;
+    background: none;
+    font-weight: 400;
+  }
+
+  .ldb-converge figcaption {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: var(--cv-ink-soft);
+  }
+  .ldb-converge figcaption b,
+  .ldb-converge figcaption code {
+    color: var(--foreground);
+  }
+</style>

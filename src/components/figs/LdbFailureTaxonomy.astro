@@ -1,0 +1,209 @@
+---
+// Paper Fig. 2F: primary failure category per designer, inlined so its text
+// follows the site theme. Numbers in the notes come from the paper's result macros.
+import svg from "@/assets/figs/library-design-bench/category-stack.svg?raw";
+
+const CATEGORIES = [
+  {
+    key: "coverage",
+    name: "Coverage",
+    text: "Nothing close to the needed capability exists; the fix is a new operation.",
+  },
+  {
+    key: "correctness",
+    name: "Correctness",
+    text: "The capability exists but has a bug: wrong output on a legitimate input, a misleading error, or a path too slow for the problem.",
+  },
+  {
+    key: "rigidity",
+    name: "Rigidity",
+    text: "It nearly fits but cannot be adapted: a hard-coded policy, a data model that cannot hold the value, a monolithic operation, or a scope that excludes the input.",
+  },
+  {
+    key: "verbosity",
+    name: "Verbosity",
+    text: "It fits, but using it takes excess code: a verbose interface, unpackaged wiring, shape conversion, or repeated declarations.",
+  },
+  {
+    key: "deliverability",
+    name: "Deliverability",
+    text: "A simpler path through the library exists, but the implementer never found it, did not recognize it, or missed a fact needed to use it.",
+  },
+];
+---
+
+<figure class="ldb-category not-prose">
+  <div
+    class="cs-chart"
+    role="img"
+    aria-label="Stacked bars of the primary failure category per designer, for failed tests and for excess code."
+    set:html={svg}
+  />
+  <figcaption>
+    <b>Most excess code traces back to the library.</b> Primary failure category
+    per designer. <b>Failed tests</b> classifies why at least one test failed;
+    <b>excess code</b> classifies why the solution was longer than the reference.
+  </figcaption>
+  <details class="cs-notes">
+    <summary>Categories and method</summary>
+    <p class="cs-group">
+      Limited by the library: no path through the library as shipped does
+      better.
+    </p>
+    <dl>
+      {
+        CATEGORIES.slice(0, 4).map(c => (
+          <>
+            <dt>
+              <span class={`cs-swatch ${c.key}`} />
+              {c.name}
+            </dt>
+            <dd>{c.text}</dd>
+          </>
+        ))
+      }
+    </dl>
+    <p class="cs-group">
+      Library not fully exploited: a path through the library as shipped removes
+      the code or fixes the failure.
+    </p>
+    <dl>
+      {
+        CATEGORIES.slice(4).map(c => (
+          <>
+            <dt>
+              <span class={`cs-swatch ${c.key}`} />
+              {c.name}
+            </dt>
+            <dd>{c.text}</dd>
+          </>
+        ))
+      }
+    </dl>
+    <p>
+      <b>How.</b> For each library from six mini-SWE-agent designers, we sampled
+      three solutions that failed at least one test and wrote more code than the
+      reference. A GPT-5.6 Luna auditor read the library, the implementer's trajectory,
+      the tests, and the reference, then classified each symptom by the smallest
+      library change that would have prevented it. The bars show the primary cause:
+      810 classifications per symptom, pooled across designers.
+    </p>
+    <p>
+      <b>Takeaway.</b> 82% of excess-code causes are limits of the library itself.
+      Rigidity and Verbosity alone account for 64%, against 14% for missing capabilities.
+      For failed tests, Deliverability leads at 43%, and over half of those are an
+      incomplete contract: the implementer found the capability but not a precondition
+      or default needed to use it.
+    </p>
+    <p class="cs-scope">
+      Each solution was audited once by one model, without running the proposed
+      path. Shares describe partially passing solutions, not every solution.
+    </p>
+  </details>
+</figure>
+
+<style is:global>
+  .ldb-category {
+    --cs-ink: var(--foreground);
+    --cs-ink-soft: color-mix(in srgb, var(--foreground) 62%, transparent);
+    --cs-rule: color-mix(in srgb, var(--foreground) 14%, transparent);
+
+    margin: 2rem 0;
+    color: var(--foreground);
+    font-size: 14px;
+  }
+  html[data-theme="dark"] .ldb-category {
+    --cs-rigidity: #31487d;
+    --cs-verbosity: #5d84c2;
+  }
+  /* Below ~560px the chart scrolls sideways instead of shrinking its text. */
+  .cs-chart {
+    max-width: 680px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+  .cs-chart svg {
+    display: block;
+    width: 100%;
+    min-width: 540px;
+    height: auto;
+  }
+  /* Scoped copy of the rule matplotlib ships as a global <style>. */
+  .cs-chart svg * {
+    stroke-linejoin: round;
+    stroke-linecap: butt;
+  }
+
+  .ldb-category figcaption {
+    margin: 12px 0 0;
+    color: var(--cs-ink-soft);
+  }
+  .ldb-category figcaption b {
+    color: var(--foreground);
+  }
+
+  .cs-notes {
+    margin: 16px 0 0;
+  }
+  .cs-notes p,
+  .cs-notes dl {
+    margin: 12px 0 0;
+    color: var(--cs-ink-soft);
+  }
+  .cs-notes b {
+    color: var(--foreground);
+  }
+  .cs-notes .cs-group {
+    font-style: italic;
+  }
+  .cs-notes dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 6px 14px;
+  }
+  .cs-notes dt {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+  .cs-notes dd {
+    margin: 0;
+  }
+  .cs-notes .cs-scope {
+    font-size: 13px;
+  }
+  .cs-swatch {
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    transform: translateY(1px);
+  }
+  .cs-swatch.coverage {
+    background: #c2410c;
+  }
+  .cs-swatch.correctness {
+    background: #e0a086;
+  }
+  .cs-swatch.rigidity {
+    background: var(--cs-rigidity, #1b2a4a);
+  }
+  .cs-swatch.verbosity {
+    background: var(--cs-verbosity, #4a6fa5);
+  }
+  .cs-swatch.deliverability {
+    background: #a3a7ae;
+  }
+
+  @media (max-width: 560px) {
+    .cs-notes dl {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
+    }
+    .cs-notes dd + dt {
+      margin-top: 8px;
+    }
+  }
+</style>

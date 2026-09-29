@@ -1,0 +1,94 @@
+---
+// Paper Fig. "Explicit guidance results", inlined so its prose text follows the
+// site theme. Numbers in the notes come from the paper's result macros.
+import svg from "@/assets/figs/library-design-bench/mechanism.svg?raw";
+---
+
+<figure class="ldb-guidance not-prose">
+  <div
+    class="mc-chart"
+    role="img"
+    aria-label="Left: score gain per language from explicit agent-first guidance, split into simplicity and correctness. Right: clirs examples under the standard and explicit-guidance prompts."
+    set:html={svg}
+  />
+  <figcaption>
+    <b>Designing explicitly for agents helps, modestly.</b> Left: score gain per
+    language when GPT-6 Astra designs with explicit agent-first guidance, split into
+    simplicity and correctness. Right: <code>clirs</code> examples under each prompt.
+  </figcaption>
+  <details class="mc-notes">
+    <summary>Setup and results</summary>
+    <p>
+      <b>Setup.</b> GPT-6 Astra (Codex, high reasoning) designs each library with
+      and without a guidance prompt appended to the unchanged specification. The
+      prompt says only coding agents, scored on how little code they write, will
+      use the library, and asks for consumer-first API sketches, runnable usage examples,
+      and testing with subagents. We test the combined intervention, not each piece.
+    </p>
+    <p>
+      <b>Results.</b> The score rises from 44.1 to 46.4, just below the production
+      library (46.6) and standard-prompt Opus 5.5 (48.9). It improves for all three
+      implementers and three of four languages, mostly through shorter solutions:
+      simplicity contributes +2.5 points and correctness −0.9. Guided libraries also
+      look less like the production library, reproducing 13.4% of its exported names
+      versus 19.4%; in <code>clirs</code>, builder chains become single
+      task-level calls.
+    </p>
+    <p>
+      <b>Cost.</b> Guidance nearly doubles the cost of designing a library ($8.24
+      vs. $4.51) and leaves the cost per problem unchanged.
+    </p>
+  </details>
+</figure>
+
+<style is:global>
+  .ldb-guidance {
+    --mc-ink: var(--foreground);
+    --mc-ink-soft: color-mix(in srgb, var(--foreground) 62%, transparent);
+    --mc-rule: color-mix(in srgb, var(--foreground) 14%, transparent);
+
+    margin: 2rem 0;
+    color: var(--foreground);
+    font-size: 14px;
+  }
+  /* Below ~560px the figure scrolls sideways instead of shrinking its text. */
+  .mc-chart {
+    max-width: 720px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+  .mc-chart svg {
+    display: block;
+    width: 100%;
+    min-width: 540px;
+    height: auto;
+  }
+  /* Scoped copy of the rule matplotlib ships as a global <style>. */
+  .mc-chart svg * {
+    stroke-linejoin: round;
+    stroke-linecap: butt;
+  }
+  /* The Rust logo is solid black; flip it so it shows on the dark page. */
+  html[data-theme="dark"] .ldb-guidance #mc-AnnotationBbox_1 image {
+    filter: invert(1);
+  }
+
+  .ldb-guidance figcaption {
+    margin: 12px 0 0;
+    color: var(--mc-ink-soft);
+  }
+  .ldb-guidance figcaption b,
+  .ldb-guidance figcaption code,
+  .mc-notes b,
+  .mc-notes code {
+    color: var(--foreground);
+  }
+
+  .mc-notes {
+    margin: 16px 0 0;
+  }
+  .mc-notes p {
+    margin: 12px 0 0;
+    color: var(--mc-ink-soft);
+  }
+</style>

@@ -1,0 +1,493 @@
+/* Org colors: the dataviz default categorical slots, with their dark-surface steps. */
+.ldb-pareto {
+  --ldb-openai: #2a78d6;
+  --ldb-anthropic: #eb6834;
+  --ldb-zai: #1baf7a;
+  --ldb-deepseek: #eda100;
+  --ldb-moonshot: #e87ba4;
+  --ldb-xai: #008300;
+  --ldb-other: #999;
+  --ldb-nl: #d03b3b;
+  --ldb-pl: #4a3aa7;
+  --ldb-ink-soft: color-mix(in srgb, var(--foreground) 62%, transparent);
+  --ldb-axis: color-mix(in srgb, var(--foreground) 28%, transparent);
+  --ldb-grid: color-mix(in srgb, var(--foreground) 8%, transparent);
+  --ldb-shadow: 0 8px 24px rgb(0 0 0 / 0.12), 0 1px 3px rgb(0 0 0 / 0.08);
+
+  margin: 2rem 0;
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-theme="dark"] .ldb-pareto {
+  --ldb-openai: #3987e5;
+  --ldb-anthropic: #d95926;
+  --ldb-zai: #199e70;
+  --ldb-deepseek: #c98500;
+  --ldb-moonshot: #d55181;
+  --ldb-xai: #008300;
+  --ldb-nl: #ef7a7a;
+  --ldb-pl: #a39af0;
+  --ldb-shadow: 0 8px 24px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+/* Two panels share one y-axis; below 640px they stack and each gets its own. */
+.ldb-grid-layout {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    ".  t0 t1"
+    "y0 p0 p1"
+    ".  x0 x1";
+  column-gap: 18px;
+}
+.ldb-title.t0 {
+  grid-area: t0;
+}
+.ldb-title.t1 {
+  grid-area: t1;
+}
+.ldb-y-axis.y0 {
+  grid-area: y0;
+}
+.ldb-y-axis.y1 {
+  grid-area: y1;
+  display: none;
+}
+.ldb-plot.p0 {
+  grid-area: p0;
+}
+.ldb-plot.p1 {
+  grid-area: p1;
+}
+.ldb-x-axis.x0 {
+  grid-area: x0;
+}
+.ldb-x-axis.x1 {
+  grid-area: x1;
+}
+
+@media (max-width: 640px) {
+  .ldb-grid-layout {
+    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-areas:
+      ".  t0"
+      "y0 p0"
+      ".  x0"
+      ".  t1"
+      "y1 p1"
+      ".  x1";
+    column-gap: 8px;
+  }
+  .ldb-y-axis.y1 {
+    display: block;
+  }
+  .ldb-title.t1 {
+    margin-top: 12px;
+  }
+}
+
+.ldb-title {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.ldb-y-axis,
+.ldb-plot {
+  position: relative;
+  height: 340px;
+}
+@media (max-width: 640px) {
+  .ldb-y-axis,
+  .ldb-plot {
+    height: 280px;
+  }
+}
+
+.ldb-y-axis {
+  color: var(--ldb-ink-soft);
+}
+.ldb-y-axis > span {
+  position: absolute;
+  right: 0;
+  transform: translateY(50%);
+}
+.ldb-y-axis > .ldb-y-label {
+  right: auto;
+  left: 0;
+  bottom: 50%;
+  transform: translate(-30%, 50%) rotate(-90deg);
+  font-weight: 600;
+  color: var(--foreground);
+}
+@media (max-width: 640px) {
+  .ldb-y-axis > .ldb-y-label {
+    display: none;
+  }
+}
+
+.ldb-plot {
+  border-left: 1px solid var(--ldb-axis);
+  border-bottom: 1px solid var(--ldb-axis);
+}
+.ldb-plot > .ldb-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--ldb-grid);
+}
+.ldb-plot > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ldb-plot > svg polyline {
+  fill: none;
+  stroke: var(--foreground);
+  stroke-opacity: 0.55;
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+}
+
+/* Reference arms: dashed in their NL / PL color; the frontier stays neutral grey. */
+.ldb-ref-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1.5px dashed color-mix(in srgb, var(--org) 60%, transparent);
+  transition: border-color 0.1s;
+}
+.ldb-ref-line.active {
+  border-top-color: var(--org);
+}
+.ldb-ref-line > span {
+  position: absolute;
+  left: 4px;
+  bottom: 3px;
+  padding: 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--org);
+  background: var(--background);
+}
+.ldb-ref-line > .ldb-zone {
+  font-weight: 500;
+  padding: 0 2px;
+}
+.ldb-ref-line > .ldb-zone.below {
+  top: 3px;
+  bottom: auto;
+}
+
+/* Points: every model wears its logo; points off the frontier recede. */
+.ldb-point {
+  position: absolute;
+  transform: translate(-50%, 50%);
+  z-index: 1;
+  outline: none;
+  cursor: default;
+  transition: opacity 0.12s;
+}
+.ldb-point.off {
+  opacity: 0.55;
+}
+.ldb-plot.has-active .ldb-point:not(.active) {
+  opacity: 0.3;
+}
+/* The reference arms are the yardstick: never faded. */
+.ldb-point.ref-arm {
+  opacity: 1;
+  z-index: 2;
+}
+.ldb-point.active {
+  z-index: 5;
+  opacity: 1;
+}
+
+.ldb-badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--background);
+  border: 2px solid var(--org, var(--ldb-other));
+  box-shadow: 0 0 0 2px var(--background);
+  color: var(--foreground);
+}
+.ldb-badge svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+/* NL / PL: shaped like the model badges, lettered in the reference line's color. */
+.ldb-badge.ref {
+  color: var(--org);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.ldb-point.off .ldb-badge {
+  border-width: 1.5px;
+}
+.ldb-point.active > .ldb-badge,
+.ldb-point:focus-visible > .ldb-badge {
+  transform: scale(1.2);
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--org);
+}
+
+/* Tooltip, flipped at the plot's edges so it stays on screen. */
+.ldb-tip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 190px;
+  padding: 10px 12px;
+  white-space: nowrap;
+  background: var(--background);
+  border: 1px solid var(--ldb-axis);
+  border-radius: 8px;
+  box-shadow: var(--ldb-shadow);
+  pointer-events: none;
+}
+.ldb-point.tip-below .ldb-tip {
+  bottom: auto;
+  top: calc(100% + 10px);
+}
+.ldb-point.edge-right .ldb-tip {
+  left: auto;
+  right: -8px;
+  transform: none;
+}
+.ldb-point.edge-left .ldb-tip {
+  left: -8px;
+  transform: none;
+}
+.ldb-tip-who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ldb-tip .ldb-badge {
+  width: 22px;
+  height: 22px;
+  box-shadow: none;
+  transform: none;
+}
+.ldb-tip-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.ldb-tip-name > span:first-child {
+  font-weight: 600;
+  font-size: 14px;
+}
+.ldb-tip-name > .sub {
+  font-size: 12px;
+  color: var(--ldb-ink-soft);
+}
+.ldb-tip dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px 16px;
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--ldb-grid);
+}
+.ldb-tip dt {
+  color: var(--ldb-ink-soft);
+}
+.ldb-tip dd {
+  margin: 0;
+  text-align: right;
+}
+
+.ldb-x-axis {
+  position: relative;
+  height: 40px;
+  color: var(--ldb-ink-soft);
+}
+.ldb-x-axis > span {
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+}
+.ldb-x-axis > .ldb-x-label {
+  top: 21px;
+  left: 50%;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--foreground);
+}
+
+/* Legend and notes, collapsed under the chart. */
+.ldb-notes {
+  margin: 16px 0 0;
+}
+.ldb-notes > p {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--ldb-ink-soft);
+}
+.ldb-notation {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 10px;
+  margin: 14px 0 0;
+  font-size: 14px;
+}
+.ldb-notation > dt {
+  display: flex;
+  justify-content: center;
+}
+.ldb-notation > dd {
+  margin: 0;
+  color: var(--ldb-ink-soft);
+}
+.ldb-notation b {
+  color: var(--foreground);
+}
+
+.ldb-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  margin-top: 12px;
+}
+.ldb-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ldb-legend .ldb-badge {
+  width: 20px;
+  height: 20px;
+  box-shadow: none;
+}
+.ldb-legend .ldb-badge svg {
+  width: 12px;
+  height: 12px;
+}
+.ldb-legend-line {
+  width: 24px;
+  border-top: 1.5px dashed
+    color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+.ldb-legend-line.ref {
+  width: 11px;
+  border-top: 2px dashed var(--ldb-nl);
+}
+.ldb-legend-line.ref + .ldb-legend-line.ref {
+  margin-left: 2px;
+  border-top-color: var(--ldb-pl);
+}
+
+/* One panel (LibraryUseBench): narrower, with its own y-axis at every width. */
+.ldb-grid-layout.single {
+  max-width: 720px;
+  margin: 0 auto;
+  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-areas:
+    ".  t0"
+    "y0 p0"
+    ".  x0";
+}
+@media (max-width: 640px) {
+  .ldb-grid-layout.single {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+}
+
+/* 95% interval whiskers, behind the points. */
+.ldb-ci {
+  position: absolute;
+  width: 0;
+  border-left: 2px solid var(--org);
+  transform: translateX(-1px);
+  opacity: 0.45;
+  transition: opacity 0.12s;
+}
+.ldb-ci.off {
+  opacity: 0.25;
+}
+.ldb-plot.has-active .ldb-ci:not(.active) {
+  opacity: 0.12;
+}
+.ldb-ci.active {
+  opacity: 0.9;
+}
+.ldb-legend-ci {
+  width: 0;
+  height: 18px;
+  border-left: 2px solid var(--ldb-ink-soft);
+}
+
+.ldb-caption {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--ldb-ink-soft);
+}
+.ldb-caption b {
+  color: var(--foreground);
+}
+
+/* Printed model names (share images only). */
+.ldb-point-label {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--foreground);
+  text-shadow:
+    0 0 3px var(--background),
+    0 0 3px var(--background),
+    0 0 3px var(--background);
+  pointer-events: none;
+}
+.ldb-point-label.right {
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ldb-point-label.left {
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ldb-point-label.above {
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ldb-point-label.below {
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ldb-point-label.below-right {
+  top: calc(100% + 5px);
+  left: 0;
+}
+.ldb-point-label.below-left {
+  top: calc(100% + 5px);
+  right: 0;
+}

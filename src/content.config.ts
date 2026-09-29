@@ -16,6 +16,8 @@ const blog = defineCollection({
       featured: z.boolean().optional(),
       isPaper: z.boolean().optional(),
       draft: z.boolean().optional(),
+      // Built and reachable by URL, but kept out of listings, feeds, search and the sitemap.
+      unlisted: z.boolean().optional(),
       tags: z.array(z.string()).default(["others"]),
       ogImage: image().or(z.string()).optional(),
       description: z.string(),

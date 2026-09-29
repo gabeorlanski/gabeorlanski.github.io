@@ -1,0 +1,30 @@
+---
+// Inlined (not an <img>) so the ink outside the cards can follow the site theme.
+import svg from "@/assets/figs/library-design-bench/ldb-overview.svg?raw";
+---
+
+<figure
+  class="ldb-overview not-prose"
+  role="img"
+  aria-label="Overview of LibraryDesignBench: a designer agent writes a library from a task spec without seeing tests or interfaces, implementer agents solve problems with it, and each solution is scored by tests passed squared times simplicity relative to the reference."
+>
+  <Fragment set:html={svg} />
+</figure>
+
+<style is:global>
+  .ldb-overview {
+    margin: 2rem 0;
+  }
+  .ldb-overview > svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  html[data-theme="dark"] .ldb-overview {
+    --ov-ink: var(--foreground);
+    --ov-navy: #a9bde3;
+    --ov-ink-2: #c9ced9;
+    --ov-ink-3: #aab0bf;
+    --ov-ink-4: #8d95a8;
+  }
+</style>

@@ -1,3 +1,4 @@
+import { readdirSync, readFileSync } from "node:fs";
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
@@ -13,6 +14,16 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import { SITE } from "./src/config";
 
 // https://astro.build/config
+// Posts marked `unlisted: true` are built but left out of the sitemap.
+const unlistedPosts = readdirSync("src/data/blog")
+  .filter(file => /\.mdx?$/.test(file))
+  .filter(file =>
+    /^unlisted:\s*true\s*$/m.test(
+      readFileSync(`src/data/blog/${file}`, "utf8").split(/^---\s*$/m)[1] ?? ""
+    )
+  )
+  .map(file => `/posts/${file.replace(/\.mdx?$/, "")}/`);
+
 export default defineConfig({
   site: SITE.website,
   integrations: [
@@ -34,7 +45,9 @@ export default defineConfig({
     mdx(),
     react(),
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: page =>
+        (SITE.showArchives || !page.endsWith("/archives")) &&
+        !unlistedPosts.some(path => page.endsWith(path)),
     }),
     partytown({
       config: {

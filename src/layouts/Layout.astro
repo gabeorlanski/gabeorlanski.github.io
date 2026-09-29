@@ -17,6 +17,7 @@ export interface Props {
   isPaper?: boolean;
   authors?: string[];
   pdfLink?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   isPaper,
   authors,
   pdfLink,
+  noindex = false,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
@@ -116,6 +118,7 @@ const structuredData = pubDatetime
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / Facebook -->
