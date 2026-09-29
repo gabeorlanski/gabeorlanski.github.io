@@ -6,19 +6,16 @@ import LdbOverview from "@/components/figs/LdbOverview.astro";
 import LdbConvergence from "@/components/figs/LdbConvergence.astro";
 import LdbFailureTaxonomy from "@/components/figs/LdbFailureTaxonomy.astro";
 import LdbGuidance from "@/components/figs/LdbGuidance.astro";
+import LdbTask from "@/components/figs/LdbTask.astro";
 import { DESIGN_PANELS } from "@/components/figs/LdbPareto";
 import { USE_PANELS } from "@/components/figs/LdbUsePareto";
-import {
-  OrgLegend,
-  ParetoChart,
-  type Row,
-} from "@/components/figs/ldb/ParetoChart";
-import designData from "@/data/figs/ldb-pareto.json";
+import { ParetoChart } from "@/components/figs/ldb/ParetoChart";
 
 export function getStaticPaths() {
   if (import.meta.env.PROD) return [];
   return [
     "overview",
+    "task",
     "pareto",
     "convergence",
     "failures",
@@ -35,10 +32,15 @@ const CARDS: Record<string, { title: string; sub: string; width: number }> = {
     sub: "One agent designs a library. Other agents use it. Only their code is scored.",
     width: 1000,
   },
+  task: {
+    title: "What's in a task",
+    sub: "Two phases: one agent designs a library, then other agents solve the task's problems with it.",
+    width: 1000,
+  },
   pareto: {
     title: "Two agent designers beat the human-written library",
     sub: "Library score vs. what it cost to design (left) and what implementers spent per problem using it (right).",
-    width: 1060,
+    width: 960,
   },
   convergence: {
     title: "Agents converge on the same designs",
@@ -53,17 +55,15 @@ const CARDS: Record<string, { title: string; sub: string; width: number }> = {
   use: {
     title: "Using a real library well scales with the model",
     sub: "LibraryUseBench: each model gets the real library and is told to write as little code as possible.",
-    width: 900,
+    width: 820,
   },
   guidance: {
     title: "Designing explicitly for agents helps, modestly",
     sub: "GPT-6 Astra designing with and without an agent-first guidance prompt.",
-    width: 1000,
+    width: 900,
   },
 };
 const card = CARDS[fig!];
-// Only the lead image carries the benchmark name and site; the rest are just the figure.
-const branded = fig === "overview";
 
 // Names printed beside points, placed by hand to avoid collisions.
 const designPanels = [
@@ -73,10 +73,6 @@ const designPanels = [
       "opus-5-5-mini-swe": "right",
       "fable-5-1-mini-swe": "below",
       "gpt-6-astra-mini-swe": "left",
-      "gpt-6-astra-codex": "below-right",
-      "kimi-k3-mini-swe": "right",
-      "glm-5-3-mini-swe": "left",
-      "fable-5-1-claude-code": "below-left",
       "grok-4-6-mini-swe": "right",
       "gpt-5-6-sol-codex": "below-left",
       "gpt-6-sol-mini-swe": "below",
@@ -119,18 +115,17 @@ const usePanels = [
   <body>
     <main class="share">
       <header>
-        {branded && <p class="share-eyebrow">LibraryDesignBench</p>}
         <h1>{card.title}</h1>
         <p class="share-sub">{card.sub}</p>
       </header>
       <div class="share-body">
         <div class="share-fit" style={`width: ${card.width}px`}>
           {fig === "overview" && <LdbOverview />}
+          {fig === "task" && <LdbTask />}
           {
             fig === "pareto" && (
               <ParetoChart panels={designPanels} label={card.title}>
                 <div class="share-legend">
-                  <OrgLegend rows={designData.rows as Row[]} />
                   <div class="ldb-legend">
                     <span class="ldb-legend-item">
                       <span class="ldb-badge ref" style="--org: var(--ldb-nl)">
@@ -199,18 +194,10 @@ const usePanels = [
           }
         </div>
       </div>
-      {
-        branded && (
-          <div class="share-foot">
-            <span>Can Agents Design Libraries for Agents?</span>
-            <span>gabeorlanski.github.io</span>
-          </div>
-        )
-      }
     </main>
 
     <script is:inline>
-      // Scale the figure to fill the space between header and footer.
+      // Scale the figure to fill the space under the header.
       document.fonts.ready.then(() => {
         const body = document.querySelector(".share-body");
         const fit = document.querySelector(".share-fit");
@@ -236,29 +223,21 @@ const usePanels = [
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        width: 1600px;
-        height: 900px;
-        padding: 52px 72px 36px;
+        width: 1200px;
+        height: 675px;
+        padding: 30px 40px 24px;
         overflow: hidden;
         color: var(--foreground);
       }
-      .share-eyebrow {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        color: var(--accent);
-      }
       .share h1 {
-        margin: 8px 0 0;
-        font-size: 42px;
+        margin: 0;
+        font-size: 34px;
         line-height: 1.15;
         font-weight: 700;
       }
       .share-sub {
-        max-width: 1300px;
-        margin: 10px 0 0;
-        font-size: 21px;
+        margin: 8px 0 0;
+        font-size: 17px;
         line-height: 1.4;
         color: color-mix(in srgb, var(--foreground) 65%, transparent);
       }
@@ -268,17 +247,7 @@ const usePanels = [
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 22px 0 18px;
-      }
-      .share-foot {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        padding-top: 14px;
-        border-top: 1px solid
-          color-mix(in srgb, var(--foreground) 12%, transparent);
-        font-size: 17px;
-        color: color-mix(in srgb, var(--foreground) 60%, transparent);
+        margin: 14px 0 0;
       }
 
       /* Card-only overrides: no captions, notes or width caps. */
@@ -301,7 +270,46 @@ const usePanels = [
         justify-content: center;
         gap: 4px 28px;
         margin-top: 4px;
-        font-size: 14px;
+        font-size: 15px;
+      }
+
+      /* Card-only type: charts are read at phone width, so their text runs larger than on the post. */
+      .share .ldb-title {
+        font-size: 17px;
+      }
+      .share .ldb-y-axis,
+      .share .ldb-x-axis,
+      .share .ldb-point-label,
+      .share .ldb-ref-line > span {
+        font-size: 14.5px;
+      }
+      .share .ldb-legend {
+        font-size: 15px;
+      }
+      .share .cv-legend {
+        font-size: 15px;
+      }
+      .share .cv-who {
+        font-size: 17px;
+      }
+      .share .ldb-converge .cv-panel pre {
+        font-size: 13px;
+        padding: 12px 12px;
+      }
+      .share .ldb-task .tk-file-body,
+      .share .ldb-task .tk-problem-files,
+      .share .ldb-task .tk-step,
+      .share .ldb-task .tk-score,
+      .share .ldb-task .tk-phase-meta {
+        font-size: 14.5px;
+      }
+      .share .ldb-task .tk-other,
+      .share .ldb-task .tk-pill {
+        font-size: 13.5px;
+      }
+      .share .ldb-task .tk-phase-name,
+      .share .ldb-task .tk-title {
+        font-size: 19px;
       }
       .share-legend .ldb-legend {
         margin-top: 6px;
@@ -321,7 +329,7 @@ const usePanels = [
         border-radius: 10px;
       }
       .share-stats .k {
-        font-size: 14px;
+        font-size: 15px;
         color: color-mix(in srgb, var(--foreground) 62%, transparent);
       }
       .share-stats .v {
@@ -329,7 +337,7 @@ const usePanels = [
         font-weight: 700;
       }
       .share-stats .n {
-        font-size: 13px;
+        font-size: 14px;
         color: color-mix(in srgb, var(--foreground) 62%, transparent);
       }
     </style>

@@ -1,0 +1,372 @@
+---
+// Anatomy of one LibraryDesignBench task (clirs): a design phase whose library
+// is installed into every problem of the evaluation phase. Problem names, test
+// counts and reference sizes come from the LDB site data.
+const FEATURES = [
+  "Reusable command definitions, groups, and nested subcommands",
+  "Flags, options, positionals, aliases, and forwarded argument tails",
+  "Typed values, coercion, and custom validation",
+];
+const MORE_FEATURES = 5;
+const USAGES = ["a process-inspection command", "a site-management CLI"];
+
+const EXAMPLE = { id: "chain-exec", tests: 125, refLines: 769 };
+const OTHERS: [string, number][] = [
+  ["devctl-families", 155],
+  ["onboard", 108],
+  ["subcommand-groups", 100],
+  ["pointer-indexer", 72],
+  ["backup-variants", 44],
+  ["cross-build", 36],
+  ["relay-compiler", 31],
+  ["maintainer-tools", 27],
+  ["turbo-query", 24],
+  ["launcher-plan", 24],
+  ["process-inspect", 21],
+  ["site-builder", 20],
+];
+const PROBLEMS = OTHERS.length + 1;
+
+const fileIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+---
+
+<figure
+  class="ldb-task not-prose"
+  aria-label="Anatomy of a LibraryDesignBench task: a design phase and an evaluation phase of problems"
+>
+  <div class="tk-card">
+    <div class="tk-head">
+      <span class="tk-title">Task: <code>clirs</code></span>
+      <span class="tk-pills">
+        <span class="tk-pill">Rust CLI library</span>
+        <span class="tk-pill">production library: <b>clap</b></span>
+        <span class="tk-pill">offline Docker environment</span>
+      </span>
+    </div>
+
+    <div class="tk-phases">
+      <section class="tk-phase design">
+        <header>
+          <span class="tk-phase-no">Phase 1</span>
+          <span class="tk-phase-name">Design</span>
+        </header>
+        <div class="tk-file">
+          <div class="tk-file-name">
+            <span class="tk-ic" set:html={fileIcon} />instruction.md
+          </div>
+          <div class="tk-file-body">
+            <p>Write a CLI building crate called <code>clirs</code>.</p>
+            <p class="tk-muted">It should support:</p>
+            <ul>
+              {FEATURES.map(f => <li>{f}</li>)}
+              <li class="tk-muted">… {MORE_FEATURES} more</li>
+            </ul>
+            <p class="tk-muted">Example usages:</p>
+            <ul>
+              {USAGES.map(u => <li>{u}</li>)}
+            </ul>
+          </div>
+        </div>
+        <div class="tk-steps">
+          <span class="tk-step agent">Designer agent · 4 h, offline</span>
+          <span class="tk-step">Check: builds offline</span>
+          <span class="tk-step out">The <code>clirs</code> library</span>
+        </div>
+      </section>
+
+      <div class="tk-link" aria-hidden="true">
+        <span>installed into every problem</span>
+        <span class="tk-arrow">→</span>
+      </div>
+
+      <section class="tk-phase eval">
+        <header>
+          <span class="tk-phase-no">Phase 2</span>
+          <span class="tk-phase-name">Evaluation</span>
+          <span class="tk-phase-meta">{PROBLEMS} problems × 3 implementers</span
+          >
+        </header>
+        <div class="tk-problem">
+          <div class="tk-problem-name"><code>{EXAMPLE.id}</code></div>
+          <div class="tk-problem-files">
+            <div>
+              <span class="tk-ic" set:html={fileIcon} /><b>instruction.md</b>
+              <span class="tk-muted"
+                >Build the CLI <code>datapipe-chain</code> …</span
+              >
+            </div>
+            <div>
+              <span class="tk-ic" set:html={fileIcon} /><b>tests/</b>
+              <span class="tk-muted">{EXAMPLE.tests} expert-written tests</span>
+            </div>
+            <div>
+              <span class="tk-ic" set:html={fileIcon} /><b>reference solution</b
+              >
+              <span class="tk-muted"
+                >{EXAMPLE.refLines} lines, written with <code>clap</code></span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="tk-others">
+          {
+            OTHERS.map(([id, tests]) => (
+              <span class="tk-other">
+                <code>{id}</code>
+                <span class="tk-muted">{tests} tests</span>
+              </span>
+            ))
+          }
+        </div>
+        <p class="tk-score">
+          Each solution is scored against the reference:
+          <b>pass rate² × simplicity</b>.
+        </p>
+      </section>
+    </div>
+  </div>
+</figure>
+
+<style is:global>
+  .ldb-task {
+    --tk-ink-soft: color-mix(in srgb, var(--foreground) 62%, transparent);
+    --tk-line: color-mix(in srgb, var(--foreground) 13%, transparent);
+    --tk-panel: color-mix(in srgb, var(--foreground) 3%, var(--background));
+    --tk-design: #4a3aa7;
+    --tk-eval: #1b8f65;
+
+    margin: 2rem 0;
+    color: var(--foreground);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  html[data-theme="dark"] .ldb-task {
+    --tk-design: #9085e9;
+    --tk-eval: #3cc491;
+  }
+  .ldb-task code {
+    font-weight: 700;
+  }
+  .ldb-task .tk-muted {
+    color: var(--tk-ink-soft);
+  }
+
+  .tk-card {
+    padding: 16px 18px 18px;
+    border: 1px solid var(--tk-line);
+    border-radius: 14px;
+    background: var(--tk-panel);
+  }
+  .tk-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 12px;
+    margin-bottom: 14px;
+  }
+  .tk-title {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .tk-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tk-pill {
+    padding: 3px 12px;
+    border: 1px solid var(--tk-line);
+    border-radius: 999px;
+    background: var(--background);
+    font-size: 12px;
+    color: var(--tk-ink-soft);
+  }
+  .tk-pill b {
+    color: var(--foreground);
+  }
+
+  /* The two phases, joined by the library that flows from one to the other. */
+  .tk-phases {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 1.25fr);
+    gap: 10px;
+  }
+  .tk-phase {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px 14px;
+    border: 1px solid var(--tk-line);
+    border-top: 4px solid var(--tk-phase);
+    border-radius: 10px;
+    background: var(--background);
+  }
+  .tk-phase.design {
+    --tk-phase: var(--tk-design);
+  }
+  .tk-phase.eval {
+    --tk-phase: var(--tk-eval);
+  }
+  .tk-phase > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+  }
+  .tk-phase-no {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tk-phase);
+  }
+  .tk-phase-name {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .tk-phase-meta {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--tk-ink-soft);
+  }
+
+  .tk-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    max-width: 84px;
+    font-size: 12.5px;
+    text-align: center;
+    color: var(--tk-ink-soft);
+  }
+  .tk-arrow {
+    font-size: 22px;
+    line-height: 1;
+    color: var(--foreground);
+  }
+
+  .tk-file,
+  .tk-problem {
+    border: 1px solid var(--tk-line);
+    border-radius: 8px;
+  }
+  .tk-file-name,
+  .tk-problem-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--tk-line);
+    background: var(--tk-panel);
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+  }
+  .tk-file-body {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .tk-file-body p {
+    margin: 0 0 2px;
+  }
+  .tk-file-body ul {
+    margin: 0 0 6px;
+    padding-left: 16px;
+    list-style: disc;
+  }
+  .tk-file-body ul:last-child {
+    margin-bottom: 0;
+  }
+
+  .tk-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tk-step {
+    padding: 5px 10px;
+    border: 1px solid var(--tk-line);
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .tk-step.agent {
+    border-color: color-mix(in srgb, var(--tk-design) 45%, transparent);
+    background: color-mix(in srgb, var(--tk-design) 10%, var(--background));
+  }
+  .tk-step.out {
+    font-weight: 700;
+  }
+  .tk-step + .tk-step::before {
+    content: "↓ ";
+    color: var(--tk-ink-soft);
+  }
+
+  .tk-problem {
+    border-color: color-mix(in srgb, var(--tk-eval) 45%, transparent);
+  }
+  .tk-problem-name {
+    background: color-mix(in srgb, var(--tk-eval) 10%, var(--background));
+  }
+  .tk-problem-files {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .tk-problem-files > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 8px;
+  }
+  .tk-others {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 6px;
+  }
+  .tk-other {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 9px;
+    border: 1px solid var(--tk-line);
+    border-radius: 6px;
+    font-size: 12.5px;
+  }
+  .tk-score {
+    margin: auto 0 0;
+    font-size: 13px;
+    color: var(--tk-ink-soft);
+  }
+  .tk-score b {
+    color: var(--foreground);
+  }
+
+  .tk-ic {
+    display: inline-flex;
+    flex: none;
+  }
+  .tk-ic svg {
+    width: 14px;
+    height: 14px;
+    color: var(--tk-ink-soft);
+  }
+
+  @media (max-width: 720px) {
+    .tk-phases {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .tk-link {
+      max-width: none;
+      flex-direction: row;
+      gap: 8px;
+    }
+    .tk-arrow {
+      transform: rotate(90deg);
+    }
+  }
+</style>
