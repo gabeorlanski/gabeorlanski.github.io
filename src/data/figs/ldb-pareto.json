@@ -20,9 +20,9 @@
       "model": "Fable 5.1",
       "harness": "mini-SWE",
       "score": {
-        "mean": 0.4746,
-        "lo": 0.464,
-        "hi": 0.4852
+        "mean": 0.4749,
+        "lo": 0.4643,
+        "hi": 0.4855
       },
       "passRate": 0.8608,
       "simplicity": 0.6269,
@@ -90,14 +90,14 @@
       "model": "Fable 5.1",
       "harness": "Claude Code",
       "score": {
-        "mean": 0.3987,
-        "lo": 0.3736,
-        "hi": 0.4238
+        "mean": 0.4264,
+        "lo": 0.4013,
+        "hi": 0.4516
       },
-      "passRate": 0.8486,
-      "simplicity": 0.5827,
+      "passRate": 0.8584,
+      "simplicity": 0.5823,
       "libraryCost": 14.3923,
-      "problemCost": 0.2107
+      "problemCost": 0.2034
     },
     {
       "id": "grok-4-6-mini-swe",
@@ -176,8 +176,8 @@
       "model": "No library",
       "harness": null,
       "score": {
-        "mean": 0.3437,
-        "lo": 0.3387,
+        "mean": 0.3438,
+        "lo": 0.3388,
         "hi": 0.3488
       },
       "passRate": 0.8636,

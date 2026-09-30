@@ -73,7 +73,7 @@ export const REFERENCES: Record<string, Badge> = {
 const ZONES: Record<string, { text: string; side: "above" | "below" }> = {
   "no-library": { text: "↓ Actively impedes agents", side: "below" },
   "production-library": {
-    text: "↑ Beats human-written",
+    text: "↑ Beats production library",
     side: "above",
   },
 };

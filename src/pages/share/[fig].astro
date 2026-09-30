@@ -7,6 +7,7 @@ import LdbConvergence from "@/components/figs/LdbConvergence.astro";
 import LdbFailureTaxonomy from "@/components/figs/LdbFailureTaxonomy.astro";
 import LdbGuidance from "@/components/figs/LdbGuidance.astro";
 import LdbTask from "@/components/figs/LdbTask.astro";
+import LdbLeaderboardCard from "@/components/figs/LdbLeaderboardCard.astro";
 import { DESIGN_PANELS } from "@/components/figs/LdbPareto";
 import { USE_PANELS } from "@/components/figs/LdbUsePareto";
 import { ParetoChart } from "@/components/figs/ldb/ParetoChart";
@@ -14,6 +15,7 @@ import { ParetoChart } from "@/components/figs/ldb/ParetoChart";
 export function getStaticPaths() {
   if (import.meta.env.PROD) return [];
   return [
+    "leaderboard",
     "overview",
     "task",
     "pareto",
@@ -27,6 +29,11 @@ export function getStaticPaths() {
 const { fig } = Astro.params;
 
 const CARDS: Record<string, { title: string; sub: string; width: number }> = {
+  leaderboard: {
+    title: "LibraryDesignBench leaderboard",
+    sub: "",
+    width: 620,
+  },
   overview: {
     title: "Can agents design libraries for agents?",
     sub: "One agent designs a library. Other agents use it. Only their code is scored.",
@@ -38,9 +45,9 @@ const CARDS: Record<string, { title: string; sub: string; width: number }> = {
     width: 1000,
   },
   pareto: {
-    title: "Opus 5.5 designs libraries that beat the human-written one",
-    sub: "Library score vs. what it cost to design (left) and what implementers spent per problem using it (right).",
-    width: 960,
+    title: "Opus 5.5 and Fable 5.1 beat the production library",
+    sub: "Library score against what it cost to design (left) and what implementers spent per problem using it (right).",
+    width: 1000,
   },
   convergence: {
     title: "Agents converge on the same designs",
@@ -49,7 +56,7 @@ const CARDS: Record<string, { title: string; sub: string; width: number }> = {
   },
   failures: {
     title: "Most excess code traces back to the library",
-    sub: "Primary cause per designer, when a solution failed a test or ran longer than the reference.",
+    sub: "Primary cause per designer. Test failures split more evenly between library and implementer.",
     width: 900,
   },
   use: {
@@ -66,28 +73,27 @@ const CARDS: Record<string, { title: string; sub: string; width: number }> = {
 const card = CARDS[fig!];
 
 // Names printed beside points, placed by hand to avoid collisions.
-const designPanels = [
-  {
-    ...DESIGN_PANELS[0],
-    labels: {
+// Names only on the frontier, plus Fable 5.1, the other designer above the production line.
+const designPanels = DESIGN_PANELS.map((panel, i) => ({
+  ...panel,
+  title: ["Design cost", "Implementer cost"][i],
+  labels: [
+    {
       "opus-5-5-mini-swe": "right",
-      "fable-5-1-mini-swe": "below",
+      "fable-5-1-mini-swe": "left",
       "gpt-6-astra-mini-swe": "left",
       "grok-4-6-mini-swe": "right",
       "gpt-5-6-sol-codex": "below-left",
       "gpt-6-sol-mini-swe": "below",
-      "deepseek-v4-pro-mini-swe": "right",
     },
-  },
-  {
-    ...DESIGN_PANELS[1],
-    labels: {
+    {
       "opus-5-5-mini-swe": "right",
+      "fable-5-1-mini-swe": "left",
       "gpt-6-astra-mini-swe": "left",
       "gpt-6-sol-mini-swe": "left",
     },
-  },
-] as typeof DESIGN_PANELS;
+  ][i],
+})) as typeof DESIGN_PANELS;
 const usePanels = [
   {
     ...USE_PANELS[0],
@@ -114,9 +120,24 @@ const usePanels = [
     <meta charset="UTF-8" />
     <meta name="robots" content="noindex" />
     <title>{card.title}</title>
+    {
+      fig === "leaderboard" && (
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=block"
+        />
+      )
+    }
   </head>
   <body>
-    <main class="share">
+    {
+      fig === "leaderboard" && (
+        <main class="share-board">
+          <LdbLeaderboardCard />
+        </main>
+      )
+    }
+    <main class="share" data-fig={fig} hidden={fig === "leaderboard"}>
       <header>
         <h1>{card.title}</h1>
         <p class="share-sub">{card.sub}</p>
@@ -131,16 +152,18 @@ const usePanels = [
                 <div class="share-legend">
                   <div class="ldb-legend">
                     <span class="ldb-legend-item">
-                      <span class="ldb-badge ref" style="--org: var(--ldb-nl)">
-                        NL
-                      </span>
-                      No library
+                      <span
+                        class="ldb-legend-line"
+                        style="border-top: 2px dashed var(--ldb-pl)"
+                      />
+                      Production library
                     </span>
                     <span class="ldb-legend-item">
-                      <span class="ldb-badge ref" style="--org: var(--ldb-pl)">
-                        PL
-                      </span>
-                      Production library
+                      <span
+                        class="ldb-legend-line"
+                        style="border-top: 2px dashed var(--ldb-nl)"
+                      />
+                      No library
                     </span>
                     <span class="ldb-legend-item">
                       <span class="ldb-legend-line" />
@@ -204,6 +227,10 @@ const usePanels = [
       document.fonts.ready.then(() => {
         const body = document.querySelector(".share-body");
         const fit = document.querySelector(".share-fit");
+        if (document.querySelector(".share-board")) {
+          window.__shareReady = true;
+          return;
+        }
         const zoom = Math.min(
           body.clientWidth / fit.offsetWidth,
           body.clientHeight / fit.offsetHeight
@@ -221,6 +248,17 @@ const usePanels = [
       }
       body {
         min-height: 0 !important;
+      }
+      /* The leaderboard card sizes to its content and is captured by its box. */
+      .share-board {
+        box-sizing: border-box;
+        width: 620px;
+        padding: 36px 32px 28px;
+        color: var(--foreground);
+        background: var(--background);
+      }
+      .share[hidden] {
+        display: none;
       }
       .share {
         box-sizing: border-box;
@@ -313,6 +351,32 @@ const usePanels = [
       .share .ldb-task .tk-phase-name,
       .share .ldb-task .tk-title {
         font-size: 19px;
+      }
+      /* Every point is named on the cards, so points off the frontier stay legible. */
+      .share .ldb-point.off {
+        opacity: 0.8;
+      }
+      /* Smaller marks leave the crowded middle of the Pareto panels readable. */
+      .share[data-fig="pareto"] .ldb-point .ldb-badge {
+        width: 19px;
+        height: 19px;
+        border-radius: 5px;
+      }
+      .share[data-fig="pareto"] .ldb-point .ldb-badge svg {
+        width: 11px;
+        height: 11px;
+      }
+      .share[data-fig="pareto"] .ldb-point .ldb-badge.ref {
+        font-size: 9px;
+      }
+      /* A wider halo, so the frontier line does not run through a name. */
+      .share[data-fig="pareto"] .ldb-point-label {
+        text-shadow:
+          0 0 2px var(--background),
+          0 0 3px var(--background),
+          0 0 4px var(--background),
+          0 0 5px var(--background),
+          0 0 6px var(--background);
       }
       .share-legend .ldb-legend {
         margin-top: 6px;

@@ -76,8 +76,7 @@ export default function LdbPareto() {
           <dd>
             <b>Reference score.</b> Dashed at the NL and PL scores in both
             panels. A designed library scoring below NL actively impedes the
-            agents using it; one scoring above PL beats the human-written
-            library.
+            agents using it; one scoring above PL beats the production library.
           </dd>
           <dt>
             <span className="ldb-legend-line" />
