@@ -1,5 +1,26 @@
 [
   {
+    "id": "library-design-bench",
+    "title": "Can Agents Design Libraries for Agents?",
+    "description": "",
+    "pubDatetime": "2026-09-30T17:00:00Z",
+    "modDatetime": "2026-09-30T17:00:00Z",
+    "timezone": "America/New_York",
+    "codeLink": "https://github.com/SprocketLab/librarydesignbench",
+    "arxivLink": "https://arxiv.org/abs/2609.36730",
+    "isPaper": true,
+    "paperType": "Preprint",
+    "authors": [
+      "Gabriel Orlanski",
+      "Alex L. Zhang",
+      "Avi Trost",
+      "Vincent Sunn Chen",
+      "Frederic Sala",
+      "Aws Albarghouthi",
+      "Ludwig Schmidt"
+    ]
+  },
+  {
     "id": "slop-code-bench",
     "title": "SlopCodeBench: Benchmarking How Coding Agents Degrade Over Long-Horizon Iterative Tasks",
     "description": "",

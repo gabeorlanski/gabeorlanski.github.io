@@ -1,5 +1,13 @@
 ---
 author: Gabe Orlanski
+authors:
+  - Gabriel Orlanski
+  - Alex L. Zhang
+  - Avi Trost
+  - Vincent Sunn Chen
+  - Frederic Sala
+  - Aws Albarghouthi
+  - Ludwig Schmidt
 pubDatetime: 2026-09-30T17:00:00Z
 modDatetime: 2026-09-30T17:00:00Z
 title: "Can Agents Design Libraries for Agents?"
@@ -11,10 +19,11 @@ tags:
   - analysis
   - library-design-bench
   - technical
-description: "Frontier agents design libraries, and other agents judge them by building with them. Two beat the human-written library. One is worse than no library at all."
+description: "Frontier agents design libraries, and other agents judge them by building with them. Opus 5.5 beats the human-written library. DeepSeek V4 Pro is worse than no library at all."
 codeLink: https://github.com/SprocketLab/librarydesignbench
-paperType: Blog
-isPaper: false
+arxivLink: https://arxiv.org/abs/2609.36730
+paperType: Technical Report
+isPaper: true
 ---
 
 import LdbOverview from "@/components/figs/LdbOverview.astro";
@@ -28,22 +37,25 @@ import LdbUsePareto from "@/components/figs/LdbUsePareto.tsx";
 
 {/* prettier-ignore */}
 <div class="btn-group">
-  <a href="https://ldbench.com" class="btn btn-primary">Leaderboard</a>
+  <a href="https://arxiv.org/abs/2609.36730" class="btn btn-primary">Paper</a>
+  <a href="https://ldbench.com" class="btn btn-secondary">Leaderboard</a>
   <a href="https://github.com/SprocketLab/librarydesignbench" class="btn btn-github">Code</a>
   <a href="https://x.com/Gorlanski" class="btn btn-twitter">@Gorlanski</a>
 </div>
 
-> **TL;DR:** We asked frontier agents to design a library, then judged it only by how well _other_ agents could build with it. Two (Opus 5.5 and Fable 5.1) beat the human-written library. One (DeepSeek V4 Pro) is worse than no library at all. And on 11 of 15 tasks, they just copy the human design.
+> **TL;DR:** We asked frontier agents to design a library, then judged it only by how well _other_ agents could build with it. Opus 5.5 beats the human-written library, and Fable 5.1 roughly matches it. DeepSeek V4 Pro is worse than no library at all. And on 11 of 15 tasks, agents just copy the human design. [Read the paper.](https://arxiv.org/abs/2609.36730)
 
 [TOC]
 
-We are fast approaching an inflection point where agents will work more with code designed by other agents than by a human engineer. Existing benchmarks don't adequately measure this because they focus on the _library's_ correctness rather than its utility to future users. That is why I am excited to release [LibraryDesignBench](https://ldbench.com), a two-phase benchmark that evaluates an agent-written library's quality only through how _downstream agents use it_. LDB tasks an agent with designing a library from only a feature list and two descriptions of how it will be used. We then task three different, less capable, agents with leveraging the library to write correct but simple programs.
+We are fast approaching a point where the primary users of software libraries are agents, not human engineers. If agents are the users, then a library should be judged by how little code agents need to write correct programs with it, not by how it reads to a human. That is why I am excited to release [LibraryDesignBench](https://ldbench.com), a two-phase benchmark that scores an agent-written library solely by how much it helps the _future agents_ that use it.
 
-At no point do we prescribe signatures their library must expose. Nor do we ever guide them to specific abstractions or patterns they should use. We intentionally give them underspecified, vague, and ambiguous library specifications because frontier agents need to envision how future agents will use their library, what they will need, and what design will work best. LibraryDesignBench gives agents this vast freedom because the evaluation needs to serve as a test bed for understanding what patterns _agents_ actually prefer, not what we think they will prefer.
+## Asking agents to write libraries for other agents
 
-## Evaluating A Library Without Inspecting It
+LibraryDesignBench asks agents to write effective libraries, and we intentionally give them design flexibility. We never prescribe signatures their library must expose. Nor do we ever guide them to specific abstractions or patterns they should use. We intentionally give them underspecified, vague, and ambiguous library specifications because frontier agents need to envision how future agents will use their library, what they will need, and what design will work best. LibraryDesignBench gives agents this vast freedom because the evaluation needs to serve as a test bed for understanding what patterns _agents_ actually prefer, not what we think they will prefer.
 
-A library that implements something correctly does not immediately provide any value – it needs to be correct _and_ make future code simpler. Thus, the _only_ way to measure a library's quality is to observe how much future users benefit from its design decisions. LibraryDesignBench does this in two phases:
+## Evaluating A Library Based on How Agents Use It
+
+A library that implements something correctly does not immediately provide any value – it needs to be correct _and_ make future code simpler. Thus, the _only_ way to measure a library's quality is to observe how much future agents benefit from its design decisions. LibraryDesignBench does this in two phases:
 
 1. **Design Phase:** The agent implements a full library from an intentionally non-prescriptive specification.
 2. **Evaluation Phase:** We evaluate the library by observing multiple different implementer agents attempt to solve problems using it.
@@ -62,19 +74,28 @@ $$
 \text{simplicity}(y) = \frac{1}{|\mathcal{M}|} \sum_{m \in \mathcal{M}} \min\left\{\frac{m(y^*)}{m(y)},\, 1\right\}
 $$
 
-$\mathcal{M}$ is the set of static metrics we use to compare how far off the solution written with the library is from the golden reference, $y^*$, written with the real production library. The metrics we use are: Source Lines of Code, Cyclomatic Complexity, Cognitive Complexity, and Halstead Volume. You can read more details about our scoring methodology and standard error definitions in section 2 of the paper.
+$\mathcal{M}$ is the set of static metrics we use to compare how far off the solution written with the library is from the golden reference, $y^*$, written with the real production library. Each ratio is capped at 1, so a solution that beats the reference gets no extra credit. The four metrics are:
+
+- **Source Lines of Code:** how much code the agent wrote.
+- **Cyclomatic Complexity:** how many branches and loops the agent needed.
+- **Cognitive Complexity:** how hard the code is to follow, with extra weight on nesting.
+- **Halstead Volume:** size in operators and operands, which dense one-liners can't game.
+
+Section 2 of the [paper](https://arxiv.org/abs/2609.36730) covers the scoring and standard errors in more detail.
 
 ## Agents Copy Human Designs But Worse
 
-We evaluate our 15 library design tasks on 9 frontier models across 11 setups, all using high reasoning. We run each task three times per setup, for a total of 45 libraries. We then run each implementer agent once per generated library across our 242 problems, for a total of 2,178 trials per setup. We also evaluate setups with no library present (given a different prompt) and the case where they have pre-installed the human-designed production library. For these two setups, the evaluation agents are run for the same set of 2,178 trials.
+We evaluate 11 designer setups, covering 9 frontier models with some run in more than one harness, all at high reasoning. Each setup attempts each of the 15 library design tasks three times, which produces 45 libraries. The three implementer agents then use each library to solve every problem in its task. Across all 242 problems, that comes to 242 problems × 3 libraries × 3 implementers = **2,178 trials per setup**.
+
+We compare against two baselines that use the same 2,178 trials. In the first, implementers have no library and use a separate prompt. In the second, they have the human-written production library pre-installed. Neither baseline has three designed libraries to vary, so we instead run each problem-implementer pair three times.
 
 <LdbPareto client:visible />
 
-We find that both Opus 5.5 and Fable 5.1 can outperform the production libraries, while only DeepSeek V4 Pro designs a library that actively hurts the agents. For both Astra & Fable, mini-SWE-agent outperforms their native harnesses. In the case of Claude Code, Fable's library lacked documentation compared with the library written in mini-SWE-agent.
+Opus 5.5 designs libraries that help downstream agents more than the human-written production libraries do. With them, implementers pass just as many tests while writing simpler code. Fable 5.1 roughly matches production. Correctness barely separates designers, since every setup passes about the same share of tests, so the ranking comes down to how much code implementers still have to write. At the other end, DeepSeek V4 Pro's library actively hurts: implementers do worse with it than with no library at all. The harness also matters. Fable's libraries are much more useful when designed in mini-SWE-agent than in Claude Code, and Astra's are slightly more useful in mini-SWE-agent than in Codex.
 
 <LdbConvergence />
 
-Beyond harness peculiarities, the biggest trend we observed is that on 11/15 tasks, agents copied a design pattern from the corresponding production library. Surprisingly, these patterns are the exact ones the implementer agents used when given the production library. Our failure analysis indicates that the implementer agents end up writing more complex code than is needed because interfaces are either too rigid to use or require verbose code. In the former case, agents reimplement functionality the libraries provide, adding bugs in the process.
+Beyond harness peculiarities, the biggest trend we observed is that on 11/15 tasks, agents copied a design pattern from the corresponding production library. Surprisingly, these patterns are the exact ones the implementer agents used when given the production library. Our failure analysis indicates that the implementer agents write more complex code than needed because interfaces are either too rigid to use or require verbose code. In the former case, agents reimplement functionality the libraries provide, adding bugs in the process.
 
 <LdbFailureTaxonomy />
 
@@ -84,14 +105,20 @@ Our main evaluation prompt is rather heavy-handed because we need agents to full
 
 <LdbUsePareto client:visible />
 
-## Do Agents Prefer Non-Human Design Patterns?
+## Do Agent-First Designs Help?
 
-We conclude with an exploratory prompting intervention in which we explicitly guide the agent based on the trends we observed, instruct it to use subagents to test its design, and ask it to use as concise symbol names as possible. We find this provides a modest benefit for downstream agents, suggesting that the design patterns we prefer are unlikely to be the ones agents prefer.
+Designers tend to copy the production library, so we tried steering them away from it. We append a guidance prompt to the spec. It says the library will be used only by coding agents scored on how little code they write, and it asks the designer to:
+
+- write the programs downstream agents would want to write _first_, then design the API to match them,
+- have fresh subagents solve tasks with the library, and fix the library wherever they write extra code or guess a name wrong,
+- ship those programs as runnable examples.
+
+Guided libraries copy fewer names from the production library and fold multi-step patterns into single calls. In `clirs`, for example, builder chains become one task-level call. Downstream solutions get shorter, and the score improves for every implementer, but it still lands just below the production library at roughly twice the design cost. Moving away from human designs helps, but we still haven't found what the design agents prefer.
 
 <LdbGuidance />
 
 ## Conclusion
 
-The full leaderboards and tasks are at [ldbench.com](https://ldbench.com). You can view the full repo [here](https://github.com/SprocketLab/librarydesignbench/) and the task repo [here](https://github.com/gabeorlanski/ldb-tasks). You can read the full technical report here. If you have a task you would like to see, open an issue on the repo or get involved in the Discord.
+The full leaderboards and tasks are at [ldbench.com](https://ldbench.com). You can view the full repo [here](https://github.com/SprocketLab/librarydesignbench/) and the task repo [here](https://github.com/gabeorlanski/ldb-tasks). You can read the full technical report [here](https://arxiv.org/abs/2609.36730). If you have a task you would like to see, open an issue on the repo or get involved in the Discord.
 
-This would not be possible without my amazing collaborators: Alex L. Zhang, Avi Trost, Vincent Sunn Chen, Frederic Sala, Aws Albargouthi, and Ludwig Schmidt. I also thank John Yang, Parth Asawa, Xavier Garcia, Ryan Carelli, Arun Kumar, Floriad Brand, and Nick Roberts for their helpful feedback and discussions. LDB is supported by DARPA, NSF, Prime Intellect, and Snorkel AI through the Open Benchmarks Grant.
+This would not be possible without my amazing collaborators: Alex L. Zhang, Avi Trost, Vincent Sunn Chen, Frederic Sala, Aws Albarghouthi, and Ludwig Schmidt. I also thank John Yang, Parth Asawa, Xavier Garcia, Ryan Carelli, Arun Kumar, Floriad Brand, and Nick Roberts for their helpful feedback and discussions. LDB is supported by DARPA, NSF, Prime Intellect, and Snorkel AI through the Open Benchmarks Grant.
