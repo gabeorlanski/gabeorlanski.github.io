@@ -8,13 +8,13 @@ authors:
   - Frederic Sala
   - Aws Albarghouthi
   - Ludwig Schmidt
-pubDatetime: 2026-09-30T17:00:00Z
-modDatetime: 2026-09-30T17:00:00Z
+pubDatetime: 2026-09-30T16:35:00Z
+modDatetime: 2026-09-30T16:35:00Z
 title: "Can Agents Design Libraries for Agents?"
 slug: library-design-bench
-featured: false
+featured: true
 draft: false
-unlisted: true
+unlisted: false
 tags:
   - analysis
   - library-design-bench
@@ -56,7 +56,7 @@ A library that implements something correctly does not immediately provide any v
 1. **Design Phase:** The agent implements a full library from an intentionally non-prescriptive specification.
 2. **Evaluation Phase:** We evaluate the library by observing multiple different implementer agents attempt to solve problems using it.
 
-The only aspect we check in the design phase is if the library is installable in their internet-restricted environment, as we pre-install all libraries for evaluation since trying to install a library is not part of the signal we care about. We then task three agents (5.6 Luna on Codex, DeepSeek v4.1 Flash on mini-SWE-agent, and GLM 5.3 Flash on mini-SWE-agent) with solving programming problems with the library in as little code as possible. Each problem $\times$ agent $\times$ library is run in its own environment without internet access, with high reasoning, and with the library pre-installed. We use a [highly prescriptive prompt](https://github.com/SprocketLab/librarydesignbench/blob/dev/configs/prompts/library_use_inst.md) to ensure agents attempt to fully exploit the library.
+The only aspect we check in the design phase is if the library is installable in their internet-restricted environment, as we pre-install all libraries for evaluation since trying to install a library is not part of the signal we care about. We then task three agents (GPT-5.6 Luna on Codex, DeepSeek v4.1 Flash on mini-SWE-agent, and GLM 5.3 Flash on mini-SWE-agent) with solving programming problems with the library in as little code as possible. Each problem $\times$ agent $\times$ library is run in its own environment without internet access, with high reasoning, and with the library pre-installed. We use a [highly prescriptive prompt](https://github.com/SprocketLab/librarydesignbench/blob/dev/configs/prompts/library_use_inst.md) to ensure agents attempt to fully exploit the library.
 
 We now take these solutions and score each with:
 
@@ -97,7 +97,7 @@ Beyond harness peculiarities, the biggest trend we observed is that on 11/15 tas
 
 ## Can Agents Use Libraries Without Instruction?
 
-Our main evaluation prompt is rather heavy-handed because we need agents to fully exploit the library to measure its upper bound. But we also want to understand how _models_ will behave given [minimal additional instructions](https://github.com/SprocketLab/librarydesignbench/blob/dev/configs/prompts/minimal.md). Thus, we also release **LibraryUseBench**, our evaluation phase in which agents must use the production library to write as little code as possible. All agents use mini-SWE-agent and use High thinking. Opus 5.5, unsurprisingly, is the best model evaluated, while 5.6 Luna rounds out the lower end.
+Our main evaluation prompt is rather heavy-handed because we need agents to fully exploit the library to measure its upper bound. But we also want to understand how _models_ will behave given [minimal additional instructions](https://github.com/SprocketLab/librarydesignbench/blob/dev/configs/prompts/minimal.md). Thus, we also release **LibraryUseBench**, our evaluation phase in which agents must use the production library to write as little code as possible. All agents use mini-SWE-agent and use High thinking. Opus 5.5, unsurprisingly, is the best model evaluated, but Sonnet 5.5 is close behind at just over half the cost per problem. The gap between them is small, but it holds up when we [compare the two problem by problem](https://ldbench.com/usage/pairs). GPT-6 Luna is by far the cheapest model, but it passes only 71% of tests, and GPT-5.6 Luna rounds out the lower end.
 
 <LdbUsePareto client:visible />
 
@@ -117,4 +117,4 @@ Guided libraries copy fewer names from the production library and fold multi-ste
 
 The full leaderboards and tasks are at [ldbench.com](https://ldbench.com). You can view the full repo [here](https://github.com/SprocketLab/librarydesignbench/) and the task repo [here](https://github.com/gabeorlanski/ldb-tasks). You can read the full technical report [here](https://arxiv.org/abs/2609.36730). If you have a task you would like to see, open an issue on the repo or get involved in the Discord.
 
-This would not be possible without my amazing collaborators: Alex L. Zhang, Avi Trost, Vincent Sunn Chen, Frederic Sala, Aws Albarghouthi, and Ludwig Schmidt. I also thank John Yang, Parth Asawa, Xavier Garcia, Ryan Carelli, Arun Kumar, Floriad Brand, and Nick Roberts for their helpful feedback and discussions. LDB is supported by DARPA, NSF, Prime Intellect, and Snorkel AI through the Open Benchmarks Grant.
+This would not be possible without my amazing collaborators: Alex L. Zhang, Avi Trost, Vincent Sunn Chen, Frederic Sala, Aws Albarghouthi, and Ludwig Schmidt. I also want to thank John Yang, Parth Asawa, Xavier Garcia, Ryan Carelli, Arun Kumar, Floriad Brand, and Nick Roberts for their helpful feedback and discussions. LDB is supported by DARPA, NSF, Prime Intellect, and Snorkel AI through the Open Benchmarks Grant.

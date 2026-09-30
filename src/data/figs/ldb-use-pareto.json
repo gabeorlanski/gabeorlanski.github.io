@@ -16,6 +16,34 @@
       "problemCost": 0.6638
     },
     {
+      "id": "sonnet-5-5",
+      "model": "Sonnet 5.5",
+      "harness": "mini-SWE",
+      "score": {
+        "mean": 0.6381,
+        "lo": 0.5685,
+        "hi": 0.7077
+      },
+      "passRate": 0.9185,
+      "simplicity": 0.7572,
+      "libraryCost": null,
+      "problemCost": 0.3743
+    },
+    {
+      "id": "gpt-6-sol",
+      "model": "GPT-6 Sol",
+      "harness": "mini-SWE",
+      "score": {
+        "mean": 0.5757,
+        "lo": 0.5155,
+        "hi": 0.6358
+      },
+      "passRate": 0.9226,
+      "simplicity": 0.6681,
+      "libraryCost": null,
+      "problemCost": 0.2366
+    },
+    {
       "id": "opus-5",
       "model": "Opus 5",
       "harness": "mini-SWE",
@@ -98,6 +126,20 @@
       "simplicity": 0.4931,
       "libraryCost": null,
       "problemCost": 0.2858
+    },
+    {
+      "id": "gpt-6-luna",
+      "model": "GPT-6 Luna",
+      "harness": "mini-SWE",
+      "score": {
+        "mean": 0.3352,
+        "lo": 0.2604,
+        "hi": 0.41
+      },
+      "passRate": 0.7139,
+      "simplicity": 0.6279,
+      "libraryCost": null,
+      "problemCost": 0.0066
     },
     {
       "id": "gpt-5-6-luna",
