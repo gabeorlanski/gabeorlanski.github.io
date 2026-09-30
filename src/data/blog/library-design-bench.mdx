@@ -19,7 +19,7 @@ tags:
   - analysis
   - library-design-bench
   - technical
-description: "Frontier agents design libraries, and other agents judge them by building with them. Opus 5.5 beats the human-written library. DeepSeek V4 Pro is worse than no library at all."
+description: "Introducing LibraryDesignBench, a new benchmark that scores agent-written libraries solely by how much they help the future agents that use them."
 codeLink: https://github.com/SprocketLab/librarydesignbench
 arxivLink: https://arxiv.org/abs/2609.36730
 paperType: Technical Report
@@ -42,10 +42,6 @@ import LdbUsePareto from "@/components/figs/LdbUsePareto.tsx";
   <a href="https://github.com/SprocketLab/librarydesignbench" class="btn btn-github">Code</a>
   <a href="https://x.com/Gorlanski" class="btn btn-twitter">@Gorlanski</a>
 </div>
-
-> **TL;DR:** We asked frontier agents to design a library, then judged it only by how well _other_ agents could build with it. Opus 5.5 beats the human-written library, and Fable 5.1 roughly matches it. DeepSeek V4 Pro is worse than no library at all. And on 11 of 15 tasks, agents just copy the human design. [Read the paper.](https://arxiv.org/abs/2609.36730)
-
-[TOC]
 
 We are fast approaching a point where the primary users of software libraries are agents, not human engineers. If agents are the users, then a library should be judged by how little code agents need to write correct programs with it, not by how it reads to a human. That is why I am excited to release [LibraryDesignBench](https://ldbench.com), a two-phase benchmark that scores an agent-written library solely by how much it helps the _future agents_ that use it.
 
