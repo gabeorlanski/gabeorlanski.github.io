@@ -1,0 +1,204 @@
+---
+author: Gabe Orlanski
+pubDatetime: 2026-11-02T12:00:00Z
+modDatetime: 2026-11-02T12:00:00Z
+title: "Slop Is Moving Up the Stack"
+slug: slop-moves-up
+featured: false
+draft: true
+tags:
+  - analysis
+  - slop-code-bench
+  - library-design-bench
+  - technical
+description: "Agents write cleaner lines of code than a year ago. The slop moved into design: hand-written copies of libraries, catch-all error handling, and libraries other agents don't use."
+codeLink: https://github.com/SprocketLab/slop-code-bench
+paperType: Blog
+isPaper: false
+---
+
+import SlopOverview from "@/components/figs/SlopOverview.astro";
+import SlopStack from "@/components/figs/SlopStack.tsx";
+import SlopTimeline from "@/components/figs/SlopTimeline.tsx";
+import SlopLineage from "@/components/figs/SlopLineage.tsx";
+import SlopReuse from "@/components/figs/SlopReuse.tsx";
+import SlopLanguages from "@/components/figs/SlopLanguages.tsx";
+import ExGood1 from "@/data/slop-moves-up/ex_good_1_error_tuple_opus.mdx";
+import ExGood2 from "@/data/slop-moves-up/ex_good_2_error_tuple_gpt.mdx";
+import ExBad1 from "@/data/slop-moves-up/ex_bad_1_wide_except.mdx";
+import ExBad2 from "@/data/slop-moves-up/ex_bad_2_error_factories.mdx";
+import ExBad3 from "@/data/slop-moves-up/ex_bad_3_checkpoint_fossil.mdx";
+import ExBad4 from "@/data/slop-moves-up/ex_bad_4_two_parsers.mdx";
+import ExBad5 from "@/data/slop-moves-up/ex_bad_5_inline_validation.mdx";
+import ExBad6 from "@/data/slop-moves-up/ex_bad_6_timestamps.mdx";
+import ExBad7 from "@/data/slop-moves-up/ex_bad_7_copy_drift.mdx";
+import ExBad8 from "@/data/slop-moves-up/ex_bad_8_fail_open.mdx";
+import ExBad9 from "@/data/slop-moves-up/ex_bad_9_py2_object.mdx";
+import ExBad10 from "@/data/slop-moves-up/ex_bad_10_py2_init.mdx";
+import ExBad11 from "@/data/slop-moves-up/ex_bad_11_py2_typing.mdx";
+import ExUgly1 from "@/data/slop-moves-up/ex_ugly_1_xjq_guard.mdx";
+import ExUgly2 from "@/data/slop-moves-up/ex_ugly_2_recli_runs_anyway.mdx";
+import ExUgly3 from "@/data/slop-moves-up/ex_ugly_3_venv_search.mdx";
+import ExUgly4 from "@/data/slop-moves-up/ex_ugly_4_ldb_str_equality.mdx";
+import ExUgly5 from "@/data/slop-moves-up/ex_ugly_5_ldb_none_means_two_things.mdx";
+import ExUgly6 from "@/data/slop-moves-up/ex_ugly_6_ldb_path_exists.mdx";
+import ExLangs from "@/data/slop-moves-up/ex_langs_catch_all.mdx";
+
+{/* Sentences marked NEW are not from the Google Doc. Everything else is Gabe's text. */}
+
+<SlopOverview />
+
+{/* prettier-ignore */}
+<div class="btn-group">
+  <a href="https://www.scbench.ai" class="btn btn-primary">SCBench</a>
+  <a href="https://ldbench.com" class="btn btn-secondary">LDBench</a>
+</div>
+
+**TL;DR**
+
+When we began work on [SlopCodeBench](https://www.scbench.ai) a little over one year ago, there was a lot of discussion about "[slop coding](https://x.com/nearcyan/status/1902539629313847637)", [quality issues with vibe coding](https://x.com/rauchg/status/1979590878416257216), or just the general [low-quality code that came from agents](https://x.com/jsharkey/status/1968471631111614574) at the time. Today, we'll look at what's gotten better and what's gotten worse since we released SCB.
+
+This would not have been possible without the amazing [Dex Horthy](https://x.com/dexhorthy) at HumanLayer for running every new model with SlopCodeBench. His [Part I](https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/benchmarking-new-models-on-slop-code-bench.md) covers pass rates, cost, and how much slop each model writes ([announcement on X](https://x.com/dexhorthy/status/2115115507183685850)).
+
+{/* NEW */}
+We compare five older runs (Opus 4.6, Opus 4.7, GPT-5.4, GPT-5.5, GLM 5.1) to ten newer ones (Opus 5.5, Fable 5.1, the GPT-6 family, GPT-5.6 SOL and GLM 5.3). Every code measure uses the final snapshot of each problem and excludes tests.
+
+### The Good
+
+Unsurprisingly, solve rates on SCB keep climbing. The strict solve rate, the share of checkpoints where every test passes, now peaks at 16.3%, set by GPT-6 Astra XHigh (32 of 196 checkpoints). Every frontier model released since July clears 65% on core tests.
+
+<SlopTimeline keys={["strict", "isolated", "core"]} client:visible />
+
+{/* NEW */}
+And it is not a fluke. Across every setup, all three solve rates trend up: strict by 0.9 points a month, isolated by 1.5 and core by 2.3.
+
+{/* Changed from the Google Doc: "Verbosity, the share of lines our rules flag" -> line-level slop, the rule hits per 1,000 lines (verbosity counts leftover test files). */}
+
+The picture splits when we look at code quality. Line-level slop, the rule hits per 1,000 lines, falls steadily. Erosion, how much of a program's complexity sits in a few giant functions, does not. Measured on source code alone, it is flat to slightly worse.
+
+<SlopTimeline keys={["lines", "erosion"]} client:visible />
+
+Following each lineage model by model, the patterns SlopCodeBench's rules were built around are disappearing:
+
+<SlopLineage kind="down" client:visible />
+
+{/* NEW */}
+Take the `(value, error)` tuple. Both lineages dropped it for real exceptions:
+
+<ExGood1 />
+
+<ExGood2 />
+
+Overall, this is incredibly encouraging because it means code quality at the spot-check level can improve. This is in addition to the near _elimination_ of all process-related errors. Agents rarely forget references or write empty source modules. They also rarely hardcode test values that break later checkpoints. **At the lowest level, agents have truly improved the quality of each line of code they write.**
+
+### The Bad
+
+Of course, it is not that easy. There were some patterns that did, surprisingly, increase in frequency by quite a massive amount:
+
+<SlopStack client:visible />
+
+{/* NEW */}
+The lines and functions are cleaner. Everything above them is worse. And it shows up model by model:
+
+<SlopLineage kind="up" client:visible />
+
+Some of this is slop moving, not disappearing:
+
+- Silent `except Exception:` handlers became `except OSError: return None`.
+- The type-check helpers our rules flag became inline `if not isinstance(...): raise` ladders.
+
+<ExBad8 />
+
+<ExBad5 />
+
+The total still goes down, but less than the old rules suggest. These are the new regressions to look out for:
+
+<ExBad1 />
+
+<ExBad2 />
+
+<ExBad3 />
+
+<ExBad4 />
+
+<ExBad7 />
+
+{/* NEW */}
+None of these are bad lines of code. They are bad design decisions: what a handler catches, where validation lives, what a function is responsible for. No line-level rule will ever flag them. And every agent that builds on this code inherits them.
+
+One regression costs real tests. All six new GPT runs write timestamps with microseconds, even though every example in the spec has whole seconds. At checkpoint 2 they pass 1 of 12 core tests, where GPT-5.4 and GPT-5.5 passed 10 of 12. The failure starts at checkpoint 1, and none of the six ever fixes it.
+
+<ExBad6 />
+
+The GPT-6 models also grow the functions they already have. Between 22% and 29% of the code they add at each checkpoint lands inside an existing function; GPT-5.4 and GPT-5.5 were at 15% and 17%. GPT-6 SOL Medium's `grade()` goes from complexity 22 to 192 over seven checkpoints, gaining an optional parameter at each step. By checkpoint 7, one flag changes what the function returns.
+
+What is more concerning, in my opinion, is that the Claude models and GLM 5.3 have started writing Python 2 idioms into a Python 3.12 codebase: `%` formatting, `class X(object)` and `Base.__init__(self, ...)`. `%` formatting is the main style in 14–23 of 36 problems for Opus 5.5, Fable and GLM 5.3, against at most 3 for any older run. Each problem's style is set at checkpoint 1 and almost never changes.
+
+<ExBad9 />
+
+<ExBad10 />
+
+<ExBad11 />
+
+{/* NEW */}
+These habits also follow agents into the libraries they write for other agents. In LibraryDesignBench (more on that below), their libraries carry the same error-swallowing habits:
+
+- Helpers that return a placeholder on error appear at 25x the rate of the human libraries.
+- `# pragma: no cover` on error handlers appears at nearly 4x their own SCB rate.
+
+<ExUgly4 />
+
+<ExUgly5 />
+
+<ExUgly6 />
+
+{/* NEW: the cross-language section (N_ldb_langs). */}
+
+SlopCodeBench only looks at Python. LibraryDesignBench covers Python, Rust, TypeScript and Haskell, so we counted the same four kinds of smells in every library and compared them to the human-written libraries for the same task:
+
+<SlopLanguages client:visible />
+
+The good news holds in every language. In Rust, TypeScript and Haskell, agent-written libraries have fewer crash shortcuts, suppressions and type-system escapes than the human ones. The bad news is error handling, and it looks different in every language. Python libraries silence broad exceptions 3x as often as humans do. Haskell libraries catch `SomeException`, which the human libraries never do. TypeScript libraries assert non-null where DOMPurify never does (only one task, so take that one lightly).
+
+<ExLangs />
+
+### The Ugly
+
+All of these pale in comparison to the largest issue we observe in the newest models: they would rather write a library than use one.
+
+The most common form is a hand-written fallback. The agent lists a library in `requirements.txt`, guards the import, and writes its own copy for when the import fails. The benchmark always installs the requirements, so the copy never runs. The five older runs did this in 4 problems (156 lines). The new runs do it in 31 problems (9,060 lines), all from Opus 5.5, Fable 5.1 or GLM 5.3. Opus 5.5 XHigh's `xjq` declares `lxml` and carries a 1,058-line XPath engine behind it, extended at every checkpoint. In Fable's logs, 10 of 14 fallbacks were written without any import ever failing.
+
+<SlopTimeline keys={["fallbacks"]} client:visible />
+
+<ExUgly1 />
+
+<ExUgly2 />
+
+<ExUgly3 />
+
+Sometimes there is no dependency at all. On `file_query_tool`, Opus 4.7 built on `duckdb` in 324 lines; Opus 5.5 XHigh wrote its own SQL engine in 3,375. Here the extra code passed more tests.
+
+This matters more now that agents write code for other agents. [LibraryDesignBench](/posts/library-design-bench/) measures exactly that: one agent designs a library, and other agents build on it. The best agent-designed libraries now score above the human ones: Opus 5.5 scores 48.9 and Fable 47.5, against 46.6 for the production library and 34.4 with no library at all.
+
+The failures are mostly about reuse. In 2 of 3 failed tests the library could already do the job:
+
+- In 43%, the implementer didn't find the capability, or missed part of how to use it.
+- In 25%, it found the capability and wrote its own version anyway, because of how the library was designed.
+
+<SlopReuse client:visible />
+
+To be fair to the agents, the code implementers write on top of the best agent libraries is as clean as on the human one. Erosion in their programs is 0.395 on Opus 5.5's library, 0.396 on Fable's and 0.400 on the human library, against 0.781 with no library at all. The problem is not that the libraries produce sloppy programs. It is that implementers routinely skip or rewrite what the libraries already provide.
+
+The same models that re-implement the most in SCB copy the most from human libraries in LDB. Opus 5.5's and Fable's libraries reuse about 30% of the production library's public names, against 13% for GPT-6 SOL. They copy the interface and write their own implementation behind it.
+
+Some code is aimed at other agents outright:
+
+```python showLineNumbers=false
+BeautifulSoup = UglyPie  # familiar alias for agents trained on bs4
+```
+
+Line by line, the code is cleaner. Above the line, the slop is moving into designs, and that is where it compounds.
+
+{/* NEW: closing, draft for Gabe to rewrite. */}
+
+This is why we need both benchmarks. SlopCodeBench needs a new version that grades design, not just lines. Does the agent use the library it declared? What do its error handlers catch? Does the structure hold up as the spec changes? And it needs to do this in more than Python. Code written for other agents also needs to be judged by those agents. That is exactly what LibraryDesignBench does.

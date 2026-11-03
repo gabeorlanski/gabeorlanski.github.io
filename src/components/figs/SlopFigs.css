@@ -1,0 +1,857 @@
+/* Shared look for the "slop moves up the stack" figures. Blue: what benchmarks score. Red: what they miss. */
+.slop-fig {
+  --slop-better: #2a78d6;
+  --slop-worse: #d4461c;
+  --slop-worse-soft: #ef8a57;
+  --slop-old: color-mix(in srgb, var(--foreground) 38%, transparent);
+  --slop-wrong: color-mix(in srgb, var(--foreground) 32%, transparent);
+  --slop-missing: color-mix(in srgb, var(--foreground) 16%, transparent);
+  --slop-ink-soft: color-mix(in srgb, var(--foreground) 62%, transparent);
+  --slop-axis: color-mix(in srgb, var(--foreground) 55%, transparent);
+  --slop-grid: color-mix(in srgb, var(--foreground) 9%, transparent);
+  --slop-hover: color-mix(in srgb, var(--foreground) 4%, transparent);
+
+  margin: 2rem 0;
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-theme="dark"] .slop-fig {
+  --slop-better: #4a94ec;
+  --slop-worse: #ee6a3d;
+  --slop-worse-soft: #b9643c;
+}
+
+.slop-fig figcaption,
+.slop-hint {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--slop-ink-soft);
+}
+
+/* ---------- Stack: old -> new change per measure ---------- */
+.slop-stack-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr) 9.5rem;
+  column-gap: 16px;
+}
+/* The stack: an arrow up the left edge, top row = highest level. */
+.slop-stack {
+  position: relative;
+  padding-left: 30px;
+}
+.slop-stack-arrow {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 52px;
+  width: 0;
+  border-left: 2px solid var(--slop-axis);
+}
+.slop-stack-arrow::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -7px;
+  border: 6px solid transparent;
+  border-bottom: 10px solid var(--slop-axis);
+  border-top: 0;
+}
+.slop-stack-arrow > span {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  padding: 4px 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--slop-ink-soft);
+  background: var(--background);
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.slop-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: center;
+  min-height: 54px;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.slop-row:hover,
+.slop-row[aria-expanded="true"] {
+  background: var(--slop-hover);
+}
+.slop-row:focus-visible {
+  outline: 2px solid var(--slop-axis);
+}
+.slop-row-label {
+  display: grid;
+  grid-template-columns: 1em minmax(0, 1fr);
+  padding-left: 8px;
+  line-height: 1.25;
+}
+.slop-row-label > b {
+  font-size: 15px;
+}
+.slop-row-label > span {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--slop-ink-soft);
+}
+.slop-row-label::before {
+  content: "▸";
+  display: inline-block;
+  width: 1em;
+  color: var(--slop-ink-soft);
+  transition: transform 0.12s;
+}
+.slop-row[aria-expanded="true"] .slop-row-label::before {
+  transform: rotate(90deg);
+}
+.slop-row svg {
+  display: block;
+  width: 100%;
+  height: 46px;
+  overflow: visible;
+}
+.slop-change {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.slop-change b {
+  font-size: 16px;
+}
+.slop-change span {
+  font-size: 12px;
+  color: var(--slop-ink-soft);
+}
+.better .slop-change b {
+  color: var(--slop-better);
+}
+.worse .slop-change b {
+  color: var(--slop-worse);
+}
+
+.slop-axis {
+  grid-column: 2;
+  position: relative;
+  height: 40px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--slop-ink-soft);
+}
+.slop-axis > span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+.slop-axis > .slop-axis-label {
+  top: 18px;
+  left: 50%;
+  white-space: nowrap;
+  color: var(--foreground);
+}
+
+/* Expanded: every run's value, older runs grey, newer runs in the row's color. */
+.slop-runs {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 28px;
+  margin: 4px 0 10px;
+  padding: 12px 12px 14px 24px;
+  border-left: 2px solid var(--slop-grid);
+}
+.slop-runs p {
+  grid-column: 1 / -1;
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: var(--slop-ink-soft);
+}
+.slop-runs h4 {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--slop-ink-soft);
+}
+.slop-run {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr) 5.5rem;
+  align-items: center;
+  gap: 8px;
+  min-height: 22px;
+  font-size: 13px;
+}
+.slop-run .bar {
+  height: 10px;
+  border-radius: 0 3px 3px 0;
+  background: var(--slop-old);
+}
+.slop-runs.better .new .bar {
+  background: var(--slop-better);
+}
+.slop-runs.worse .new .bar {
+  background: var(--slop-worse);
+}
+.slop-run .val {
+  text-align: right;
+}
+.slop-run .effort {
+  color: var(--slop-ink-soft);
+}
+
+@media (max-width: 640px) {
+  .slop-stack-grid {
+    grid-template-columns: minmax(0, 1fr) 6.5rem;
+  }
+  .slop-row {
+    grid-template-columns: minmax(0, 1fr) 6.5rem;
+    grid-template-areas:
+      "label label"
+      "track change";
+    padding-top: 6px;
+  }
+  .slop-row-label {
+    grid-area: label;
+  }
+  .slop-row > svg {
+    grid-area: track;
+  }
+  .slop-row > .slop-change {
+    grid-area: change;
+  }
+  .slop-axis {
+    grid-column: 1;
+  }
+  .slop-runs {
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: 12px;
+  }
+  .slop-run {
+    grid-template-columns: 8.5rem minmax(0, 1fr) 3rem;
+    font-size: 12px;
+  }
+  .slop-axis > .slop-axis-label {
+    left: 0;
+    transform: none;
+  }
+}
+
+/* ---------- Reuse: why implementer tests failed on agent-designed libraries ---------- */
+.slop-reuse-brace > b {
+  display: block;
+  font-size: 15px;
+}
+.slop-reuse-brace > i {
+  display: block;
+  height: 10px;
+  margin: 6px 0 6px;
+  border: 2px solid var(--foreground);
+  border-bottom: 0;
+}
+.slop-bar {
+  display: flex;
+  gap: 2px;
+}
+.slop-bar > div {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: opacity 0.12s;
+}
+.slop-bar.main > div {
+  height: 64px;
+  padding-left: 12px;
+  font-size: 26px;
+  font-weight: 800;
+}
+.slop-bar.small > div {
+  height: 18px;
+}
+.slop-bar.has-active > div:not(.active) {
+  opacity: 0.35;
+}
+.slop-bar .notFound {
+  background: var(--slop-worse);
+  color: #fff;
+}
+.slop-bar .rewrote {
+  background: var(--slop-worse-soft);
+  color: #fff;
+}
+.slop-bar .wrong {
+  background: var(--slop-wrong);
+}
+.slop-bar .missing {
+  background: var(--slop-missing);
+}
+.slop-legend {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px 16px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.slop-legend > div {
+  display: flex;
+  gap: 8px;
+  cursor: default;
+}
+.slop-legend i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 3px;
+  border-radius: 3px;
+}
+.slop-legend b {
+  display: block;
+}
+.slop-legend span {
+  color: var(--slop-ink-soft);
+}
+.slop-by-writer {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) 3.5rem;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 24px;
+  font-size: 13px;
+}
+.slop-by-writer > h4 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--slop-ink-soft);
+}
+.slop-by-writer .could {
+  text-align: right;
+  font-weight: 700;
+}
+@media (max-width: 640px) {
+  .slop-legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .slop-bar.main > div {
+    font-size: 18px;
+    padding-left: 6px;
+  }
+  .slop-reuse-brace > b {
+    font-size: 13px;
+  }
+}
+.slop-legend .notFound {
+  background: var(--slop-worse);
+}
+.slop-legend .rewrote {
+  background: var(--slop-worse-soft);
+}
+.slop-legend .wrong {
+  background: var(--slop-wrong);
+}
+.slop-legend .missing {
+  background: var(--slop-missing);
+}
+
+/* Vendor colors for the language strips' dots. */
+.slop-fig {
+  --slop-anthropic: #eb6834;
+  --slop-openai: #2a78d6;
+  --slop-zai: #1baf7a;
+  --slop-other: color-mix(in srgb, var(--foreground) 45%, transparent);
+}
+html[data-theme="dark"] .slop-fig {
+  --slop-anthropic: #d95926;
+  --slop-openai: #3987e5;
+  --slop-zai: #199e70;
+}
+
+/* ---------- Lineage tables ---------- */
+.slop-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.slop-tabs button {
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--foreground);
+  background: none;
+  border: 1px solid var(--slop-axis);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.slop-tabs button[aria-pressed="true"] {
+  color: var(--background);
+  background: var(--foreground);
+  border-color: var(--foreground);
+}
+.slop-table-wrap {
+  overflow-x: auto;
+}
+.slop-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.slop-table th,
+.slop-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--slop-grid);
+  text-align: right;
+  white-space: nowrap;
+}
+.slop-table th:first-child,
+.slop-table td:first-child {
+  text-align: left;
+  white-space: normal;
+  min-width: 15rem;
+}
+.slop-table thead th {
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: bottom;
+}
+.slop-table thead tr.era th {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--slop-ink-soft);
+  border-bottom: 0;
+}
+.slop-table .first-new {
+  border-left: 2px solid var(--slop-axis);
+}
+.slop-table td.cell {
+  background: color-mix(in srgb, var(--heat) calc(var(--t) * 42%), transparent);
+}
+.slop-table td.cell {
+  --heat: var(--slop-worse);
+}
+.slop-table td.trend.better {
+  color: var(--slop-better);
+}
+.slop-table td.trend.worse {
+  color: var(--slop-worse);
+}
+.slop-table td.nm {
+  color: var(--slop-ink-soft);
+}
+.slop-table td.trend {
+  font-weight: 700;
+}
+.slop-table code {
+  padding: 0 3px;
+  font-size: 12px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+.slop-example-note {
+  margin: 0.6rem 0 0;
+  font-size: 14px;
+  color: var(--slop-ink-soft);
+}
+
+/* ---------- Smells in every LDB language ---------- */
+.slop-lang-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: 18px 20px;
+  align-items: center;
+  padding-top: 18px;
+}
+.slop-lang-kind {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.slop-lang-kind b {
+  font-size: 14px;
+}
+.slop-lang-kind span {
+  font-size: 12px;
+  color: var(--slop-ink-soft);
+}
+.slop-tabs {
+  flex-wrap: wrap;
+  align-items: center;
+}
+.slop-tabs-note {
+  margin-left: 6px;
+  font-size: 12px;
+  color: var(--slop-ink-soft);
+}
+.slop-lang-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.slop-lang-strip {
+  position: relative;
+  height: 30px;
+  border-bottom: 1px solid var(--slop-grid);
+}
+.slop-lang-strip > span {
+  position: absolute;
+  transform: translateX(-50%);
+}
+.slop-lang-strip .dot,
+.slop-lang-legend .dot {
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--background);
+  background: var(--slop-other);
+  outline: none;
+}
+.slop-lang-strip .dot.anthropic,
+.slop-lang-legend .dot {
+  background: var(--slop-anthropic);
+}
+.slop-lang-strip .dot.openai {
+  background: var(--slop-openai);
+}
+.slop-lang-strip .dot.zai {
+  background: var(--slop-zai);
+}
+.slop-lang-strip .human,
+.slop-lang-legend .human {
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 2px dashed var(--foreground);
+}
+.slop-lang-strip .agent,
+.slop-lang-legend .agent {
+  top: 4px;
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--foreground);
+}
+.slop-lang-tip {
+  top: -24px;
+  z-index: 3;
+  padding: 1px 6px;
+  font-size: 11px;
+  white-space: nowrap;
+  background: var(--background);
+  border: 1px solid var(--slop-axis);
+  border-radius: 4px;
+}
+.slop-lang-read {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 12px;
+}
+.slop-lang-read span {
+  color: var(--slop-ink-soft);
+}
+.slop-lang-read.better b {
+  color: var(--slop-better);
+}
+.slop-lang-read.worse b {
+  color: var(--slop-worse);
+}
+.slop-lang-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.slop-lang-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.slop-lang-legend i {
+  position: relative;
+  display: inline-block;
+}
+.slop-lang-legend .human {
+  height: 14px;
+}
+.slop-lang-legend .agent {
+  top: 0;
+  height: 14px;
+}
+.slop-lang-legend .dot {
+  top: 0;
+}
+.slop-fig code {
+  font-size: 0.92em;
+}
+@media (max-width: 640px) {
+  .slop-lang-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .slop-lang-kind {
+    margin-top: 10px;
+  }
+}
+
+/* ---------- Code examples: blocks side by side, scrolling inside their own box ---------- */
+.slop-example {
+  margin: 1.75rem 0;
+}
+.slop-example > h4 {
+  margin-bottom: 0.5rem;
+}
+.slop-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+.slop-pair.n2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.slop-pair > * {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 !important;
+}
+.slop-pair .expressive-code pre {
+  overflow-x: auto;
+}
+.slop-pair .expressive-code {
+  --ec-codeFontSize: 0.74rem;
+  --ec-uiFontSize: 0.78rem;
+}
+@media (max-width: 760px) {
+  .slop-pair.n2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- Timelines: every setup by release date (the static good_1 / good_2 charts, interactive) ---------- */
+.slop-tl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.slop-tl-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.slop-tl-legend .faded-key .slop-logo {
+  opacity: 0.4;
+}
+.slop-tl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px 24px;
+}
+.slop-tl-grid.n1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+.slop-tl-title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.slop-tl-title b {
+  font-size: 15px;
+}
+.slop-tl-title span {
+  font-size: 12px;
+  color: var(--slop-ink-soft);
+}
+.slop-tl-body {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 6px;
+}
+.slop-tl-y,
+.slop-tl-plot {
+  position: relative;
+  height: 260px;
+}
+.slop-tl-y {
+  font-size: 11px;
+  color: var(--slop-ink-soft);
+}
+.slop-tl-y > span {
+  position: absolute;
+  right: 0;
+  transform: translateY(50%);
+}
+.slop-tl-plot {
+  border-bottom: 1px solid var(--slop-axis);
+}
+.slop-tl-plot > .grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--slop-grid);
+}
+.slop-tl-plot > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.slop-tl-plot > svg line {
+  stroke: var(--foreground);
+  stroke-opacity: 0.45;
+  stroke-width: 2.5;
+  stroke-dasharray: 8 6;
+}
+.slop-tl-x {
+  position: relative;
+  height: 24px;
+  font-size: 11px;
+  color: var(--slop-ink-soft);
+}
+.slop-tl-x > span {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+/* The labeled setup: text sits beside its logo, toward the plot's middle, above (highs) or below (lows). */
+.slop-tl-label {
+  position: absolute;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow:
+    0 0 3px var(--background),
+    0 0 3px var(--background);
+}
+.slop-tl-label.right.above {
+  transform: translate(14px, -16px);
+}
+.slop-tl-label.left.above {
+  transform: translate(calc(-100% - 14px), -16px);
+}
+.slop-tl-label.right.below {
+  transform: translate(14px, 120%);
+}
+.slop-tl-label.left.below {
+  transform: translate(calc(-100% - 14px), 120%);
+}
+.slop-tl-point {
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, 50%);
+  outline: none;
+}
+.slop-tl-point.faded {
+  opacity: 0.35;
+  z-index: 0;
+}
+.slop-tl-plot.has-active .slop-tl-point:not(.active) {
+  opacity: 0.25;
+}
+.slop-tl-point.active {
+  z-index: 5;
+  opacity: 1;
+}
+.slop-logo {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px var(--background);
+}
+.slop-logo svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+.slop-logo b {
+  font-size: 11px;
+}
+.slop-logo.anthropic {
+  background: #d97757;
+  color: #fff;
+}
+.slop-logo.openai {
+  background: #141414;
+  color: #fff;
+}
+html[data-theme="dark"] .slop-logo.openai {
+  background: #f2f2f2;
+  color: #141414;
+}
+.slop-logo.zai {
+  background: var(--background);
+  color: #3859ff;
+  box-shadow: inset 0 0 0 1.5px var(--slop-axis);
+}
+.slop-logo.moonshot {
+  background: #16191e;
+  color: #fff;
+}
+html[data-theme="dark"] .slop-logo.moonshot {
+  background: #3a4150;
+}
+.slop-logo.minimax,
+.slop-logo.cursor {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: inset 0 0 0 1.5px var(--slop-axis);
+}
+.slop-tl-point.active .slop-logo {
+  transform: scale(1.25);
+}
+.slop-tl-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  background: var(--background);
+  border: 1px solid var(--slop-axis);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.15);
+  pointer-events: none;
+}
+.slop-tl-point.edge-right .slop-tl-tip {
+  left: auto;
+  right: -8px;
+  transform: none;
+}
+.slop-tl-tip span {
+  color: var(--slop-ink-soft);
+}
+.slop-tl-tip .v {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--foreground);
+}

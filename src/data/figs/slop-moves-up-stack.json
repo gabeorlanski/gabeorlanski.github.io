@@ -1,0 +1,591 @@
+{
+ "oldRuns": 5,
+ "newRuns": 10,
+ "rows": [
+  {
+   "key": "fallback_lines_per_run",
+   "layer": "Dependencies",
+   "label": "Hand-written library code",
+   "note": "Lines of hand-written fallback behind a guarded import of a declared dependency, per run.",
+   "unit": " lines",
+   "digits": 0,
+   "old": 31.2,
+   "new": 906.0,
+   "runs": [
+    {
+     "id": "opus-4.6-high",
+     "model": "Opus 4.6",
+     "effort": "High",
+     "era": "old",
+     "value": 0
+    },
+    {
+     "id": "opus-4.7-high",
+     "model": "Opus 4.7",
+     "effort": "High",
+     "era": "old",
+     "value": 11
+    },
+    {
+     "id": "gpt-5.4-high",
+     "model": "GPT-5.4",
+     "effort": "High",
+     "era": "old",
+     "value": 0
+    },
+    {
+     "id": "gpt-5.5-high",
+     "model": "GPT-5.5",
+     "effort": "High",
+     "era": "old",
+     "value": 110
+    },
+    {
+     "id": "glm-5.1-high",
+     "model": "GLM 5.1",
+     "effort": "High",
+     "era": "old",
+     "value": 35
+    },
+    {
+     "id": "opus-5.5-medium",
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "era": "new",
+     "value": 452
+    },
+    {
+     "id": "opus-5.5-xhigh",
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 3307
+    },
+    {
+     "id": "fable-5.1-xhigh",
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 3601
+    },
+    {
+     "id": "gpt-6-sol-medium",
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0
+    },
+    {
+     "id": "gpt-6-sol-xhigh",
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0
+    },
+    {
+     "id": "gpt-6.1-sol-medium",
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0
+    },
+    {
+     "id": "gpt-6-astra-medium",
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0
+    },
+    {
+     "id": "gpt-6-astra-xhigh",
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0
+    },
+    {
+     "id": "gpt-5.6-sol-xhigh",
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0
+    },
+    {
+     "id": "glm-5.3-xhigh",
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 1700
+    }
+   ]
+  },
+  {
+   "key": "wide_except_per_run",
+   "layer": "Error handling",
+   "label": "Catch-all except clauses",
+   "note": "except clauses that list 4 or more exception types, including ones that signal bugs (KeyError, TypeError, AttributeError, IndexError or ValueError), per run.",
+   "unit": "",
+   "digits": 0,
+   "old": 4.0,
+   "new": 42.6,
+   "runs": [
+    {
+     "id": "opus-4.6-high",
+     "model": "Opus 4.6",
+     "effort": "High",
+     "era": "old",
+     "value": 8.0
+    },
+    {
+     "id": "opus-4.7-high",
+     "model": "Opus 4.7",
+     "effort": "High",
+     "era": "old",
+     "value": 0.0
+    },
+    {
+     "id": "gpt-5.4-high",
+     "model": "GPT-5.4",
+     "effort": "High",
+     "era": "old",
+     "value": 2.0
+    },
+    {
+     "id": "gpt-5.5-high",
+     "model": "GPT-5.5",
+     "effort": "High",
+     "era": "old",
+     "value": 10.0
+    },
+    {
+     "id": "glm-5.1-high",
+     "model": "GLM 5.1",
+     "effort": "High",
+     "era": "old",
+     "value": 0.0
+    },
+    {
+     "id": "opus-5.5-medium",
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "era": "new",
+     "value": 15.0
+    },
+    {
+     "id": "opus-5.5-xhigh",
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 29.0
+    },
+    {
+     "id": "fable-5.1-xhigh",
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 25.0
+    },
+    {
+     "id": "gpt-6-sol-medium",
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 49.0
+    },
+    {
+     "id": "gpt-6-sol-xhigh",
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 63.0
+    },
+    {
+     "id": "gpt-6.1-sol-medium",
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 53.0
+    },
+    {
+     "id": "gpt-6-astra-medium",
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "era": "new",
+     "value": 56.0
+    },
+    {
+     "id": "gpt-6-astra-xhigh",
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 57.0
+    },
+    {
+     "id": "gpt-5.6-sol-xhigh",
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 74.0
+    },
+    {
+     "id": "glm-5.3-xhigh",
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 5.0
+    }
+   ]
+  },
+  {
+   "key": "erosion_src",
+   "layer": "Program",
+   "label": "Structural erosion",
+   "note": "Share of the code's complexity (cyclomatic complexity \u00d7 \u221alines, per function) inside functions with complexity above 10. Source code only.",
+   "unit": "",
+   "digits": 2,
+   "old": 0.6444570353003891,
+   "new": 0.6877909092529304,
+   "runs": [
+    {
+     "id": "opus-4.6-high",
+     "model": "Opus 4.6",
+     "effort": "High",
+     "era": "old",
+     "value": 0.7553336077051632
+    },
+    {
+     "id": "opus-4.7-high",
+     "model": "Opus 4.7",
+     "effort": "High",
+     "era": "old",
+     "value": 0.7593019774541147
+    },
+    {
+     "id": "gpt-5.4-high",
+     "model": "GPT-5.4",
+     "effort": "High",
+     "era": "old",
+     "value": 0.48651241783873395
+    },
+    {
+     "id": "gpt-5.5-high",
+     "model": "GPT-5.5",
+     "effort": "High",
+     "era": "old",
+     "value": 0.4940489144600943
+    },
+    {
+     "id": "glm-5.1-high",
+     "model": "GLM 5.1",
+     "effort": "High",
+     "era": "old",
+     "value": 0.7270882590438393
+    },
+    {
+     "id": "opus-5.5-medium",
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0.7017749259049244
+    },
+    {
+     "id": "opus-5.5-xhigh",
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0.5199016890275242
+    },
+    {
+     "id": "fable-5.1-xhigh",
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0.5321926892546656
+    },
+    {
+     "id": "gpt-6-sol-medium",
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0.7896417527466725
+    },
+    {
+     "id": "gpt-6-sol-xhigh",
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0.7714729759266201
+    },
+    {
+     "id": "gpt-6.1-sol-medium",
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0.8006251002780127
+    },
+    {
+     "id": "gpt-6-astra-medium",
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "era": "new",
+     "value": 0.7986678822008776
+    },
+    {
+     "id": "gpt-6-astra-xhigh",
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0.7207480994758421
+    },
+    {
+     "id": "gpt-5.6-sol-xhigh",
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0.660983913739225
+    },
+    {
+     "id": "glm-5.3-xhigh",
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 0.5819000639749403
+    }
+   ]
+  },
+  {
+   "key": "functions_over_200_per_run",
+   "layer": "Functions",
+   "label": "Functions over 200 lines",
+   "note": "Functions over 200 lines, per run (36 problems).",
+   "unit": "",
+   "digits": 0,
+   "old": 28.0,
+   "new": 8.7,
+   "runs": [
+    {
+     "id": "opus-4.6-high",
+     "model": "Opus 4.6",
+     "effort": "High",
+     "era": "old",
+     "value": 50
+    },
+    {
+     "id": "opus-4.7-high",
+     "model": "Opus 4.7",
+     "effort": "High",
+     "era": "old",
+     "value": 46
+    },
+    {
+     "id": "gpt-5.4-high",
+     "model": "GPT-5.4",
+     "effort": "High",
+     "era": "old",
+     "value": 8
+    },
+    {
+     "id": "gpt-5.5-high",
+     "model": "GPT-5.5",
+     "effort": "High",
+     "era": "old",
+     "value": 6
+    },
+    {
+     "id": "glm-5.1-high",
+     "model": "GLM 5.1",
+     "effort": "High",
+     "era": "old",
+     "value": 30
+    },
+    {
+     "id": "opus-5.5-medium",
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "era": "new",
+     "value": 5
+    },
+    {
+     "id": "opus-5.5-xhigh",
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 1
+    },
+    {
+     "id": "fable-5.1-xhigh",
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 3
+    },
+    {
+     "id": "gpt-6-sol-medium",
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 6
+    },
+    {
+     "id": "gpt-6-sol-xhigh",
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 9
+    },
+    {
+     "id": "gpt-6.1-sol-medium",
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 5
+    },
+    {
+     "id": "gpt-6-astra-medium",
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "era": "new",
+     "value": 7
+    },
+    {
+     "id": "gpt-6-astra-xhigh",
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 4
+    },
+    {
+     "id": "gpt-5.6-sol-xhigh",
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 31
+    },
+    {
+     "id": "glm-5.3-xhigh",
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 16
+    }
+   ]
+  },
+  {
+   "key": "rule_hits_per_1k",
+   "layer": "Lines",
+   "label": "Line-level slop",
+   "note": "scb-check 0.1.3 rule hits per 1,000 lines of source code.",
+   "unit": "",
+   "digits": 0,
+   "old": 91.7195536298217,
+   "new": 71.99087392832323,
+   "runs": [
+    {
+     "id": "opus-4.6-high",
+     "model": "Opus 4.6",
+     "effort": "High",
+     "era": "old",
+     "value": 98.04516755706653
+    },
+    {
+     "id": "opus-4.7-high",
+     "model": "Opus 4.7",
+     "effort": "High",
+     "era": "old",
+     "value": 85.40933670216533
+    },
+    {
+     "id": "gpt-5.4-high",
+     "model": "GPT-5.4",
+     "effort": "High",
+     "era": "old",
+     "value": 95.92211419114605
+    },
+    {
+     "id": "gpt-5.5-high",
+     "model": "GPT-5.5",
+     "effort": "High",
+     "era": "old",
+     "value": 94.74243699340036
+    },
+    {
+     "id": "glm-5.1-high",
+     "model": "GLM 5.1",
+     "effort": "High",
+     "era": "old",
+     "value": 84.47871270533021
+    },
+    {
+     "id": "opus-5.5-medium",
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "era": "new",
+     "value": 75.07892034433358
+    },
+    {
+     "id": "opus-5.5-xhigh",
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 60.73765036281878
+    },
+    {
+     "id": "fable-5.1-xhigh",
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 69.48940855532366
+    },
+    {
+     "id": "gpt-6-sol-medium",
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 80.09071047318787
+    },
+    {
+     "id": "gpt-6-sol-xhigh",
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 76.3633423616445
+    },
+    {
+     "id": "gpt-6.1-sol-medium",
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "era": "new",
+     "value": 71.11683668103902
+    },
+    {
+     "id": "gpt-6-astra-medium",
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "era": "new",
+     "value": 67.26619706545647
+    },
+    {
+     "id": "gpt-6-astra-xhigh",
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 68.77274603234157
+    },
+    {
+     "id": "gpt-5.6-sol-xhigh",
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 72.88261282809187
+    },
+    {
+     "id": "glm-5.3-xhigh",
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "era": "new",
+     "value": 78.11031457899489
+    }
+   ]
+  }
+ ]
+}

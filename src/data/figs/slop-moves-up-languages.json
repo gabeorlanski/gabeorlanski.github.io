@@ -1,0 +1,716 @@
+{
+ "libraries": 360,
+ "agentSloc": 1157477,
+ "humanSloc": 473396,
+ "cells": [
+  {
+   "language": "python",
+   "kind": "crash",
+   "tasks": 6,
+   "smells": [
+    "assert outside tests"
+   ],
+   "agent": 0.595,
+   "human": 2.288,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.0
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.446
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.094
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 2.551
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.0
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.437
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.606
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 1.41
+    }
+   ]
+  },
+  {
+   "language": "python",
+   "kind": "swallow",
+   "tasks": 6,
+   "smells": [
+    "broad except that only passes or returns a placeholder"
+   ],
+   "agent": 0.361,
+   "human": 0.12,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.507
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.193
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.488
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.0
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.228
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.479
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.384
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.346
+    }
+   ]
+  },
+  {
+   "language": "python",
+   "kind": "suppress",
+   "tasks": 6,
+   "smells": [
+    "# pragma: no cover",
+    "# type: ignore / # noqa"
+   ],
+   "agent": 6.079,
+   "human": 7.258,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.861
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 10.121
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 7.394
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.0
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.0
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 4.764
+    },
+    {
+     "name": "Kimi K3",
+     "value": 5.929
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 9.046
+    }
+   ]
+  },
+  {
+   "language": "python",
+   "kind": "escape",
+   "tasks": 6,
+   "smells": [
+    "typing.Any",
+    "typing cast(...)"
+   ],
+   "agent": 60.074,
+   "human": 23.916,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 34.706
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 71.53
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 75.918
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 8.715
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 14.412
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 58.602
+    },
+    {
+     "name": "Kimi K3",
+     "value": 46.424
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 74.906
+    }
+   ]
+  },
+  {
+   "language": "rust",
+   "kind": "crash",
+   "tasks": 5,
+   "smells": [
+    ".unwrap() / .expect(...)",
+    "panic! / unreachable! / todo! / unimplemented!"
+   ],
+   "agent": 4.759,
+   "human": 5.269,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 5.031
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 4.296
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 4.045
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 7.572
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 10.879
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 3.367
+    },
+    {
+     "name": "Kimi K3",
+     "value": 4.164
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 4.652
+    }
+   ]
+  },
+  {
+   "language": "rust",
+   "kind": "swallow",
+   "tasks": 5,
+   "smells": [
+    "let _ = ... / .ok(); (result discarded)"
+   ],
+   "agent": 0.987,
+   "human": 1.374,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.207
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.58
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 1.363
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.994
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.373
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 2.096
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.473
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.692
+    }
+   ]
+  },
+  {
+   "language": "rust",
+   "kind": "suppress",
+   "tasks": 5,
+   "smells": [
+    "#[allow(...)]"
+   ],
+   "agent": 0.492,
+   "human": 3.596,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.475
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.665
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.801
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.145
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.0
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.29
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.373
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.58
+    }
+   ]
+  },
+  {
+   "language": "rust",
+   "kind": "escape",
+   "tasks": 5,
+   "smells": [
+    "unsafe"
+   ],
+   "agent": 1.378,
+   "human": 7.278,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 1.25
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 1.981
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 1.569
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.225
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.068
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.056
+    },
+    {
+     "name": "Kimi K3",
+     "value": 1.186
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 2.896
+    }
+   ]
+  },
+  {
+   "language": "typescript",
+   "kind": "crash",
+   "tasks": 1,
+   "smells": [
+    "non-null assertion x!"
+   ],
+   "agent": 3.504,
+   "human": 0.0,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 1.481
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 1.757
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.253
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 35.479
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 16.094
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.52
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.849
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 7.063
+    }
+   ]
+  },
+  {
+   "language": "typescript",
+   "kind": "swallow",
+   "tasks": 1,
+   "smells": [
+    "catch that is empty or only returns null/undefined"
+   ],
+   "agent": 1.089,
+   "human": 3.257,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 1.728
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 1.269
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.821
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 1.463
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 1.073
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 1.039
+    },
+    {
+     "name": "Kimi K3",
+     "value": 1.091
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 1.024
+    }
+   ]
+  },
+  {
+   "language": "typescript",
+   "kind": "suppress",
+   "tasks": 1,
+   "smells": [
+    "@ts-ignore / @ts-expect-error / eslint-disable"
+   ],
+   "agent": 0.189,
+   "human": 5.791,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.0
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.488
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.063
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.0
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.0
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.0
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.121
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.512
+    }
+   ]
+  },
+  {
+   "language": "typescript",
+   "kind": "escape",
+   "tasks": 1,
+   "smells": [
+    "any",
+    "as unknown as"
+   ],
+   "agent": 2.826,
+   "human": 9.41,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 1.975
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 1.269
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 4.928
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 5.486
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 22.532
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 1.299
+    },
+    {
+     "name": "Kimi K3",
+     "value": 1.94
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 1.331
+    }
+   ]
+  },
+  {
+   "language": "haskell",
+   "kind": "crash",
+   "tasks": 3,
+   "smells": [
+    "head / tail / init / last / fromJust / !!",
+    "error / undefined"
+   ],
+   "agent": 1.824,
+   "human": 8.988,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 3.547
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 1.86
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 1.293
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.351
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 3.059
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 1.346
+    },
+    {
+     "name": "Kimi K3",
+     "value": 2.849
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 2.151
+    }
+   ]
+  },
+  {
+   "language": "haskell",
+   "kind": "swallow",
+   "tasks": 3,
+   "smells": [
+    "handlers on SomeException"
+   ],
+   "agent": 0.819,
+   "human": 0.0,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.119
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 1.277
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.715
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.702
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 4.052
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.916
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.258
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.686
+    }
+   ]
+  },
+  {
+   "language": "haskell",
+   "kind": "suppress",
+   "tasks": 3,
+   "smells": [
+    "{-# OPTIONS_GHC -Wno-* #-}"
+   ],
+   "agent": 0.053,
+   "human": 0.795,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.0
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.0
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.043
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.351
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.0
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.0
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.0
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.113
+    }
+   ]
+  },
+  {
+   "language": "haskell",
+   "kind": "escape",
+   "tasks": 3,
+   "smells": [
+    "unsafePerformIO / unsafeCoerce"
+   ],
+   "agent": 0.197,
+   "human": 2.252,
+   "designers": [
+    {
+     "name": "DeepSeek V4 Pro",
+     "value": 0.0
+    },
+    {
+     "name": "Fable 5.1",
+     "value": 0.17
+    },
+    {
+     "name": "GLM 5.3",
+     "value": 0.607
+    },
+    {
+     "name": "GPT-6 Astra",
+     "value": 0.0
+    },
+    {
+     "name": "GPT-6 SOL",
+     "value": 0.0
+    },
+    {
+     "name": "Grok 4.6",
+     "value": 0.107
+    },
+    {
+     "name": "Kimi K3",
+     "value": 0.065
+    },
+    {
+     "name": "Opus 5.5",
+     "value": 0.113
+    }
+   ]
+  }
+ ]
+}

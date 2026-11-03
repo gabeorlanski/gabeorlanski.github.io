@@ -1,0 +1,1985 @@
+{
+ "setups": 34,
+ "panels": [
+  {
+   "key": "strict",
+   "title": "Strict: all tests pass",
+   "unit": "%",
+   "digits": 1,
+   "yMax": 20,
+   "yStep": 5,
+   "points": [
+    {
+     "model": "Composer 2",
+     "effort": "",
+     "harness": "Cursor CLI 2026.04.13-a9d7fb5",
+     "vendor": "cursor",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-13",
+     "value": 6.122448979591836
+    },
+    {
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.257",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 13.26530612244898
+    },
+    {
+     "model": "GLM 5.1",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-07",
+     "value": 9.693877551020408
+    },
+    {
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "harness": "OpenCode 1.18.26",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 12.244897959183673
+    },
+    {
+     "model": "GPT-5.2-Codex",
+     "effort": "High",
+     "harness": "Codex 0.93.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-01-31",
+     "value": 9.693877551020408
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 12.755102040816327
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 11.224489795918368
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 11.224489795918368
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 8.16326530612245
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 9.183673469387756
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-05",
+     "value": 10.714285714285714
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 9.693877551020408
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 12.755102040816327
+    },
+    {
+     "model": "GPT-5.4 mini",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-17",
+     "value": 5.1020408163265305
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 9.183673469387756
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-23",
+     "value": 14.795918367346939
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 8.16326530612245
+    },
+    {
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.145.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-07-21",
+     "value": 14.285714285714285
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "harness": "Codex 0.153.3",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-04",
+     "value": 16.3265306122449
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 14.795918367346939
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 15.306122448979592
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 13.26530612244898
+    },
+    {
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 14.795918367346939
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-16",
+     "value": 3.571428571428571
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 4.591836734693878
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-18",
+     "value": 2.5510204081632653
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-18",
+     "value": 2.0408163265306123
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 1.530612244897959
+    },
+    {
+     "model": "Opus 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.32",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 9.693877551020408
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.111",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 8.16326530612245
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.112",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 11.224489795918368
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 14.285714285714285
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 12.244897959183673
+    },
+    {
+     "model": "Sonnet 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-17",
+     "value": 7.142857142857142
+    }
+   ],
+   "trend": {
+    "from": 30,
+    "to": 272,
+    "intercept": 6.166308631284183,
+    "slope": 0.02983526476471452,
+    "perMonth": 0.9081854594379101
+   },
+   "label": 18
+  },
+  {
+   "key": "isolated",
+   "title": "Isolated: own tests pass",
+   "unit": "%",
+   "digits": 1,
+   "yMax": 35,
+   "yStep": 5,
+   "points": [
+    {
+     "model": "Composer 2",
+     "effort": "",
+     "harness": "Cursor CLI 2026.04.13-a9d7fb5",
+     "vendor": "cursor",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-13",
+     "value": 16.3265306122449
+    },
+    {
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.257",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 27.55102040816326
+    },
+    {
+     "model": "GLM 5.1",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-07",
+     "value": 13.77551020408163
+    },
+    {
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "harness": "OpenCode 1.18.26",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 23.97959183673469
+    },
+    {
+     "model": "GPT-5.2-Codex",
+     "effort": "High",
+     "harness": "Codex 0.93.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-01-31",
+     "value": 21.93877551020408
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 26.53061224489796
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 23.46938775510204
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 26.02040816326531
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 21.428571428571427
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 25.510204081632654
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-05",
+     "value": 23.46938775510204
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 25.0
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 26.53061224489796
+    },
+    {
+     "model": "GPT-5.4 mini",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-17",
+     "value": 13.77551020408163
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 23.97959183673469
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-23",
+     "value": 28.061224489795915
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 23.97959183673469
+    },
+    {
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.145.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-07-21",
+     "value": 32.142857142857146
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "harness": "Codex 0.153.3",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-04",
+     "value": 31.63265306122449
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 29.081632653061224
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 25.510204081632654
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 28.061224489795915
+    },
+    {
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 29.081632653061224
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-16",
+     "value": 7.142857142857142
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 8.673469387755102
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-18",
+     "value": 4.081632653061225
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-18",
+     "value": 4.081632653061225
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 3.571428571428571
+    },
+    {
+     "model": "Opus 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.32",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 20.918367346938776
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.111",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 20.918367346938776
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.112",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 21.93877551020408
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 29.591836734693878
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 27.55102040816326
+    },
+    {
+     "model": "Sonnet 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-17",
+     "value": 16.83673469387755
+    }
+   ],
+   "trend": {
+    "from": 30,
+    "to": 272,
+    "intercept": 15.31285355420371,
+    "slope": 0.04848827058687094,
+    "perMonth": 1.4759829566643514
+   },
+   "label": 17
+  },
+  {
+   "key": "core",
+   "title": "Core: core tests pass",
+   "unit": "%",
+   "digits": 1,
+   "yMax": 80,
+   "yStep": 20,
+   "points": [
+    {
+     "model": "Composer 2",
+     "effort": "",
+     "harness": "Cursor CLI 2026.04.13-a9d7fb5",
+     "vendor": "cursor",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-13",
+     "value": 52.55102040816326
+    },
+    {
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.257",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 72.44897959183673
+    },
+    {
+     "model": "GLM 5.1",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-07",
+     "value": 40.30612244897959
+    },
+    {
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "harness": "OpenCode 1.18.26",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 66.3265306122449
+    },
+    {
+     "model": "GPT-5.2-Codex",
+     "effort": "High",
+     "harness": "Codex 0.93.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-01-31",
+     "value": 56.12244897959183
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 64.79591836734694
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 57.14285714285714
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 60.71428571428571
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 62.244897959183675
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 61.224489795918366
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-05",
+     "value": 62.755102040816325
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 63.26530612244898
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 67.3469387755102
+    },
+    {
+     "model": "GPT-5.4 mini",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-17",
+     "value": 53.06122448979592
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 63.26530612244898
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-23",
+     "value": 66.83673469387756
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 67.3469387755102
+    },
+    {
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.145.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-07-21",
+     "value": 70.91836734693877
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "harness": "Codex 0.153.3",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-04",
+     "value": 69.38775510204081
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 66.3265306122449
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 67.85714285714286
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 68.36734693877551
+    },
+    {
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 65.81632653061224
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-16",
+     "value": 29.591836734693878
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 31.63265306122449
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-18",
+     "value": 29.081632653061224
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-18",
+     "value": 28.061224489795915
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 21.93877551020408
+    },
+    {
+     "model": "Opus 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.32",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 67.3469387755102
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.111",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 65.81632653061224
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.112",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 64.28571428571429
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 73.9795918367347
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 71.42857142857143
+    },
+    {
+     "model": "Sonnet 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-17",
+     "value": 57.6530612244898
+    }
+   ],
+   "trend": {
+    "from": 30,
+    "to": 272,
+    "intercept": 48.54890728856948,
+    "slope": 0.07716232236309524,
+    "perMonth": 2.3488210927326194
+   },
+   "label": 31
+  },
+  {
+   "key": "lines",
+   "title": "Line-level slop (rule hits per 1k lines)",
+   "unit": "",
+   "digits": 0,
+   "yMax": 125,
+   "yStep": 25,
+   "points": [
+    {
+     "model": "Composer 2",
+     "effort": "",
+     "harness": "Cursor CLI 2026.04.13-a9d7fb5",
+     "vendor": "cursor",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-13",
+     "value": 90.64
+    },
+    {
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.257",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 69.49
+    },
+    {
+     "model": "GLM 5.1",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-07",
+     "value": 84.48
+    },
+    {
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "harness": "OpenCode 1.18.26",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 78.11
+    },
+    {
+     "model": "GPT-5.2-Codex",
+     "effort": "High",
+     "harness": "Codex 0.93.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-01-31",
+     "value": 96.79
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 101.85
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 101.92
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 118.93
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 97.8
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 83.99
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-05",
+     "value": 103.56
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 99.47
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 95.92
+    },
+    {
+     "model": "GPT-5.4 mini",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-17",
+     "value": 107.51
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 88.13
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-23",
+     "value": 94.74
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 101.97
+    },
+    {
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.145.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-07-21",
+     "value": 72.88
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "harness": "Codex 0.153.3",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-04",
+     "value": 68.77
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 67.27
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 80.09
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 76.36
+    },
+    {
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 71.12
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-16",
+     "value": 84.63
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 73.87
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-18",
+     "value": 90.15
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-18",
+     "value": 90.87
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 71.49
+    },
+    {
+     "model": "Opus 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.32",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 98.05
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.111",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 85.41
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.112",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 91.19
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 75.08
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 60.74
+    },
+    {
+     "model": "Sonnet 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-17",
+     "value": 90.09
+    }
+   ],
+   "trend": {
+    "from": 30,
+    "to": 272,
+    "intercept": 102.6376883351012,
+    "slope": -0.12066056932449355,
+    "perMonth": -3.672907730237584
+   },
+   "label": 32
+  },
+  {
+   "key": "erosion",
+   "title": "Erosion (source code only)",
+   "unit": "",
+   "digits": 2,
+   "yMax": 1,
+   "yStep": 0.25,
+   "points": [
+    {
+     "model": "Composer 2",
+     "effort": "",
+     "harness": "Cursor CLI 2026.04.13-a9d7fb5",
+     "vendor": "cursor",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-13",
+     "value": 0.7158770010513392
+    },
+    {
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.257",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 0.5321926892546656
+    },
+    {
+     "model": "GLM 5.1",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-07",
+     "value": 0.7270882590438393
+    },
+    {
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "harness": "OpenCode 1.18.26",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 0.5819000639749403
+    },
+    {
+     "model": "GPT-5.2-Codex",
+     "effort": "High",
+     "harness": "Codex 0.93.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-01-31",
+     "value": 0.7281798937024027
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 0.6314561150418859
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 0.4388375801387146
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 0.643918191905603
+    },
+    {
+     "model": "GPT-5.3-Codex",
+     "effort": "High",
+     "harness": "Codex 0.98.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-02-05",
+     "value": 0.556865960641266
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 0.29019412225956465
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-05",
+     "value": 0.5302187938387526
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-03-05",
+     "value": 0.41335772626579376
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 0.48651241783873395
+    },
+    {
+     "model": "GPT-5.4 mini",
+     "effort": "High",
+     "harness": "Codex 0.110.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-17",
+     "value": 0.6548943220198997
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 0.21787553764782158
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-23",
+     "value": 0.4940489144600943
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "plan_first",
+     "faded": true,
+     "date": "2026-04-23",
+     "value": 0.31330015651909215
+    },
+    {
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.145.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-07-21",
+     "value": 0.660983913739225
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "harness": "Codex 0.153.3",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-04",
+     "value": 0.7207480994758421
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 0.7986678822008776
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 0.7896417527466725
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 0.7714729759266201
+    },
+    {
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 0.8006251002780127
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-16",
+     "value": 0.7104068367128797
+    },
+    {
+     "model": "Kimi K2.5",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "moonshot",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 0.7149997274953448
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "anti_slop",
+     "faded": true,
+     "date": "2026-03-18",
+     "value": 0.4948678785271001
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-03-18",
+     "value": 0.7263781937854291
+    },
+    {
+     "model": "MiniMax M2.7",
+     "effort": "",
+     "harness": "OpenCode 1.4.3",
+     "vendor": "minimax",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-10",
+     "value": 0.7502324853308531
+    },
+    {
+     "model": "Opus 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.32",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 0.7553336077051632
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.111",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 0.7593019774541147
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.112",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 0.7411330684199399
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 0.7017749259049244
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 0.5199016890275242
+    },
+    {
+     "model": "Sonnet 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-17",
+     "value": 0.7423504438475321
+    }
+   ],
+   "trend": {
+    "from": 30,
+    "to": 272,
+    "intercept": 0.5631487824193346,
+    "slope": 0.00045127916137668254,
+    "perMonth": 0.013736937672306217
+   },
+   "label": 22
+  },
+  {
+   "key": "fallbacks",
+   "title": "Hand-written library code (lines per run)",
+   "unit": "",
+   "digits": 0,
+   "yMax": 4000,
+   "yStep": 1000,
+   "points": [
+    {
+     "model": "Opus 5.5",
+     "effort": "Medium",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 452,
+     "era": "new"
+    },
+    {
+     "model": "Opus 5.5",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.280",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 3307,
+     "era": "new"
+    },
+    {
+     "model": "Fable 5.1",
+     "effort": "XHigh",
+     "harness": "Claude Code 2.1.257",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 3601,
+     "era": "new"
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 0,
+     "era": "new"
+    },
+    {
+     "model": "GPT-6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.155.1",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-22",
+     "value": 0,
+     "era": "new"
+    },
+    {
+     "model": "GPT-6.1 SOL",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 0,
+     "era": "new"
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "Medium",
+     "harness": "Codex 0.159.2",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-30",
+     "value": 0,
+     "era": "new"
+    },
+    {
+     "model": "GPT-6 Astra",
+     "effort": "XHigh",
+     "harness": "Codex 0.153.3",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-04",
+     "value": 0,
+     "era": "new"
+    },
+    {
+     "model": "GPT-5.6 SOL",
+     "effort": "XHigh",
+     "harness": "Codex 0.145.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-07-21",
+     "value": 0,
+     "era": "new"
+    },
+    {
+     "model": "GLM 5.3",
+     "effort": "XHigh",
+     "harness": "OpenCode 1.18.26",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-09-01",
+     "value": 1700,
+     "era": "new"
+    },
+    {
+     "model": "Opus 4.6",
+     "effort": "High",
+     "harness": "Claude Code 2.1.32",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-02-05",
+     "value": 0,
+     "era": "old"
+    },
+    {
+     "model": "Opus 4.7",
+     "effort": "High",
+     "harness": "Claude Code 2.1.111",
+     "vendor": "anthropic",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-16",
+     "value": 11,
+     "era": "old"
+    },
+    {
+     "model": "GPT-5.4",
+     "effort": "High",
+     "harness": "Codex 0.121.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-15",
+     "value": 0,
+     "era": "old"
+    },
+    {
+     "model": "GPT-5.5",
+     "effort": "High",
+     "harness": "Codex 0.124.0",
+     "vendor": "openai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-23",
+     "value": 110,
+     "era": "old"
+    },
+    {
+     "model": "GLM 5.1",
+     "effort": "High",
+     "harness": "Claude Code 2.1.44",
+     "vendor": "zai",
+     "prompt": "just-solve",
+     "faded": false,
+     "date": "2026-04-07",
+     "value": 35,
+     "era": "old"
+    }
+   ],
+   "segments": [
+    {
+     "name": "5 older runs",
+     "from": 35,
+     "to": 112,
+     "mean": 31.2
+    },
+    {
+     "name": "10 newer runs",
+     "from": 201,
+     "to": 272,
+     "mean": 906.0
+    }
+   ],
+   "label": 2
+  }
+ ]
+}

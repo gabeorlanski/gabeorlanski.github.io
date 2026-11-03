@@ -4,7 +4,7 @@ pubDatetime: 2026-01-12T13:40:00Z
 modDatetime: 2026-01-12T13:40:00Z
 title: "Coding Agents Are Lazy Patchers"
 slug: agent-copy-pasta
-featured: true
+featured: false
 draft: false
 tags:
   - analysis

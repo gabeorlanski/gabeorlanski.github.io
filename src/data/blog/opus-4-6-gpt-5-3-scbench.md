@@ -4,7 +4,7 @@ pubDatetime: 2026-02-11T12:00:00Z
 modDatetime: 2026-02-11T12:00:00Z
 title: "Opus 4.6 and GPT-5.3 Codex Score Higher, but the Code Is Still a Mess."
 slug: opus-4-6-gpt-5-3-scbench
-featured: true
+featured: false
 draft: false
 tags:
   - analysis
