@@ -39,34 +39,67 @@
 </script>
 
 <style>
+  /* Editor tabs: a flat strip joined to the panel below; the open tab takes the panel's background and an accent line
+     on top, the rest stay muted. Long titles wrap the strip onto more rows instead of scrolling. */
   .slop-examples {
+    --tab-line: color-mix(in srgb, var(--foreground) 14%, transparent);
+    --tab-strip: color-mix(in srgb, var(--foreground) 5%, var(--background));
     margin: 1.75rem 0;
   }
   nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    background: var(--tab-strip);
+    border: 1px solid var(--tab-line);
+    border-bottom: 0;
+    border-radius: 6px 6px 0 0;
+    overflow: hidden;
+  }
+  /* Carries the strip's bottom edge past the last tab. */
+  nav::after {
+    content: "";
+    flex: 1 0 0;
+    margin-bottom: -1px;
+    border-bottom: 1px solid var(--tab-line);
   }
   nav :global(button) {
-    padding: 3px 10px;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    margin-bottom: -1px;
+    padding: 7px 14px 6px;
     font-size: 13px;
     text-align: left;
-    color: var(--foreground);
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
     background: none;
-    border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
-    border-radius: 999px;
+    border: 0;
+    border-top: 2px solid transparent;
+    border-right: 1px solid var(--tab-line);
+    border-bottom: 1px solid var(--tab-line);
     cursor: pointer;
   }
+  nav :global(button:hover) {
+    color: var(--foreground);
+  }
   nav :global(button[aria-pressed="true"]) {
-    color: var(--background);
-    background: var(--foreground);
-    border-color: var(--foreground);
+    color: var(--foreground);
+    background: var(--background);
+    border-top-color: var(--accent);
+    border-bottom-color: var(--background);
+  }
+  /* The panel the tabs belong to. Before the script runs there are no tabs, so the examples show unframed. */
+  .slop-examples.ready {
+    border-bottom: 1px solid var(--tab-line);
+  }
+  .slop-examples.ready :global(.slop-example) {
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--tab-line);
+    border-top: 0;
+    border-bottom: 0;
   }
   /* The selected tab already names the example. */
   .slop-examples.ready :global(.slop-example > h4) {
     display: none;
-  }
-  .slop-examples :global(.slop-example) {
-    margin: 0.75rem 0 0;
   }
 </style>
