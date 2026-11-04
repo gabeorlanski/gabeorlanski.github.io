@@ -130,3 +130,17 @@
     @apply mb-2 text-sm font-semibold text-accent;
   }
 }
+
+/* Wrapped code blocks (astro.config.ts sets wrap: true) never scroll sideways: expressive-code keeps 20ch of text after
+   a line's indent, which pushes deeply indented lines past a phone's width, so drop that floor and let long tokens
+   break. `.frame` makes this more specific than expressive-code's own rule, whose stylesheet loads later. */
+.expressive-code .frame pre.wrap .ec-line .code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* The narrowest phones can't fit a deep indent next to the line numbers, so they drop the numbers. */
+@media (max-width: 359px) {
+  .expressive-code .frame .ec-line .gutter {
+    display: none;
+  }
+}

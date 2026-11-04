@@ -28,14 +28,22 @@ interface Panel {
   yMax: number;
   yStep: number;
   points: Point[];
-  /** A least-squares trend over every setup, or (for measures taken on the study runs only) the older and newer means. */
-  trend?: { from: number; to: number; intercept: number; perMonth: number; slope: number };
-  segments?: { name: string; from: number; to: number; mean: number }[];
+  /** A least-squares trend over every setup. */
+  trend: {
+    from: number;
+    to: number;
+    intercept: number;
+    perMonth: number;
+    slope: number;
+  };
   label: number;
 }
 
 const ALL = data.panels as Panel[];
-const VENDORS: Record<string, { name: string; logo: string | null; initials?: string }> = {
+const VENDORS: Record<
+  string,
+  { name: string; logo: string | null; initials?: string }
+> = {
   anthropic: { name: "Anthropic", logo: anthropic },
   openai: { name: "OpenAI", logo: openai },
   zai: { name: "GLM", logo: zai },
@@ -71,19 +79,18 @@ function TimePanel({ panel }: { panel: Panel }) {
   const y = (v: number) => (v / panel.yMax) * 100;
   const ticks = d3.range(0, panel.yMax + 1e-9, panel.yStep);
   const t = panel.trend;
-  const lines = t
-    ? [{ x1: t.from, x2: t.to, y1: t.intercept + t.slope * t.from, y2: t.intercept + t.slope * t.to }]
-    : panel.segments!.map(s => ({ x1: s.from - 6, x2: s.to + 6, y1: s.mean, y2: s.mean }));
   const best = panel.points[panel.label];
-  const per = t && d3.format(`.${panel.digits === 2 ? 3 : 1}f`)(Math.abs(t.perMonth));
+  const per = d3.format(`.${panel.digits === 2 ? 3 : 1}f`)(
+    Math.abs(t.perMonth)
+  );
   return (
     <div className="slop-tl-panel">
       <div className="slop-tl-title">
         <b>{panel.title}</b>
         <span>
-          {t
-            ? `trend ${t.perMonth >= 0 ? "+" : "−"}${per}${panel.unit === "%" ? " pts" : ""} per month`
-            : panel.segments!.map(s => `${s.name}: ${fmt(panel, s.mean)}`).join(" · ")}
+          <i className="slop-tl-dash" /> trend: {t.perMonth >= 0 ? "+" : "−"}
+          {per}
+          {panel.unit === "%" ? " pts" : ""} per month
         </span>
       </div>
       <div className="slop-tl-body">
@@ -98,17 +105,18 @@ function TimePanel({ panel }: { panel: Panel }) {
           {ticks.map(v => (
             <span key={v} className="grid" style={{ bottom: at(y(v)) }} />
           ))}
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            {lines.map(l => (
-              <line
-                key={l.x1}
-                x1={x(l.x1)}
-                x2={x(l.x2)}
-                y1={100 - y(l.y1)}
-                y2={100 - y(l.y2)}
-                vectorEffect="non-scaling-stroke"
-              />
-            ))}
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <line
+              x1={x(t.from)}
+              x2={x(t.to)}
+              y1={100 - y(t.intercept + t.slope * t.from)}
+              y2={100 - y(t.intercept + t.slope * t.to)}
+              vectorEffect="non-scaling-stroke"
+            />
           </svg>
           <span
             className={`slop-tl-label ${x(dayOf(best.date)) > 50 ? "left" : "right"} ${best.value > d3.mean(panel.points, q => q.value)! ? "above" : "below"}`}
@@ -176,12 +184,10 @@ export default function SlopTimeline({ keys }: { keys: string[] }) {
               <Marker point={{ vendor: k } as Point} /> {v.name}
             </span>
           ))}
-        {panels.some(p => p.points.some(q => q.faded)) && (
         <span className="faded-key">
           <Marker point={{ vendor: "openai" } as Point} /> faded = anti_slop or
           plan_first prompt
         </span>
-        )}
       </div>
       <div className={`slop-tl-grid n${panels.length}`}>
         {panels.map(p => (
@@ -189,9 +195,9 @@ export default function SlopTimeline({ keys }: { keys: string[] }) {
         ))}
       </div>
       <figcaption>
-        {panels.every(p => p.trend)
-          ? `One logo per setup (${data.setups} in all), placed at the later of the model's and the harness version's release. Dashed line: least-squares trend over every setup. Hover a logo for the setup.`
-          : "One logo per run we compare, placed at the later of the model's and the harness version's release. Dashed lines: the older and newer runs' means. Hover a logo for the run."}
+        One logo per setup ({data.setups} in all), placed at the later of the
+        model's and the harness version's release. Trend: least squares over
+        every setup. Hover a logo for the setup.
       </figcaption>
     </figure>
   );

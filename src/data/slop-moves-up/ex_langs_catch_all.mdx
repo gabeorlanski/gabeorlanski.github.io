@@ -7,30 +7,30 @@
 <div class="slop-pair n2">
 
 ```python title="Opus 5.5 · pyda (LDB library) · attempt 1 · src/pyda/dtypes.py:209-214" startLineNumber=209 {4,5}
-    if isinstance(spec, (np.dtype, type)):
-        try:
-            return pa.from_numpy_dtype(np.dtype(spec))
-        except Exception:
-            pass
-    raise TypeError(f"cannot interpret {spec!r} as a dtype")
+if isinstance(spec, (np.dtype, type)):
+    try:
+        return pa.from_numpy_dtype(np.dtype(spec))
+    except Exception:
+        pass
+raise TypeError(f"cannot interpret {spec!r} as a dtype")
 ```
 
 ```ts title="Opus 5.5 · heretical (LDB library) · attempt 2 · src/dom.ts:231-237" startLineNumber=231 {4,5}
-  shadowRoot(el: Element): ShadowRoot | null {
-    try {
-      return this.shadowRootOf(el) ?? null;
-    } catch {
-      return null;
-    }
+shadowRoot(el: Element): ShadowRoot | null {
+  try {
+    return this.shadowRootOf(el) ?? null;
+  } catch {
+    return null;
   }
+}
 ```
 
 ```haskell title="Opus 5.5 · wapi (LDB library) · attempt 2 · src/Wapi/API/Stream.hs:120-124" startLineNumber=120 {2,4}
-  let run = do
-        r <- try (producer (putMVar box . Right . Just))
-        case r of
-          Left (e :: SomeException) -> putMVar box (Left e)
-          Right () -> putMVar box (Right Nothing)
+let run = do
+      r <- try (producer (putMVar box . Right . Just))
+      case r of
+        Left (e :: SomeException) -> putMVar box (Left e)
+        Right () -> putMVar box (Right Nothing)
 ```
 
 </div>

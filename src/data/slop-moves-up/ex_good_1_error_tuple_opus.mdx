@@ -2,7 +2,7 @@
 
 <div class="slop-example">
 
-#### The (value, error) tuple is gone
+#### Claude drops the (value, error) tuple
 
 <div class="slop-pair n2">
 
@@ -18,20 +18,20 @@ def fetch_source(url):
 ```
 
 ```python title="after · Opus 5.5 XHigh · mvvault · ck6 · mvault.py:407-420" startLineNumber=407 {3,6,8}
-            body = response.read()
-    except urllib.error.HTTPError as exc:
-        raise MvaultError("failed to fetch source metadata from %s: HTTP %s %s"
-                          % (url, exc.code, exc.reason))
-    except urllib.error.URLError as exc:
-        raise MvaultError("failed to fetch source metadata from %s: %s" % (url, exc.reason))
-    except (OSError, ValueError, http.client.HTTPException) as exc:
-        raise MvaultError("failed to fetch source metadata from %s: %s" % (url, exc))
-    try:
-        payload = json.loads(body)
-    except (ValueError, UnicodeDecodeError) as exc:
-        raise MvaultError("failed to fetch source metadata from %s: invalid JSON (%s)"
-                          % (url, exc))
-    try:
+        body = response.read()
+except urllib.error.HTTPError as exc:
+    raise MvaultError("failed to fetch source metadata from %s: HTTP %s %s"
+                      % (url, exc.code, exc.reason))
+except urllib.error.URLError as exc:
+    raise MvaultError("failed to fetch source metadata from %s: %s" % (url, exc.reason))
+except (OSError, ValueError, http.client.HTTPException) as exc:
+    raise MvaultError("failed to fetch source metadata from %s: %s" % (url, exc))
+try:
+    payload = json.loads(body)
+except (ValueError, UnicodeDecodeError) as exc:
+    raise MvaultError("failed to fetch source metadata from %s: invalid JSON (%s)"
+                      % (url, exc))
+try:
 ```
 
 </div>

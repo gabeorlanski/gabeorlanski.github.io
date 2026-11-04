@@ -35,9 +35,9 @@ def load_rules_mapping(path):
 ```
 
 ```python title="new: not flagged · GLM 5.3 · forge · ck8 · forge.py:292-294" startLineNumber=292 {2,3}
-    rules = load_rules_mapping(rules_path)
-    if rules is None or operation_id not in rules:
-        return
+rules = load_rules_mapping(rules_path)
+if rules is None or operation_id not in rules:
+    return
 ```
 
 </div>

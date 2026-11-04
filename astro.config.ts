@@ -37,6 +37,7 @@ export default defineConfig({
       plugins: [pluginLineNumbers()],
       defaultProps: {
         showLineNumbers: true,
+        wrap: true,
       },
       styleOverrides: {
         codeFontFamily: "inherit",

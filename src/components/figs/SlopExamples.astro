@@ -1,0 +1,72 @@
+---
+// Several code examples for one paragraph, one at a time: each example's <h4> title becomes a tab. Children are generated
+// example components (each a .slop-example). Without JS every example shows.
+---
+
+<section class="slop-examples" data-slop-examples>
+  <nav class="not-prose" aria-label="Examples"></nav>
+  <slot />
+</section>
+
+<script>
+  function setUp(root: HTMLElement) {
+    const nav = root.querySelector("nav")!;
+    const panels = [...root.querySelectorAll<HTMLElement>(".slop-example")];
+    const buttons = panels.map(panel => {
+      // The title without the heading's anchor link.
+      const title = panel.querySelector("h4")!.cloneNode(true) as HTMLElement;
+      title.querySelectorAll("a").forEach(a => a.remove());
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = title.textContent!.trim();
+      button.addEventListener("click", () => show(panel));
+      nav.append(button);
+      return button;
+    });
+    const show = (active: HTMLElement) =>
+      panels.forEach((panel, i) => {
+        panel.hidden = panel !== active;
+        buttons[i].setAttribute("aria-pressed", String(panel === active));
+      });
+    root.classList.add("ready");
+    show(panels[0]);
+  }
+  document.addEventListener("astro:page-load", () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-slop-examples]:not(.ready)")
+      .forEach(setUp);
+  });
+</script>
+
+<style>
+  .slop-examples {
+    margin: 1.75rem 0;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  nav :global(button) {
+    padding: 3px 10px;
+    font-size: 13px;
+    text-align: left;
+    color: var(--foreground);
+    background: none;
+    border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  nav :global(button[aria-pressed="true"]) {
+    color: var(--background);
+    background: var(--foreground);
+    border-color: var(--foreground);
+  }
+  /* The selected tab already names the example. */
+  .slop-examples.ready :global(.slop-example > h4) {
+    display: none;
+  }
+  .slop-examples :global(.slop-example) {
+    margin: 0.75rem 0 0;
+  }
+</style>

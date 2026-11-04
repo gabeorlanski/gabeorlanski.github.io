@@ -7,20 +7,20 @@
 <div class="slop-pair n1">
 
 ```python title="Opus 5.5 XHigh · meshctl · ck8 · meshctl.py:62-75" startLineNumber=62 {3,9}
-    here = os.path.dirname(os.path.abspath(__file__))
-    candidates = []
-    for venv in (".venv", "venv", "env", ".env"):
-        candidates += sorted(glob.glob(os.path.join(here, venv, "lib", "python3*", "site-packages")))
-        candidates += sorted(glob.glob(os.path.join(here, venv, "lib64", "python3*", "site-packages")))
-        candidates += sorted(glob.glob(os.path.join(here, venv, "Lib", "site-packages")))
-    for path in candidates:
-        if os.path.isdir(os.path.join(path, "yaml")) and path not in sys.path:
-            sys.path.append(path)
-    try:
-        import yaml  # noqa: F401
+here = os.path.dirname(os.path.abspath(__file__))
+candidates = []
+for venv in (".venv", "venv", "env", ".env"):
+    candidates += sorted(glob.glob(os.path.join(here, venv, "lib", "python3*", "site-packages")))
+    candidates += sorted(glob.glob(os.path.join(here, venv, "lib64", "python3*", "site-packages")))
+    candidates += sorted(glob.glob(os.path.join(here, venv, "Lib", "site-packages")))
+for path in candidates:
+    if os.path.isdir(os.path.join(path, "yaml")) and path not in sys.path:
+        sys.path.append(path)
+try:
+    import yaml  # noqa: F401
 
-        return yaml
-    except Exception:
+    return yaml
+except Exception:
 ```
 
 </div>

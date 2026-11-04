@@ -7,17 +7,17 @@
 <div class="slop-pair n2">
 
 ```python title="new copy · GPT-6 Astra Medium · eve_route_planner · ck2 · hauling.py:323-326" startLineNumber=323 {3}
-        if a.id in sde.stations:
-            lines.append('UNDOCK')
-        lines.append('GO: ' + ' -> '.join(
-            f'{sde.systems[sid].name} ({sde.systems[sid].security:.1f})' for sid in route))
+if a.id in sde.stations:
+    lines.append('UNDOCK')
+lines.append('GO: ' + ' -> '.join(
+    f'{sde.systems[sid].name} ({sde.systems[sid].security:.1f})' for sid in route))
 ```
 
 ```python title="checkpoint-1 copy, same file · GPT-6 Astra Medium · eve_route_planner · ck2 · hauling.py:494-497" startLineNumber=494 {3}
-    if start.id in sde.stations:
-        print('UNDOCK')
-    if len(route) > 1:
-        print('GO: ' + ' -> '.join(f'{sde.systems[sid].name} ({sde.systems[sid].security:.1f})' for sid in route))
+if start.id in sde.stations:
+    print('UNDOCK')
+if len(route) > 1:
+    print('GO: ' + ' -> '.join(f'{sde.systems[sid].name} ({sde.systems[sid].security:.1f})' for sid in route))
 ```
 
 ```python title="one helper · Fable 5.1 · eve_route_planner · ck2 · hauling.py:880-891" startLineNumber=880 {5}

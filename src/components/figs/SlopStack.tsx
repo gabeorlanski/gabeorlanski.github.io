@@ -132,52 +132,57 @@ export default function SlopStack() {
       className="slop-fig not-prose"
       aria-label="Change in slop at each level of the stack, from older to newer SlopCodeBench runs"
     >
+      <p className="slop-fig-title">
+        How much slop changed at each level, {data.oldRuns} older runs →{" "}
+        {data.newRuns} newer runs
+      </p>
+      <p className="slop-hint slop-stack-hint">
+        <b className="better">Blue</b>: less slop. <b className="worse">Red</b>:
+        more slop. <b>Click any row to see every run.</b>
+      </p>
       <div className="slop-stack">
         <div className="slop-stack-arrow" aria-hidden="true">
           <span>up the stack</span>
         </div>
-      <div className="slop-stack-grid">
-        {rows.map(row => {
-          const r = row.new / row.old;
-          return [
-            <button
-              key={row.key}
-              type="button"
-              className={`slop-row ${r >= 1 ? "worse" : "better"}`}
-              aria-expanded={open === row.key}
-              aria-label={`${row.label}: ${value(row, row.old)} to ${value(row, row.new)}, ${change(r)}`}
-              onClick={() => setOpen(open === row.key ? null : row.key)}
-            >
-              <span className="slop-row-label">
-                <b>{row.layer}</b>
-                <span>{row.label}</span>
-              </span>
-              <Arrow row={row} width={width} />
-              <span className="slop-change">
-                <b>{change(r)}</b>
-                <span>
-                  {value(row, row.old)} → {value(row, row.new)}
+        <div className="slop-stack-grid">
+          {rows.map(row => {
+            const r = row.new / row.old;
+            return [
+              <button
+                key={row.key}
+                type="button"
+                className={`slop-row ${r >= 1 ? "worse" : "better"}`}
+                aria-expanded={open === row.key}
+                aria-label={`${row.label}: ${value(row, row.old)} to ${value(row, row.new)}, ${change(r)}`}
+                onClick={() => setOpen(open === row.key ? null : row.key)}
+              >
+                <span className="slop-row-label">
+                  <b>{row.layer}</b>
+                  <span>{row.label}</span>
                 </span>
+                <Arrow row={row} width={width} />
+                <span className="slop-change">
+                  <b>{change(r)}</b>
+                  <span>
+                    {value(row, row.old)} → {value(row, row.new)}
+                  </span>
+                </span>
+              </button>,
+              open === row.key && <Runs key={`r-${row.key}`} row={row} />,
+            ];
+          })}
+          <div className="slop-axis" ref={axis}>
+            {TICKS.map(([t, label]) => (
+              <span key={t} style={{ left: `${ratio(t) * 100}%` }}>
+                {label}
               </span>
-            </button>,
-            open === row.key && <Runs key={`r-${row.key}`} row={row} />,
-          ];
-        })}
-        <div className="slop-axis" ref={axis}>
-          {TICKS.map(([t, label]) => (
-            <span key={t} style={{ left: `${ratio(t) * 100}%` }}>
-              {label}
+            ))}
+            <span className="slop-axis-label">
+              change from older to newer runs (log scale)
             </span>
-          ))}
-          <span className="slop-axis-label">
-            {data.oldRuns} older runs → {data.newRuns} newer runs (log scale)
-          </span>
+          </div>
         </div>
       </div>
-      </div>
-      <p className="slop-hint">
-        Blue: less slop. Red: more slop. Click a row to see every run.
-      </p>
     </figure>
   );
 }

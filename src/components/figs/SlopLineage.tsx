@@ -1,7 +1,7 @@
 // Patterns along each lineage, in release order: the ones that went away (kind="down") or showed up (kind="up").
 // Cell shade = how much of the pattern, relative to its row. Data: src/data/figs/slop-moves-up-lineage.json, written by
 // scb-results/state-of-the-slop/M_thesis/scripts/export_blog.py from the twitter_tables.py row specs.
-import { useState, type CSSProperties } from "react";
+import { Fragment, useState, type CSSProperties } from "react";
 import * as d3 from "d3";
 import data from "@/data/figs/slop-moves-up-lineage.json";
 import "./SlopFigs.css";
@@ -26,11 +26,7 @@ const Label = ({ text }: { text: string }) => (
     {text
       .split(/(`[^`]+`)/)
       .map((part, i) =>
-        part.startsWith("`") ? (
-          <code key={i}>{part.slice(1, -1)}</code>
-        ) : (
-          part
-        )
+        part.startsWith("`") ? <code key={i}>{part.slice(1, -1)}</code> : part
       )}
   </>
 );
@@ -55,7 +51,7 @@ export default function SlopLineage({ kind }: { kind: "down" | "up" }) {
   const { runs, newFrom, ...rows } = LINEAGES[lineage];
   return (
     <figure
-      className="slop-fig not-prose"
+      className="slop-fig slop-lineage not-prose"
       aria-label={`Patterns that went ${kind} along the ${lineage} lineage`}
     >
       <div className="slop-tabs" role="group" aria-label="Lineage">
@@ -70,32 +66,38 @@ export default function SlopLineage({ kind }: { kind: "down" | "up" }) {
           </button>
         ))}
       </div>
-      <div className="slop-table-wrap">
-        <table className={`slop-table ${kind}`}>
-          <thead>
-            <tr className="era">
-              <th />
-              <th colSpan={newFrom}>Older</th>
-              <th colSpan={runs.length - newFrom} className="first-new">
-                Newer
+      <table className={`slop-table ${kind}`}>
+        <thead>
+          <tr className="era">
+            <th />
+            <th colSpan={newFrom}>Older</th>
+            <th colSpan={runs.length - newFrom} className="first-new">
+              Newer
+            </th>
+            <th />
+          </tr>
+          <tr>
+            <th>Pattern</th>
+            {runs.map((run, i) => (
+              <th key={run} className={i === newFrom ? "first-new" : ""}>
+                {run}
               </th>
-              <th />
-            </tr>
-            <tr>
-              <th>Pattern</th>
-              {runs.map((run, i) => (
-                <th key={run} className={i === newFrom ? "first-new" : ""}>
-                  {run}
-                </th>
-              ))}
-              <th>Change</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows[kind].map(row => {
-              const max = d3.max(row.values, v => v ?? 0)!;
-              return (
-                <tr key={row.label}>
+            ))}
+            <th>Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows[kind].map(row => {
+            const max = d3.max(row.values, v => v ?? 0)!;
+            return (
+              <Fragment key={row.label}>
+                {/* Narrow figures show the pattern on its own line above its numbers (see .label-row). */}
+                <tr className="label-row">
+                  <td colSpan={runs.length + 1}>
+                    <Label text={row.label} />
+                  </td>
+                </tr>
+                <tr>
                   <td>
                     <Label text={row.label} />
                   </td>
@@ -114,11 +116,11 @@ export default function SlopLineage({ kind }: { kind: "down" | "up" }) {
                   ))}
                   <Change row={row} newFrom={newFrom} />
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+              </Fragment>
+            );
+          })}
+        </tbody>
+      </table>
       <figcaption>
         scb-check 0.1.3 and our own measures on each problem's final code, tests
         excluded. Shade: how much of the pattern, relative to its row. Change:
