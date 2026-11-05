@@ -283,19 +283,9 @@ html[data-theme="dark"] .slop-fig {
 }
 
 /* ---------- Rewrites: implementers re-writing or working around their library ---------- */
-.slop-rw-list,
-.slop-rw-pairs > div {
+.slop-rw-list {
   display: grid;
   gap: 4px;
-}
-.slop-rw-pairs {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 32px;
-}
-.slop-rw-pairs b {
-  font-size: 13px;
 }
 .slop-rw-gap {
   margin-top: 28px;
@@ -311,9 +301,6 @@ html[data-theme="dark"] .slop-fig {
   align-items: center;
   gap: 10px;
   font-size: 13px;
-}
-.slop-rw-pairs .slop-rw-row {
-  grid-template-columns: 7.5rem minmax(0, 1fr);
 }
 .slop-rw-row .track {
   position: relative;
@@ -361,9 +348,6 @@ html[data-theme="dark"] .slop-fig {
   padding-top: 14px;
 }
 @media (max-width: 640px) {
-  .slop-rw-pairs {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .slop-rw-row {
     grid-template-columns: 7.5rem minmax(0, 1fr);
     font-size: 12px;
@@ -716,7 +700,8 @@ html[data-theme="dark"] .slop-fig {
 .slop-tl-title {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  /* Leaves room for a label that sits above the plot's top edge. */
+  margin-bottom: 20px;
 }
 .slop-tl-title b {
   font-size: 15px;
@@ -787,29 +772,30 @@ html[data-theme="dark"] .slop-fig {
   border-top: 2.5px dashed
     color-mix(in srgb, var(--foreground) 45%, transparent);
 }
-/* The labeled setup: text sits beside its logo, toward the plot's middle, above (highs) or below (lows). */
+/* The labeled setup is its panel's highest or lowest, so directly above (highs) or below (lows) its logo no other logo
+   can be in the way. The text lines up with the logo's outer edge (11px from its center) and runs toward the plot's
+   middle. Its background hides the top gridline when a label near the top crosses it. */
 .slop-tl-label {
   position: absolute;
   z-index: 2;
+  padding: 0 3px;
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
   pointer-events: none;
-  text-shadow:
-    0 0 3px var(--background),
-    0 0 3px var(--background);
+  background: var(--background);
 }
 .slop-tl-label.right.above {
-  transform: translate(14px, -16px);
+  transform: translate(-11px, -15px);
 }
 .slop-tl-label.left.above {
-  transform: translate(calc(-100% - 14px), -16px);
+  transform: translate(calc(-100% + 11px), -15px);
 }
 .slop-tl-label.right.below {
-  transform: translate(14px, 120%);
+  transform: translate(-11px, calc(100% + 15px));
 }
 .slop-tl-label.left.below {
-  transform: translate(calc(-100% - 14px), 120%);
+  transform: translate(calc(-100% + 11px), calc(100% + 15px));
 }
 .slop-tl-point {
   position: absolute;
