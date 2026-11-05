@@ -1,0 +1,60 @@
+---
+// One row of a <Takeaways> callout: a coloured label next to the point itself. The tone colours come from Takeaways.
+interface Props {
+  tone: "good" | "bad" | "ugly";
+  label: string;
+}
+
+const { tone, label } = Astro.props;
+---
+
+<div class:list={["takeaway", tone]}>
+  <b class="label">{label}</b>
+  <div class="body"><slot /></div>
+</div>
+
+<style>
+  .takeaway {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 16px;
+    padding: 14px 16px;
+    border-left: 5px solid var(--tone);
+    background: color-mix(in srgb, var(--tone) var(--row-tint), transparent);
+  }
+  .takeaway + .takeaway {
+    border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+  }
+  .good {
+    --tone: var(--tone-good);
+  }
+  .bad {
+    --tone: var(--tone-bad);
+    --tone-text: var(--tone-bad-text);
+  }
+  .ugly {
+    --tone: var(--tone-ugly);
+  }
+  .label {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--tone-text, var(--tone));
+  }
+  .body {
+    min-width: 0;
+    line-height: 1.6;
+  }
+  .body :global(p) {
+    margin: 0;
+  }
+  .body :global(p + p) {
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .takeaway {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+    }
+  }
+</style>

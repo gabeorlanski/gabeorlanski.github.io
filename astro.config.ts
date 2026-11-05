@@ -41,6 +41,7 @@ export default defineConfig({
       },
       styleOverrides: {
         codeFontFamily: "inherit",
+        codeFontSize: "0.8rem",
       },
     }),
     mdx(),

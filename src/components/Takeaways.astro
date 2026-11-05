@@ -1,0 +1,49 @@
+---
+// A callout for a post's main takeaways. Children are <Takeaway> rows. The title is not a heading, so it stays out of
+// the table of contents.
+interface Props {
+  title?: string;
+}
+
+const { title = "Takeaways" } = Astro.props;
+---
+
+<aside class="takeaways" aria-label={title}>
+  <div class="title">{title}</div>
+  <slot />
+</aside>
+
+<style>
+  .takeaways {
+    --tone-good: #2a78d6;
+    /* A dark amber turns muddy as a tint, so the bar and tint use a brighter one and the label a darker one for contrast. */
+    --tone-bad: #e0a008;
+    --tone-bad-text: #946000;
+    --tone-ugly: #d4461c;
+    --row-tint: 7%;
+    margin: 2rem 0;
+    border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  :global(html[data-theme="dark"]) .takeaways {
+    --tone-good: #4a94ec;
+    --tone-bad: #e0a93b;
+    --tone-bad-text: #e0a93b;
+    --tone-ugly: #ee6a3d;
+    /* Warm tints go grey over the navy background, so dark mode uses one surface and colours only the bars and labels. */
+    --row-tint: 0%;
+    background: color-mix(in srgb, var(--foreground) 4%, transparent);
+  }
+  .title {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--foreground) 62%, transparent);
+    background: color-mix(in srgb, var(--foreground) 5%, transparent);
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--foreground) 14%, transparent);
+  }
+</style>
